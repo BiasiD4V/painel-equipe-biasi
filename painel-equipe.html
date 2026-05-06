@@ -549,6 +549,40 @@ main { padding: 32px 28px 80px; max-width: 1440px; margin: 0 auto; }
 .rate button.active { background: var(--ink); border-color: var(--ink); color: var(--surface); transform: scale(1.05); }
 .rate-emoji button { font-size: 20px; }
 
+/* PERMISSIONS PAGE */
+.perms-intro {
+  background: linear-gradient(135deg, #fffbf5 0%, #fff 100%);
+  border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px;
+}
+.perm-role-h { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.perm-role-h b { font-size: 12px; font-weight: 600; }
+.perm-role-h span { font-size: 9.5px; color: var(--ink-muted); text-transform: none; letter-spacing: 0; font-weight: 400; }
+
+.perms-table th, .perms-table td { padding: 10px 12px; }
+.perms-table tr:hover td { background: var(--surface-2); }
+
+/* TOGGLE */
+.toggle {
+  position: relative; display: inline-block;
+  width: 38px; height: 22px; vertical-align: middle;
+}
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle .slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background: var(--line); border-radius: 22px;
+  transition: background .2s;
+}
+.toggle .slider::before {
+  content: ''; position: absolute;
+  height: 16px; width: 16px; left: 3px; top: 3px;
+  background: var(--surface); border-radius: 50%;
+  transition: transform .2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.15);
+}
+.toggle input:checked + .slider { background: var(--ink); }
+.toggle input:checked + .slider::before { transform: translateX(16px); }
+.toggle input:focus-visible + .slider { box-shadow: 0 0 0 3px rgba(0,0,0,.08); }
+
 /* VISIBILITY BADGES */
 .vis-badge { font-size: 8px; vertical-align: 4px; opacity: 0.7; margin-left: 4px; }
 .vis-badge.mgr { color: var(--col); }
@@ -1235,6 +1269,7 @@ tr:hover td { background: var(--surface-2); }
     <button class="tab" data-page="equipe">Equipe</button>
     <button class="tab" data-page="calendar">Calendário <span id="alertsBadge" class="badge" style="display:none"></span></button>
     <button class="tab admin-only" data-page="users" style="display:none">Usuários</button>
+    <button class="tab admin-only" data-page="permissions" style="display:none">Permissões</button>
     <button class="tab admin-only" data-page="audit" style="display:none">Auditoria</button>
   </nav>
   <div class="header-search">
@@ -1313,6 +1348,18 @@ tr:hover td { background: var(--surface-2); }
       <button class="btn primary" id="addUserBtn">+ Novo usuário</button>
     </div>
     <div id="usersArea"></div>
+  </section>
+
+  <!-- PERMISSÕES -->
+  <section class="page" id="page-permissions">
+    <div class="page-header">
+      <div>
+        <h2 class="serif">Permissões</h2>
+        <p>Defina o que cada papel vê — alterações valem na hora pra todos</p>
+      </div>
+      <button class="btn primary" id="savePermsBtn">Salvar</button>
+    </div>
+    <div id="permsArea"></div>
   </section>
 
   <!-- AUDITORIA -->
@@ -1452,7 +1499,7 @@ async function bootstrap() {
     $('#dashSub').textContent = 'Seu painel pessoal · check-ins, OKRs e progresso';
   }
 
-  await Promise.all([loadMembers(), loadAlerts()]);
+  await Promise.all([loadMembers(), loadAlerts(), loadPermissions()]);
   await loadDashboard();
 }
 
@@ -1889,17 +1936,57 @@ const MM_TABS = [
   { id: 'history', label: 'Histórico', vis: 'public' }
 ];
 
-function visibleTabs(memberId) {
-  const u = state.user;
-  return MM_TABS.filter(t => {
-    if (t.vis === 'public') return true;
-    if (t.vis === 'manager') return ['admin','gestor','viewer'].includes(u.role);
-    if (t.vis === 'self') {
-      if (['admin','gestor','viewer'].includes(u.role)) return true;
-      return u.role === 'member' && u.member_id === memberId;
+// PERMISSÕES — defaults; podem ser sobrescritas pelo admin via aba Permissões
+// Cada item: matriz [admin][gestor][viewer][member-self][member-other]
+const DEFAULT_PERMISSIONS = {
+  tabs: {
+    overview:     { admin:true, gestor:true, viewer:true, memberSelf:true,  memberOther:true  },
+    feedback:     { admin:true, gestor:true, viewer:true, memberSelf:true,  memberOther:false },
+    guidance:     { admin:true, gestor:true, viewer:true, memberSelf:false, memberOther:false },
+    manual:       { admin:true, gestor:true, viewer:true, memberSelf:true,  memberOther:true  },
+    career:       { admin:true, gestor:true, viewer:true, memberSelf:true,  memberOther:false },
+    skills:       { admin:true, gestor:true, viewer:true, memberSelf:true,  memberOther:true  },
+    profile:      { admin:true, gestor:true, viewer:true, memberSelf:true,  memberOther:true  },
+    checkins:     { admin:true, gestor:true, viewer:true, memberSelf:true,  memberOther:false },
+    kpis:         { admin:true, gestor:true, viewer:true, memberSelf:true,  memberOther:true  },
+    okrs:         { admin:true, gestor:true, viewer:true, memberSelf:true,  memberOther:true  },
+    oneonones:    { admin:true, gestor:true, viewer:true, memberSelf:true,  memberOther:false },
+    observations: { admin:true, gestor:true, viewer:true, memberSelf:false, memberOther:false },
+    bigfive:      { admin:true, gestor:true, viewer:true, memberSelf:false, memberOther:false },
+    history:      { admin:true, gestor:true, viewer:true, memberSelf:true,  memberOther:true  }
+  },
+  manualFields: {} // por chave: cada campo do manual pode ser publicado ou não
+};
+state.permissions = DEFAULT_PERMISSIONS;
+
+async function loadPermissions() {
+  try {
+    const { permissions } = await api('/api/admin?action=permissions');
+    if (permissions) {
+      // merge com defaults (caso novo campo apareça)
+      const merged = JSON.parse(JSON.stringify(DEFAULT_PERMISSIONS));
+      Object.entries(permissions.tabs || {}).forEach(([k, v]) => { merged.tabs[k] = { ...merged.tabs[k], ...v }; });
+      merged.manualFields = { ...merged.manualFields, ...(permissions.manualFields || {}) };
+      state.permissions = merged;
     }
-    return false;
-  });
+  } catch {}
+}
+
+function tabAllowed(tabId, memberId) {
+  const u = state.user;
+  const p = state.permissions.tabs[tabId];
+  if (!p) return true;
+  if (u.role === 'admin') return p.admin;
+  if (u.role === 'gestor') return p.gestor;
+  if (u.role === 'viewer') return p.viewer;
+  if (u.role === 'member') {
+    return u.member_id === memberId ? p.memberSelf : p.memberOther;
+  }
+  return false;
+}
+
+function visibleTabs(memberId) {
+  return MM_TABS.filter(t => tabAllowed(t.id, memberId));
 }
 
 // Estrutura do Manual de Uso — divide em compartilhado (vis. time) e privado (só pessoa + gestor)
@@ -1913,19 +2000,6 @@ const MANUAL_FIELDS = [
   { key: 'stress_signals', label: 'Sinais de que estou estressado', placeholder: 'fico mais calado, irritado, perfeccionista demais, pulo refeições…', icon: '🌡️', vis: 'private' },
   { key: 'recovery', label: 'O que me ajuda a recuperar', placeholder: 'pausa, exercício, conversar com alguém, organizar a mesa, dormir melhor…', icon: '🌿', vis: 'private' },
   { key: 'pet_peeves', label: 'O que me incomoda muito', placeholder: 'reuniões sem pauta, ser interrompido, mudanças de última hora…', icon: '⚠️', vis: 'private' }
-];
-
-// Estrutura do Manual de Uso
-const MANUAL_FIELDS = [
-  { key: 'best_time', label: 'Quando estou no meu melhor', placeholder: 'manhã, tarde, depois do café…', icon: '⏰' },
-  { key: 'comm_pref', label: 'Como me comunico melhor', placeholder: 'reuniões curtas, áudio no whats, texto, doc estruturado…', icon: '💬' },
-  { key: 'feedback_pref', label: 'Como gosto de receber feedback', placeholder: 'direto, com contexto, em particular, com tempo pra processar…', icon: '🎯' },
-  { key: 'recognition', label: 'Como prefiro ser reconhecido', placeholder: 'em público, em particular, por escrito, com palavras, com responsabilidade…', icon: '⭐' },
-  { key: 'stress_signals', label: 'Sinais de que estou estressado', placeholder: 'fico mais calado, irritado, perfeccionista demais, pulo refeições…', icon: '🌡️' },
-  { key: 'recovery', label: 'O que me ajuda a recuperar', placeholder: 'pausa, exercício, conversar com alguém, organizar a mesa, dormir melhor…', icon: '🌿' },
-  { key: 'team_values', label: 'O que valorizo numa equipe', placeholder: 'transparência, autonomia, ritmo intenso, ambiente calmo, aprendizado…', icon: '🤝' },
-  { key: 'pet_peeves', label: 'O que me incomoda muito', placeholder: 'reuniões sem pauta, ser interrompido, mudanças de última hora…', icon: '⚠️' },
-  { key: 'unknown_fact', label: 'Algo que ninguém saberia me olhando', placeholder: 'uma curiosidade, hobby, história…', icon: '🪄' }
 ];
 
 const SKILLS_DEFAULT = [
@@ -3886,6 +3960,67 @@ window.removeUser = async function(id) {
   await loadUsers();
 };
 
+// PERMISSIONS
+function renderPermissions() {
+  const p = state.permissions.tabs;
+  const roles = [
+    { k: 'admin', label: 'Admin', desc: 'controle total', color: 'var(--sang)' },
+    { k: 'gestor', label: 'Gestor', desc: 'lidera a equipe', color: 'var(--info)' },
+    { k: 'viewer', label: 'Viewer', desc: 'só lê (RH, diretoria)', color: 'var(--ink-soft)' },
+    { k: 'memberSelf', label: 'Próprio card', desc: 'colaborador no próprio card', color: 'var(--positive)' },
+    { k: 'memberOther', label: 'Cards do time', desc: 'colaborador olhando outros', color: 'var(--mel)' }
+  ];
+  const tabsList = MM_TABS;
+  $('#permsArea').innerHTML = `
+    <div class="perms-intro">
+      <p style="font-size:13px;color:var(--ink-soft);line-height:1.55;">
+        Marque o que cada papel pode ver. Os defaults são razoáveis — só altera quando precisar abrir ou fechar algo. As mudanças valem na hora pra todos os usuários ativos.
+      </p>
+    </div>
+    <div class="table-wrap" style="margin-top:14px;">
+      <table class="perms-table">
+        <thead>
+          <tr>
+            <th style="text-align:left;">Aba do card</th>
+            ${roles.map(r => `<th><div class="perm-role-h" style="color:${r.color}"><b>${r.label}</b><span>${r.desc}</span></div></th>`).join('')}
+          </tr>
+        </thead>
+        <tbody>
+          ${tabsList.map(tab => `
+            <tr>
+              <td><b>${tab.label}</b><div style="font-size:10.5px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;">${tab.id}</div></td>
+              ${roles.map(r => `
+                <td style="text-align:center;">
+                  <label class="toggle">
+                    <input type="checkbox" data-tab="${tab.id}" data-role="${r.k}" ${p[tab.id]?.[r.k]?'checked':''}/>
+                    <span class="slider"></span>
+                  </label>
+                </td>
+              `).join('')}
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+async function savePermissions() {
+  const tabs = JSON.parse(JSON.stringify(state.permissions.tabs));
+  $$('input[type=checkbox][data-tab]').forEach(cb => {
+    const t = cb.dataset.tab, r = cb.dataset.role;
+    if (!tabs[t]) tabs[t] = {};
+    tabs[t][r] = cb.checked;
+  });
+  try {
+    await api('/api/admin?action=permissions', { method: 'PUT', body: { tabs, manualFields: state.permissions.manualFields } });
+    state.permissions.tabs = tabs;
+    toast('Permissões salvas');
+  } catch (e) { toast(e.message, true); }
+}
+
+$('#savePermsBtn')?.addEventListener('click', savePermissions);
+
 // AUDIT
 async function loadAudit() {
   try {
@@ -3913,6 +4048,7 @@ $$('.tab').forEach(t => t.addEventListener('click', () => {
   $$('.tab').forEach(x => x.classList.toggle('active', x === t));
   $$('.page').forEach(x => x.classList.toggle('active', x.id === `page-${p}`));
   if (p === 'users') loadUsers();
+  if (p === 'permissions') renderPermissions();
   if (p === 'audit') loadAudit();
   if (p === 'calendar') { preloadAllOneOnOnes().then(renderCalendar); }
   if (p === 'dashboard') loadDashboard();

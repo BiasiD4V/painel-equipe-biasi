@@ -3,10 +3,29 @@ import { sql } from '../lib/db.mjs';
 import { requireAuth, CAN_ADMIN } from '../lib/auth.mjs';
 
 export default async function handler(req, res) {
-  if (req.method !== 'GET') return res.status(405).json({ error: 'method' });
   const action = req.query.action;
   const u = await requireAuth(req, res);
   if (!u) return;
+
+  // Permissões: GET aberto pra todos lerem, PUT só admin
+  if (action === 'permissions') {
+    if (req.method === 'GET') {
+      const rows = await sql`SELECT value FROM settings WHERE key = 'permissions' LIMIT 1`;
+      return res.status(200).json({ permissions: rows[0]?.value || null });
+    }
+    if (req.method === 'PUT') {
+      if (!CAN_ADMIN.includes(u.role)) return res.status(403).json({ error: 'só admin' });
+      const value = req.body || {};
+      await sql`
+        INSERT INTO settings (key, value, updated_by, updated_at)
+        VALUES ('permissions', ${JSON.stringify(value)}, ${u.id}, NOW())
+        ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_by = ${u.id}, updated_at = NOW()
+      `;
+      return res.status(200).json({ ok: true });
+    }
+  }
+
+  if (req.method !== 'GET') return res.status(405).json({ error: 'method' });
 
   if (action === 'alerts') {
     const today = new Date(); today.setHours(0,0,0,0);

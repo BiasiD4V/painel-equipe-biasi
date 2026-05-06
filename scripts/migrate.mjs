@@ -181,4 +181,12 @@ await sql`CREATE TABLE IF NOT EXISTS feedback_sessions (
 )`;
 await sql`CREATE INDEX IF NOT EXISTS idx_fb_member_date ON feedback_sessions(member_id, scheduled_date DESC)`;
 
+// NOVA: configurações globais (permissões por role)
+await sql`CREATE TABLE IF NOT EXISTS settings (
+  key TEXT PRIMARY KEY,
+  value JSONB NOT NULL,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_by INT REFERENCES users(id) ON DELETE SET NULL
+)`;
+
 console.log('✓ schema criado');
