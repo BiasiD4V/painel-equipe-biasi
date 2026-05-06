@@ -1,4 +1,4 @@
-// Cria todas as tabelas do schema. Idempotente.
+// Schema completo. Idempotente.
 import 'dotenv/config';
 import { neon } from '@neondatabase/serverless';
 
@@ -12,11 +12,11 @@ await sql`CREATE TABLE IF NOT EXISTS members (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   role TEXT,
-  age INT,
-  start_date DATE,
   birthday DATE,
+  start_date DATE,
   email TEXT,
   phone TEXT,
+  education TEXT,
   temp1 TEXT,
   temp2 TEXT,
   data JSONB NOT NULL DEFAULT '{}'::jsonb,
@@ -24,6 +24,12 @@ await sql`CREATE TABLE IF NOT EXISTS members (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 )`;
+
+// Compatibilidade com schema antigo
+await sql`ALTER TABLE members ADD COLUMN IF NOT EXISTS education TEXT`;
+await sql`ALTER TABLE members ADD COLUMN IF NOT EXISTS birthday DATE`;
+// Remove age column se ainda existir
+try { await sql`ALTER TABLE members DROP COLUMN IF EXISTS age`; } catch(e) {}
 
 await sql`CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
@@ -98,6 +104,36 @@ await sql`CREATE TABLE IF NOT EXISTS kpis (
   UNIQUE (member_id, metric, period)
 )`;
 
+// NOVA: check-in diário (ao longo do tempo, gera gráficos)
+await sql`CREATE TABLE IF NOT EXISTS daily_checkins (
+  id SERIAL PRIMARY KEY,
+  member_id TEXT NOT NULL REFERENCES members(id) ON DELETE CASCADE,
+  date DATE NOT NULL,
+  mood SMALLINT NOT NULL CHECK (mood BETWEEN 1 AND 5),
+  energy SMALLINT NOT NULL CHECK (energy BETWEEN 1 AND 5),
+  workload SMALLINT NOT NULL CHECK (workload BETWEEN 1 AND 5),
+  focus SMALLINT CHECK (focus BETWEEN 1 AND 5),
+  blockers TEXT,
+  highlights TEXT,
+  notes TEXT,
+  created_by INT REFERENCES users(id) ON DELETE SET NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (member_id, date)
+)`;
+
+// NOVA: alertas / notificações pendentes
+await sql`CREATE TABLE IF NOT EXISTS alerts (
+  id SERIAL PRIMARY KEY,
+  type TEXT NOT NULL,
+  member_id TEXT REFERENCES members(id) ON DELETE CASCADE,
+  trigger_date DATE NOT NULL,
+  payload JSONB NOT NULL DEFAULT '{}'::jsonb,
+  acknowledged BOOLEAN NOT NULL DEFAULT false,
+  acknowledged_by INT REFERENCES users(id) ON DELETE SET NULL,
+  acknowledged_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+)`;
+
 await sql`CREATE INDEX IF NOT EXISTS idx_obs_member ON observations(member_id)`;
 await sql`CREATE INDEX IF NOT EXISTS idx_hist_member ON history(member_id)`;
 await sql`CREATE INDEX IF NOT EXISTS idx_audit_user ON audit_log(user_id)`;
@@ -105,5 +141,7 @@ await sql`CREATE INDEX IF NOT EXISTS idx_audit_created ON audit_log(created_at D
 await sql`CREATE INDEX IF NOT EXISTS idx_okrs_member ON okrs(member_id)`;
 await sql`CREATE INDEX IF NOT EXISTS idx_oo_member ON one_on_ones(member_id)`;
 await sql`CREATE INDEX IF NOT EXISTS idx_kpis_member ON kpis(member_id)`;
+await sql`CREATE INDEX IF NOT EXISTS idx_checkin_member_date ON daily_checkins(member_id, date DESC)`;
+await sql`CREATE INDEX IF NOT EXISTS idx_alerts_trigger ON alerts(trigger_date, acknowledged)`;
 
 console.log('✓ schema criado');

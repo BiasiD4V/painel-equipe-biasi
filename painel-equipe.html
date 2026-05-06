@@ -6,17 +6,38 @@
 <title>Equipe Comercial · Biasi Engenharia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #fafaf9; --surface: #fff; --surface-2: #f8f8f7;
-  --ink: #18181b; --ink-soft: #52525b; --ink-muted: #a1a1aa;
-  --line: #e7e5e4; --line-soft: #f4f4f5;
-  --col: #c2410c; --flem: #15803d; --mel: #6d28d9; --sang: #b45309;
+  --bg: #faf8f5;
+  --bg-2: #f5f2ec;
+  --surface: #ffffff;
+  --surface-2: #fbf9f6;
+  --ink: #1c1917;
+  --ink-soft: #57534e;
+  --ink-muted: #a8a29e;
+  --line: #e7e5e4;
+  --line-soft: #f5f5f4;
+
+  --col: #c2410c; --col-bg: #fff7ed;
+  --flem: #15803d; --flem-bg: #f0fdf4;
+  --mel: #6d28d9; --mel-bg: #faf5ff;
+  --sang: #b45309; --sang-bg: #fffbeb;
+
   --positive: #15803d; --warning: #b45309; --critical: #b91c1c;
   --info: #1e40af;
-  --radius: 12px; --radius-sm: 6px;
+
+  --grad-warm: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+  --grad-cool: linear-gradient(135deg, #dbeafe 0%, #c7d2fe 100%);
+  --grad-soft: linear-gradient(135deg, #f5f3ff 0%, #fce7f3 100%);
+  --grad-fresh: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+
+  --radius: 14px; --radius-sm: 8px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 2px rgba(28,25,23,.04);
+  --shadow: 0 4px 16px -2px rgba(28,25,23,.06), 0 2px 4px -1px rgba(28,25,23,.04);
+  --shadow-lg: 0 16px 48px -8px rgba(28,25,23,.12), 0 4px 8px -2px rgba(28,25,23,.06);
 }
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
 body {
@@ -25,10 +46,13 @@ body {
   -webkit-font-smoothing: antialiased; letter-spacing: -0.005em;
   overflow-x: hidden;
 }
-.serif { font-family: 'Fraunces', serif; letter-spacing: -0.02em; }
+.serif { font-family: 'Fraunces', serif; letter-spacing: -0.02em; font-feature-settings: "ss01"; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 input, select, textarea { font-family: inherit; outline: none; font-size: 14px; }
 input::placeholder, textarea::placeholder { color: var(--ink-muted); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 5px; border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-muted); border: 2px solid transparent; background-clip: padding-box; }
 
 [contenteditable="true"] {
   outline: none; transition: all .15s; border-radius: 4px; cursor: text;
@@ -40,395 +64,634 @@ input::placeholder, textarea::placeholder { color: var(--ink-muted); }
 
 /* ── HEADER ── */
 header.top {
-  padding: 16px 24px;
-  background: rgba(255,255,255,0.92); backdrop-filter: blur(8px);
+  padding: 14px 28px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
   border-bottom: 1px solid var(--line);
-  display: flex; align-items: center; gap: 16px;
+  display: flex; align-items: center; gap: 18px;
   position: sticky; top: 0; z-index: 50;
 }
-.brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.brand { display: flex; align-items: center; gap: 11px; flex-shrink: 0; }
 .brand-mark {
-  width: 28px; height: 28px; border-radius: 6px;
-  background: var(--ink); color: var(--surface);
+  width: 32px; height: 32px; border-radius: 9px;
+  background: linear-gradient(135deg, #1c1917 0%, #57534e 100%);
+  color: var(--surface);
   display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 600;
+  font-family: 'Fraunces', serif; font-size: 15px; font-weight: 600;
+  letter-spacing: -0.04em;
+  box-shadow: 0 2px 6px rgba(0,0,0,.12);
 }
-.brand-text h1 { font-size: 13px; font-weight: 500; }
-.brand-text p { font-size: 11px; color: var(--ink-muted); }
+.brand-text h1 { font-size: 13px; font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
+.brand-text p { font-size: 10.5px; color: var(--ink-muted); margin-top: 1px; letter-spacing: 0.02em; }
 
-.tabs { display: flex; gap: 4px; flex: 1; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.tabs { display: flex; gap: 2px; flex: 1; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .tabs::-webkit-scrollbar { display: none; }
 .tab {
-  padding: 7px 12px; border-radius: 7px; font-size: 13px; color: var(--ink-soft);
-  white-space: nowrap; transition: all .15s;
+  padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 500;
+  color: var(--ink-soft); white-space: nowrap; transition: all .15s;
+  position: relative;
 }
 .tab:hover { background: var(--line-soft); color: var(--ink); }
 .tab.active { background: var(--ink); color: var(--surface); }
-
-.header-search { position: relative; max-width: 280px; flex: 1; min-width: 120px; }
-.header-search input {
-  width: 100%; padding: 8px 10px 8px 32px; border-radius: 8px;
-  border: 1px solid var(--line); background: var(--surface-2);
-  font-size: 13px;
+.tab .badge {
+  display: inline-block; min-width: 18px; padding: 0 5px;
+  background: var(--critical); color: var(--surface);
+  border-radius: 9px; font-size: 10px; font-weight: 600;
+  margin-left: 5px; line-height: 16px; text-align: center;
 }
-.header-search input:focus { background: var(--surface); border-color: var(--ink-soft); }
+
+.header-search { position: relative; max-width: 280px; flex: 1; min-width: 100px; }
+.header-search input {
+  width: 100%; padding: 8px 10px 8px 32px; border-radius: 9px;
+  border: 1px solid var(--line); background: var(--surface-2);
+  font-size: 13px; transition: all .15s;
+}
+.header-search input:focus { background: var(--surface); border-color: var(--ink-soft); box-shadow: 0 0 0 3px rgba(0,0,0,.04); }
 .header-search svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--ink-muted); }
 
 .user-menu { position: relative; flex-shrink: 0; }
 .user-btn {
-  display: flex; align-items: center; gap: 8px; padding: 6px 10px;
-  border-radius: 8px; transition: background .15s; font-size: 12px;
+  display: flex; align-items: center; gap: 9px; padding: 5px 10px 5px 5px;
+  border-radius: 999px; transition: background .15s; font-size: 12px;
+  border: 1px solid var(--line); background: var(--surface);
 }
-.user-btn:hover { background: var(--line-soft); }
+.user-btn:hover { background: var(--surface-2); }
 .user-avatar {
-  width: 26px; height: 26px; border-radius: 50%;
-  background: var(--ink); color: var(--surface);
+  width: 28px; height: 28px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 600;
+  font-size: 11px; font-weight: 600; color: var(--surface);
+  background: linear-gradient(135deg, #1c1917, #57534e);
+  flex-shrink: 0;
 }
-.user-info { text-align: left; line-height: 1.2; }
-.user-info b { font-weight: 500; font-size: 12px; }
+.user-info { text-align: left; line-height: 1.15; padding-right: 4px; }
+.user-info b { font-weight: 600; font-size: 12px; display: block; }
 .user-info span { font-size: 10px; color: var(--ink-muted); }
 
 .menu-pop {
-  position: absolute; top: calc(100% + 4px); right: 0;
+  position: absolute; top: calc(100% + 6px); right: 0;
   background: var(--surface); border: 1px solid var(--line);
-  border-radius: 10px; padding: 6px; min-width: 180px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06); z-index: 60;
+  border-radius: 12px; padding: 6px; min-width: 220px;
+  box-shadow: var(--shadow-lg); z-index: 60;
   display: none;
 }
-.menu-pop.show { display: block; }
+.menu-pop.show { display: block; animation: popIn .15s ease; }
+@keyframes popIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 .menu-item {
-  display: flex; align-items: center; gap: 8px;
-  padding: 8px 10px; border-radius: 6px; width: 100%;
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 8px; width: 100%;
   font-size: 13px; color: var(--ink-soft); text-align: left;
 }
 .menu-item:hover { background: var(--line-soft); color: var(--ink); }
 .menu-item.danger { color: var(--critical); }
+.menu-item.danger:hover { background: #fef2f2; }
 
 /* ── MAIN ── */
-main { padding: 32px 24px 80px; max-width: 1400px; margin: 0 auto; }
+main { padding: 32px 28px 80px; max-width: 1440px; margin: 0 auto; }
 .page { display: none; }
-.page.active { display: block; }
+.page.active { display: block; animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 .page-header {
   display: flex; align-items: flex-end; justify-content: space-between;
-  gap: 16px; margin-bottom: 24px; flex-wrap: wrap;
+  gap: 16px; margin-bottom: 28px; flex-wrap: wrap;
 }
-.page-header h2 { font-family: 'Fraunces', serif; font-size: 32px; font-weight: 500; letter-spacing: -0.02em; }
-.page-header p { font-size: 13px; color: var(--ink-muted); margin-top: 4px; }
+.page-header h2 { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.05; }
+.page-header p { font-size: 13.5px; color: var(--ink-muted); margin-top: 6px; }
 
 .btn {
-  padding: 8px 14px; border-radius: 8px;
+  padding: 9px 16px; border-radius: 9px;
   background: var(--surface); border: 1px solid var(--line);
-  font-size: 13px; color: var(--ink); transition: all .15s;
-  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 500; color: var(--ink); transition: all .15s;
+  display: inline-flex; align-items: center; gap: 7px;
+  box-shadow: var(--shadow-sm);
 }
 .btn:hover { background: var(--surface-2); border-color: var(--ink-soft); }
 .btn.primary { background: var(--ink); color: var(--surface); border-color: var(--ink); }
-.btn.primary:hover { background: var(--ink-soft); }
+.btn.primary:hover { background: var(--ink-soft); transform: translateY(-1px); }
 .btn.danger { color: var(--critical); }
-.btn.sm { padding: 5px 10px; font-size: 12px; }
+.btn.danger:hover { background: #fef2f2; border-color: #fecaca; }
+.btn.sm { padding: 6px 11px; font-size: 12px; }
+.btn.ghost { background: transparent; border-color: transparent; box-shadow: none; }
+.btn.ghost:hover { background: var(--line-soft); border-color: transparent; }
 
-/* ── CARDS GRID ── */
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.card {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 20px; cursor: pointer; transition: all .2s;
-  display: flex; flex-direction: column; gap: 12px;
+/* ── ALERTS BANNER ── */
+.alerts-banner {
+  display: flex; gap: 12px; margin-bottom: 24px; overflow-x: auto;
+  padding: 4px; -webkit-overflow-scrolling: touch;
 }
-.card:hover { border-color: var(--ink-soft); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
-.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-.card-name { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; }
-.card-role { font-size: 11px; color: var(--ink-muted); margin-top: 2px; }
+.alerts-banner::-webkit-scrollbar { display: none; }
+.alert-pill {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--line);
+  white-space: nowrap; font-size: 13px;
+  box-shadow: var(--shadow-sm); flex-shrink: 0;
+}
+.alert-pill.high { background: #fef3c7; border-color: #fde68a; }
+.alert-pill .icon { font-size: 16px; }
+
+/* ── DASHBOARD ── */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px; margin-bottom: 28px;
+}
+.dash-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px; margin-bottom: 24px;
+}
+.stat {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 18px;
+  box-shadow: var(--shadow-sm);
+  position: relative; overflow: hidden;
+}
+.stat::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--ink); opacity: 0.6;
+}
+.stat.warm::before { background: var(--col); }
+.stat.cool::before { background: var(--info); }
+.stat.fresh::before { background: var(--positive); }
+.stat.soft::before { background: var(--mel); }
+.stat-label { font-size: 11px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
+.stat-value { font-family: 'Fraunces', serif; font-size: 32px; font-weight: 500; margin-top: 4px; line-height: 1; }
+.stat-sub { font-size: 11px; color: var(--ink-muted); margin-top: 6px; }
+
+.panel {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 22px;
+  box-shadow: var(--shadow-sm);
+}
+.panel h3 {
+  font-family: 'Fraunces', serif; font-size: 18px; font-weight: 500;
+  letter-spacing: -0.015em; margin-bottom: 4px;
+}
+.panel .sub { font-size: 12px; color: var(--ink-muted); margin-bottom: 18px; }
+
+/* ── CARDS ── */
+.cards {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px;
+}
+.member-card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: 22px;
+  cursor: pointer; transition: all .25s cubic-bezier(.32,.72,0,1);
+  position: relative; overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.member-card::before {
+  content: ''; position: absolute; top: -40px; right: -40px;
+  width: 140px; height: 140px; border-radius: 50%;
+  opacity: 0.16; transition: opacity .3s, transform .3s;
+}
+.member-card.colerico::before { background: radial-gradient(circle, #fb923c, transparent 70%); }
+.member-card.fleumatico::before { background: radial-gradient(circle, #22c55e, transparent 70%); }
+.member-card.melancolico::before { background: radial-gradient(circle, #a78bfa, transparent 70%); }
+.member-card.sanguineo::before { background: radial-gradient(circle, #fbbf24, transparent 70%); }
+.member-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--ink-soft); }
+.member-card:hover::before { opacity: 0.28; transform: scale(1.1); }
+
+.mc-head { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; position: relative; }
+.mc-avatar {
+  width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif; font-size: 19px; font-weight: 500;
+  color: var(--surface); box-shadow: 0 2px 6px rgba(0,0,0,.08);
+}
+.av-colerico { background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%); }
+.av-fleumatico { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); }
+.av-melancolico { background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); }
+.av-sanguineo { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
+.av-default { background: linear-gradient(135deg, #1c1917 0%, #57534e 100%); }
+.mc-name { font-family: 'Fraunces', serif; font-size: 21px; font-weight: 500; line-height: 1.1; }
+.mc-role { font-size: 11.5px; color: var(--ink-muted); margin-top: 3px; line-height: 1.3; }
+
 .temp-pill {
   display: inline-flex; align-items: center; gap: 4px;
-  padding: 3px 8px; border-radius: 999px;
-  font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 3px 9px; border-radius: 999px;
+  font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
 }
-.temp-colerico { background: #fff7ed; color: var(--col); }
-.temp-fleumatico { background: #f0fdf4; color: var(--flem); }
-.temp-melancolico { background: #f5f3ff; color: var(--mel); }
-.temp-sanguineo { background: #fffbeb; color: var(--sang); }
+.temp-colerico { background: var(--col-bg); color: var(--col); }
+.temp-fleumatico { background: var(--flem-bg); color: var(--flem); }
+.temp-melancolico { background: var(--mel-bg); color: var(--mel); }
+.temp-sanguineo { background: var(--sang-bg); color: var(--sang); }
 
-.card-stats { display: flex; gap: 16px; font-size: 11px; color: var(--ink-soft); }
-.card-stat b { display: block; color: var(--ink); font-size: 13px; font-weight: 500; }
+.mc-temps { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 14px; }
 
-.card-priority {
-  background: var(--surface-2); border-radius: 8px; padding: 10px;
-  font-size: 12px; line-height: 1.4; color: var(--ink-soft);
-  border-left: 3px solid var(--ink-soft);
+.mc-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  background: var(--surface-2); border-radius: 10px; padding: 12px;
+  margin-bottom: 14px;
 }
-.card-priority b { color: var(--ink); display: block; margin-bottom: 2px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
-.card-priority.alta { border-left-color: var(--critical); }
-.card-priority.media { border-left-color: var(--warning); }
-.card-priority.baixa { border-left-color: var(--positive); }
+.mc-stat { text-align: center; }
+.mc-stat b { display: block; font-family: 'Fraunces', serif; font-size: 17px; font-weight: 500; line-height: 1; }
+.mc-stat span { font-size: 10px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+
+.mc-mood {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px; border-radius: 10px;
+  background: var(--surface-2); font-size: 12px;
+}
+.mood-trend { display: flex; align-items: center; gap: 8px; }
+.mood-emoji { font-size: 18px; }
+.mood-bar { display: flex; gap: 2px; align-items: end; height: 18px; }
+.mood-bar span {
+  width: 4px; background: var(--ink-muted); border-radius: 2px;
+  transition: height .3s;
+}
+.mood-bar span.m1 { background: #ef4444; }
+.mood-bar span.m2 { background: #f97316; }
+.mood-bar span.m3 { background: #eab308; }
+.mood-bar span.m4 { background: #84cc16; }
+.mood-bar span.m5 { background: #22c55e; }
+
+.mc-priority {
+  margin-top: 12px; padding: 10px 12px; border-radius: 10px;
+  background: var(--surface-2); border-left: 3px solid var(--ink-soft);
+  font-size: 12px; line-height: 1.4;
+}
+.mc-priority b { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink); display: block; margin-bottom: 2px; }
+.mc-priority.alta { border-left-color: var(--critical); background: #fef2f2; }
+.mc-priority.media { border-left-color: var(--warning); background: #fff7ed; }
+.mc-priority.baixa { border-left-color: var(--positive); background: #f0fdf4; }
 
 .empty-state {
-  text-align: center; padding: 60px 24px; color: var(--ink-muted);
-  background: var(--surface); border: 1px dashed var(--line); border-radius: var(--radius);
+  text-align: center; padding: 80px 24px; color: var(--ink-muted);
+  background: var(--surface); border: 2px dashed var(--line); border-radius: var(--radius-lg);
 }
+.empty-state .big { font-size: 38px; margin-bottom: 8px; opacity: 0.5; }
 
-/* ── DRAWER ── */
-.drawer-overlay {
-  position: fixed; inset: 0; background: rgba(24,24,27,0.4);
-  opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 90;
+/* ── CENTRAL MODAL (member detail) ── */
+.modal-bg {
+  position: fixed; inset: 0;
+  background: rgba(28,25,23,0.55);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center;
+  z-index: 90; padding: 24px;
+  opacity: 0; transition: opacity .25s;
 }
-.drawer-overlay.show { opacity: 1; pointer-events: auto; }
+.modal-bg.show { display: flex; opacity: 1; }
 
-.drawer {
-  position: fixed; top: 0; right: 0; bottom: 0;
-  width: min(640px, 100%); max-width: 100%;
-  background: var(--surface); transform: translateX(100%);
-  transition: transform .3s cubic-bezier(0.32,0.72,0,1);
-  z-index: 100; display: flex; flex-direction: column;
-  box-shadow: -8px 0 32px rgba(0,0,0,0.08);
+.member-modal {
+  background: var(--surface); border-radius: var(--radius-lg);
+  width: 100%; max-width: 920px; max-height: 92vh;
+  display: flex; flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  transform: scale(.96); opacity: 0;
+  transition: transform .25s cubic-bezier(.32,.72,0,1), opacity .25s;
+  overflow: hidden;
 }
-.drawer.show { transform: translateX(0); }
+.modal-bg.show .member-modal { transform: scale(1); opacity: 1; }
 
-.drawer-head {
-  padding: 20px 24px; border-bottom: 1px solid var(--line);
-  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
-  flex-shrink: 0;
+.mm-hero {
+  padding: 28px 32px; background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: flex-start; gap: 20px;
+  position: relative;
 }
-.drawer-name { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 500; line-height: 1.1; }
-.drawer-meta { font-size: 12px; color: var(--ink-muted); margin-top: 4px; }
-.drawer-close {
-  width: 32px; height: 32px; border-radius: 8px;
+.mm-hero::before {
+  content: ''; position: absolute; top: 0; right: 0; width: 240px; height: 100%;
+  background: radial-gradient(circle at top right, rgba(28,25,23,.04), transparent 70%);
+  pointer-events: none;
+}
+.mm-avatar {
+  width: 78px; height: 78px; border-radius: 50%; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  color: var(--ink-soft); flex-shrink: 0;
+  font-family: 'Fraunces', serif; font-size: 30px; font-weight: 500;
+  color: var(--surface); box-shadow: 0 4px 14px rgba(0,0,0,.1);
 }
-.drawer-close:hover { background: var(--line-soft); color: var(--ink); }
+.mm-info { flex: 1; min-width: 0; }
+.mm-name { font-family: 'Fraunces', serif; font-size: 32px; font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; }
+.mm-role { font-size: 13px; color: var(--ink-soft); margin-top: 4px; }
+.mm-meta { display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap; }
+.mm-meta-item { font-size: 11px; color: var(--ink-muted); display: flex; align-items: center; gap: 4px; }
+.mm-meta-item b { color: var(--ink-soft); font-weight: 500; }
+.mm-temps { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
 
-.drawer-tabs {
-  display: flex; gap: 2px; padding: 0 16px;
+.mm-close {
+  position: absolute; top: 18px; right: 18px;
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-soft); background: var(--surface);
+  border: 1px solid var(--line);
+}
+.mm-close:hover { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+
+.mm-tabs {
+  display: flex; gap: 1px; padding: 0 20px;
   border-bottom: 1px solid var(--line); overflow-x: auto;
-  flex-shrink: 0; -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch; flex-shrink: 0;
+  background: var(--surface);
 }
-.drawer-tabs::-webkit-scrollbar { display: none; }
-.drawer-tab {
-  padding: 10px 12px; font-size: 12px; color: var(--ink-soft);
-  white-space: nowrap; border-bottom: 2px solid transparent; transition: all .15s;
+.mm-tabs::-webkit-scrollbar { display: none; }
+.mm-tab {
+  padding: 13px 14px; font-size: 12.5px; font-weight: 500;
+  color: var(--ink-muted); white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all .15s;
 }
-.drawer-tab:hover { color: var(--ink); }
-.drawer-tab.active { color: var(--ink); border-bottom-color: var(--ink); }
+.mm-tab:hover { color: var(--ink-soft); }
+.mm-tab.active { color: var(--ink); border-bottom-color: var(--ink); }
 
-.drawer-body { flex: 1; overflow-y: auto; padding: 24px; -webkit-overflow-scrolling: touch; }
-.section { display: none; }
-.section.active { display: block; }
-.section h3 {
-  font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--ink-muted); font-weight: 500; margin-bottom: 12px;
+.mm-body { flex: 1; overflow-y: auto; padding: 28px 32px; }
+.mm-section { display: none; animation: fadeIn .2s; }
+.mm-section.active { display: block; }
+.section-h {
+  font-family: 'Fraunces', serif; font-size: 17px; font-weight: 500;
+  margin-bottom: 14px; letter-spacing: -0.01em;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
 }
 
-.field-group { margin-bottom: 24px; }
+.field-group { margin-bottom: 28px; }
 .field-row {
-  display: grid; grid-template-columns: 130px 1fr; gap: 12px;
-  padding: 8px 0; align-items: center;
-  border-bottom: 1px solid var(--line-soft); font-size: 13px;
+  display: grid; grid-template-columns: 140px 1fr; gap: 14px;
+  padding: 10px 0; align-items: center;
+  border-bottom: 1px solid var(--line-soft); font-size: 13.5px;
 }
 .field-row:last-child { border-bottom: none; }
-.field-row label { color: var(--ink-muted); font-size: 12px; }
+.field-row label { color: var(--ink-muted); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 500; }
 .field-row .val { color: var(--ink); }
 
 .list-edit { display: flex; flex-direction: column; gap: 6px; }
 .list-item {
-  display: flex; align-items: flex-start; gap: 8px;
-  padding: 8px 10px; background: var(--surface-2); border-radius: 8px;
-  font-size: 13px;
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px; background: var(--surface-2); border-radius: 10px;
+  font-size: 13.5px; line-height: 1.45;
 }
 .list-item .bullet { color: var(--ink-muted); flex-shrink: 0; padding-top: 2px; }
 .list-item .text { flex: 1; }
 .list-item .x {
-  width: 22px; height: 22px; border-radius: 4px; flex-shrink: 0;
+  width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0;
   color: var(--ink-muted); display: flex; align-items: center; justify-content: center;
   font-size: 14px; transition: all .15s;
 }
 .list-item .x:hover { background: #fee2e2; color: var(--critical); }
 .list-add {
-  display: flex; align-items: center; gap: 6px; padding: 8px 10px;
-  border: 1px dashed var(--line); border-radius: 8px;
+  display: flex; align-items: center; gap: 6px; padding: 9px 12px;
+  border: 1.5px dashed var(--line); border-radius: 10px;
   color: var(--ink-muted); font-size: 12px; width: 100%; text-align: left;
+  transition: all .15s;
 }
-.list-add:hover { border-color: var(--ink-soft); color: var(--ink); }
+.list-add:hover { border-color: var(--ink-soft); color: var(--ink); background: var(--surface-2); }
 
+/* Big Five sliders */
+.bf-row { margin-bottom: 18px; }
+.bf-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+.bf-head b { font-weight: 600; font-size: 13.5px; }
+.bf-val { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--ink-soft); }
+.bf-desc { font-size: 11px; color: var(--ink-muted); margin-bottom: 8px; }
+.bf-row input[type=range] { width: 100%; accent-color: var(--ink); }
+
+/* OBSERVATIONS / GENERIC ITEM */
 .obs-list { display: flex; flex-direction: column; gap: 10px; }
 .obs {
   background: var(--surface); border: 1px solid var(--line);
-  border-radius: 10px; padding: 12px;
+  border-radius: 12px; padding: 14px;
   border-left: 3px solid var(--ink-muted);
+  transition: box-shadow .15s;
 }
+.obs:hover { box-shadow: var(--shadow-sm); }
 .obs.positive { border-left-color: var(--positive); }
 .obs.warning { border-left-color: var(--warning); }
 .obs.critical { border-left-color: var(--critical); }
 .obs-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
-.obs-cat { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-muted); }
-.obs-date { font-size: 11px; color: var(--ink-muted); }
-.obs-text { font-size: 13px; line-height: 1.5; }
-.obs-actions { display: flex; gap: 4px; margin-top: 8px; }
-
-.kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
-.kpi {
-  background: var(--surface-2); border-radius: 10px; padding: 14px;
-  border: 1px solid var(--line);
+.obs-cat {
+  display: inline-block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--ink-soft); padding: 2px 8px; background: var(--surface-2); border-radius: 999px; font-weight: 500;
 }
-.kpi-label { font-size: 11px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.04em; }
-.kpi-value { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 500; margin-top: 4px; }
-.kpi-target { font-size: 11px; color: var(--ink-muted); margin-top: 2px; }
-.kpi-bar { height: 4px; background: var(--line); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+.obs-date { font-size: 11px; color: var(--ink-muted); }
+.obs-text { font-size: 13.5px; line-height: 1.5; }
+.obs-actions { display: flex; gap: 4px; margin-top: 10px; }
+
+/* KPI cards */
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.kpi-card {
+  background: var(--surface-2); border-radius: 12px; padding: 14px;
+  border: 1px solid var(--line); position: relative;
+}
+.kpi-label { font-size: 10.5px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
+.kpi-value { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 500; margin-top: 4px; line-height: 1; }
+.kpi-target { font-size: 11px; color: var(--ink-muted); margin-top: 4px; }
+.kpi-bar { height: 5px; background: var(--line); border-radius: 3px; margin-top: 10px; overflow: hidden; }
 .kpi-bar-fill { height: 100%; background: var(--positive); transition: width .3s; }
 .kpi-bar-fill.warn { background: var(--warning); }
 .kpi-bar-fill.bad { background: var(--critical); }
 
+/* OKR */
 .okr {
   background: var(--surface); border: 1px solid var(--line);
-  border-radius: 10px; padding: 14px; margin-bottom: 10px;
+  border-radius: 12px; padding: 14px; margin-bottom: 10px;
 }
 .okr-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
-.okr-q { font-size: 10px; text-transform: uppercase; color: var(--ink-muted); letter-spacing: 0.05em; }
-.okr-obj { font-weight: 500; font-size: 14px; }
-.okr-progress { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.okr-q { font-size: 10px; text-transform: uppercase; color: var(--ink-muted); letter-spacing: 0.05em; font-weight: 500; }
+.okr-obj { font-weight: 500; font-size: 14px; line-height: 1.4; }
+.okr-progress { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
 .okr-progress-bar { flex: 1; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
 .okr-progress-fill { height: 100%; background: var(--ink); transition: width .3s; }
-.okr-progress-val { font-size: 12px; font-weight: 500; min-width: 36px; text-align: right; }
-.okr-krs { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line-soft); }
-.kr-item { font-size: 12px; padding: 4px 0; color: var(--ink-soft); }
-.kr-item.done { text-decoration: line-through; opacity: 0.6; }
+.okr-progress-val { font-size: 12px; font-weight: 600; min-width: 40px; text-align: right; font-variant-numeric: tabular-nums; }
+.okr-krs { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line-soft); }
+.kr-item { font-size: 12.5px; padding: 4px 0; color: var(--ink-soft); }
+.kr-item.done { text-decoration: line-through; opacity: 0.5; }
 
+/* 1-on-1 */
 .oo {
   background: var(--surface); border: 1px solid var(--line);
-  border-radius: 10px; padding: 14px; margin-bottom: 10px;
+  border-radius: 12px; padding: 14px; margin-bottom: 10px;
 }
-.oo-date { font-size: 12px; color: var(--ink-soft); }
+.oo-date { font-size: 12.5px; color: var(--ink-soft); font-weight: 500; }
 .oo-status {
-  display: inline-block; padding: 2px 7px; border-radius: 999px;
-  font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em;
+  display: inline-block; padding: 2px 8px; border-radius: 999px;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;
 }
 .oo-status.agendado { background: #dbeafe; color: var(--info); }
 .oo-status.realizado { background: #dcfce7; color: var(--positive); }
 .oo-status.cancelado { background: var(--line-soft); color: var(--ink-muted); }
 
-.feedback-script {
-  background: linear-gradient(135deg, #fafaf9, #fff);
-  border: 1px solid var(--line); border-radius: 12px; padding: 20px;
-  font-size: 13px; line-height: 1.6;
+/* CHECK-IN */
+.checkin-day {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 16px; margin-bottom: 10px;
 }
-.feedback-script h4 { font-family: 'Fraunces', serif; font-size: 16px; margin-bottom: 8px; }
-.feedback-script p { margin-bottom: 10px; }
-.feedback-script blockquote {
-  border-left: 3px solid var(--ink); padding: 8px 12px;
-  background: var(--surface-2); border-radius: 0 8px 8px 0;
-  margin: 10px 0; font-style: italic;
+.checkin-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.checkin-date { font-weight: 500; font-size: 13px; }
+.checkin-mood-emoji { font-size: 22px; }
+.checkin-bars { display: flex; gap: 14px; flex-wrap: wrap; font-size: 11.5px; color: var(--ink-soft); }
+.checkin-bars > div { display: flex; align-items: center; gap: 6px; }
+.checkin-mini-bar {
+  display: inline-flex; gap: 2px;
 }
+.checkin-mini-bar i {
+  width: 6px; height: 12px; border-radius: 1px; background: var(--line);
+}
+.checkin-mini-bar i.on { background: var(--ink); }
+.checkin-text { font-size: 13px; color: var(--ink-soft); margin-top: 8px; line-height: 1.5; }
 
-/* ── MODAL ── */
-.modal-overlay {
-  position: fixed; inset: 0; background: rgba(24,24,27,0.5);
+/* Rating widget */
+.rate {
+  display: flex; gap: 6px; margin-top: 6px;
+}
+.rate button {
+  width: 38px; height: 38px; border-radius: 10px;
+  border: 1.5px solid var(--line); background: var(--surface);
+  font-size: 18px; transition: all .15s;
+  display: flex; align-items: center; justify-content: center;
+}
+.rate button:hover { border-color: var(--ink-soft); transform: translateY(-1px); }
+.rate button.active { background: var(--ink); border-color: var(--ink); color: var(--surface); transform: scale(1.05); }
+.rate-emoji button { font-size: 20px; }
+
+/* Feedback script */
+.feedback-script {
+  background: linear-gradient(180deg, #fffbf5, var(--surface));
+  border: 1px solid var(--line); border-radius: 14px; padding: 24px 26px;
+  font-size: 13.5px; line-height: 1.65;
+}
+.feedback-script h4 {
+  font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600;
+  margin-bottom: 8px; margin-top: 16px;
+}
+.feedback-script h4:first-child { margin-top: 0; }
+.feedback-script p { margin-bottom: 8px; color: var(--ink-soft); }
+.feedback-script blockquote {
+  border-left: 3px solid var(--ink); padding: 10px 14px;
+  background: var(--surface-2); border-radius: 0 10px 10px 0;
+  margin: 10px 0; font-style: italic; color: var(--ink);
+}
+.feedback-script ul { padding-left: 22px; margin-bottom: 8px; }
+.feedback-script li { margin-bottom: 4px; color: var(--ink-soft); }
+
+/* ── PLAIN MODAL (forms) ── */
+.simple-modal-bg {
+  position: fixed; inset: 0; background: rgba(28,25,23,.55);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
   display: none; align-items: center; justify-content: center;
-  z-index: 200; padding: 16px; -webkit-overflow-scrolling: touch;
+  z-index: 200; padding: 16px;
 }
-.modal-overlay.show { display: flex; }
-.modal {
-  background: var(--surface); border-radius: 14px;
-  width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto;
-  display: flex; flex-direction: column;
+.simple-modal-bg.show { display: flex; }
+.simple-modal {
+  background: var(--surface); border-radius: var(--radius);
+  width: 100%; max-width: 480px; max-height: 92vh; overflow-y: auto;
+  box-shadow: var(--shadow-lg);
 }
-.modal-head { padding: 20px 24px; border-bottom: 1px solid var(--line); }
-.modal-head h3 { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 500; }
-.modal-body { padding: 20px 24px; }
-.modal-foot {
+.smh { padding: 20px 24px; border-bottom: 1px solid var(--line); }
+.smh h3 { font-family: 'Fraunces', serif; font-size: 21px; font-weight: 500; }
+.smb { padding: 20px 24px; }
+.smf {
   padding: 16px 24px; border-top: 1px solid var(--line);
   display: flex; gap: 8px; justify-content: flex-end;
 }
-.field {
-  display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px;
-}
-.field label { font-size: 12px; color: var(--ink-soft); font-weight: 500; }
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.field label { font-size: 11.5px; color: var(--ink-soft); font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
 .field input, .field select, .field textarea {
-  width: 100%; padding: 9px 11px; border: 1px solid var(--line);
-  border-radius: 7px; background: var(--surface);
+  width: 100%; padding: 10px 12px; border: 1px solid var(--line);
+  border-radius: 9px; background: var(--surface); transition: all .15s;
 }
-.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--ink-soft); box-shadow: 0 0 0 3px rgba(0,0,0,0.04); }
-.field textarea { resize: vertical; min-height: 80px; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--ink-soft); box-shadow: 0 0 0 3px rgba(0,0,0,.04); }
+.field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
 .field-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-/* ── ADMIN: Users + Audit ── */
-.table-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+/* Tables (admin) */
+.table-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--line-soft); }
-th { background: var(--surface-2); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-muted); font-weight: 500; }
+th, td { padding: 11px 16px; text-align: left; border-bottom: 1px solid var(--line-soft); }
+th { background: var(--surface-2); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-muted); font-weight: 600; }
 tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface-2); }
 .role-badge {
-  display: inline-block; padding: 2px 7px; border-radius: 999px;
-  font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em;
+  display: inline-block; padding: 2px 8px; border-radius: 999px;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600;
 }
 .role-admin { background: #fef3c7; color: var(--sang); }
 .role-gestor { background: #dbeafe; color: var(--info); }
 .role-viewer { background: var(--line-soft); color: var(--ink-soft); }
 .role-member { background: #f0fdf4; color: var(--positive); }
 
-.calendar { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+/* Calendar */
+.calendar { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
 .cal-event {
   background: var(--surface); border: 1px solid var(--line);
-  border-radius: 10px; padding: 14px; display: flex; gap: 12px;
+  border-radius: var(--radius); padding: 16px;
+  display: flex; gap: 14px; box-shadow: var(--shadow-sm);
 }
 .cal-icon {
-  width: 36px; height: 36px; border-radius: 8px;
+  width: 44px; height: 44px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 16px; flex-shrink: 0;
+  font-size: 20px; flex-shrink: 0;
 }
-.cal-icon.bday { background: #fef3c7; }
-.cal-icon.anniv { background: #dbeafe; }
-.cal-info b { display: block; font-size: 13px; font-weight: 500; }
-.cal-info span { font-size: 11px; color: var(--ink-muted); }
-.cal-info .when { color: var(--ink); font-weight: 500; margin-top: 2px; font-size: 12px; }
+.cal-icon.bday { background: var(--grad-warm); }
+.cal-icon.anniv { background: var(--grad-cool); }
+.cal-info b { display: block; font-family: 'Fraunces', serif; font-size: 16px; font-weight: 500; }
+.cal-info span { font-size: 11.5px; color: var(--ink-muted); }
+.cal-info .when { color: var(--ink); font-weight: 500; margin-top: 4px; font-size: 13px; }
 
-/* ── MOBILE ── */
-@media (max-width: 768px) {
-  header.top { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
-  .brand-text p { display: none; }
-  .header-search { order: 99; flex-basis: 100%; max-width: none; }
-  main { padding: 20px 16px 80px; }
-  .page-header h2 { font-size: 26px; }
-  .cards { grid-template-columns: 1fr; gap: 12px; }
-  .drawer { width: 100%; }
-  .drawer-head { padding: 16px; }
-  .drawer-body { padding: 16px; }
-  .field-row { grid-template-columns: 1fr; gap: 4px; padding: 10px 0; }
-  .field-row label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
-  .modal { max-height: 100vh; max-width: 100%; border-radius: 0; }
-  .modal-overlay { padding: 0; align-items: stretch; }
-  .field-row2 { grid-template-columns: 1fr; }
-  .menu-pop { right: -8px; min-width: 200px; }
-  table { font-size: 12px; }
-  th, td { padding: 8px; }
-  .table-wrap { overflow-x: auto; }
-}
-@media (max-width: 480px) {
-  .page-header h2 { font-size: 22px; }
-  .card-name { font-size: 19px; }
-  .drawer-name { font-size: 22px; }
-}
-
+/* Toast / loading */
 .toast {
   position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
   background: var(--ink); color: var(--surface);
-  padding: 10px 16px; border-radius: 8px; font-size: 13px;
+  padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 500;
   opacity: 0; pointer-events: none; transition: all .25s;
   z-index: 300; max-width: 90vw;
+  box-shadow: var(--shadow-lg);
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .toast.error { background: var(--critical); }
 
 .loading {
   display: flex; align-items: center; justify-content: center; gap: 10px;
-  padding: 60px; color: var(--ink-muted); font-size: 13px;
+  padding: 80px; color: var(--ink-muted); font-size: 13px;
 }
-.spinner { width: 14px; height: 14px; border: 2px solid var(--line); border-top-color: var(--ink); border-radius: 50%; animation: spin 0.6s linear infinite; }
+.spinner { width: 16px; height: 16px; border: 2px solid var(--line); border-top-color: var(--ink); border-radius: 50%; animation: spin .6s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ── CHARTS (inline SVG) ── */
+.chart-wrap { width: 100%; }
+.chart-svg { width: 100%; height: auto; display: block; }
+.chart-axis text { font-size: 9px; fill: var(--ink-muted); font-family: 'Inter', sans-serif; }
+.chart-grid { stroke: var(--line-soft); stroke-width: 1; }
+.chart-line { fill: none; stroke-width: 2; }
+.chart-area { opacity: 0.12; }
+.chart-dot { stroke: var(--surface); stroke-width: 2; }
+
+/* ── MOBILE ── */
+@media (max-width: 900px) {
+  .dash-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  header.top { padding: 12px 16px; flex-wrap: wrap; gap: 10px; }
+  .brand-text p { display: none; }
+  .header-search { order: 99; flex-basis: 100%; max-width: none; }
+  main { padding: 22px 16px 80px; }
+  .page-header h2 { font-size: 28px; }
+  .cards { grid-template-columns: 1fr; gap: 14px; }
+  .modal-bg { padding: 0; }
+  .member-modal { max-width: 100%; max-height: 100vh; height: 100vh; border-radius: 0; }
+  .mm-hero { padding: 22px 18px; }
+  .mm-avatar { width: 64px; height: 64px; font-size: 24px; }
+  .mm-name { font-size: 26px; }
+  .mm-tabs { padding: 0 12px; }
+  .mm-body { padding: 20px 18px; }
+  .field-row { grid-template-columns: 1fr; gap: 4px; padding: 10px 0; }
+  .field-row label { font-size: 10px; }
+  .simple-modal { max-height: 100vh; max-width: 100%; border-radius: 0; }
+  .simple-modal-bg { padding: 0; align-items: stretch; }
+  .field-row2 { grid-template-columns: 1fr; }
+  .menu-pop { right: -8px; min-width: 220px; }
+  table { font-size: 12px; }
+  th, td { padding: 8px; }
+  .table-wrap { overflow-x: auto; }
+}
+@media (max-width: 480px) {
+  .page-header h2 { font-size: 24px; }
+  .mc-name { font-size: 19px; }
+  .stat-value { font-size: 26px; }
+}
+
 @media print {
-  header.top, .drawer-tabs, .drawer-close, .drawer-overlay, .menu-pop, button { display: none !important; }
+  header.top, .mm-tabs, .mm-close, .modal-bg, .menu-pop, .simple-modal-bg, button { display: none !important; }
+  .member-modal { box-shadow: none; max-width: 100%; height: auto; }
   body { background: white; }
 }
 </style>
@@ -444,8 +707,9 @@ tr:last-child td { border-bottom: none; }
     </div>
   </div>
   <nav class="tabs" id="tabs">
-    <button class="tab active" data-page="equipe">Equipe</button>
-    <button class="tab" data-page="calendar">Calendário</button>
+    <button class="tab active" data-page="dashboard">Visão geral</button>
+    <button class="tab" data-page="equipe">Equipe</button>
+    <button class="tab" data-page="calendar">Calendário <span id="alertsBadge" class="badge" style="display:none"></span></button>
     <button class="tab admin-only" data-page="users" style="display:none">Usuários</button>
     <button class="tab admin-only" data-page="audit" style="display:none">Auditoria</button>
   </nav>
@@ -456,14 +720,13 @@ tr:last-child td { border-bottom: none; }
   <div class="user-menu">
     <button class="user-btn" id="userBtn">
       <div class="user-avatar" id="userAvatar">?</div>
-      <div class="user-info" style="display:none" id="userInfo">
-        <b id="userName"></b><br>
-        <span id="userRole"></span>
+      <div class="user-info" id="userInfo" style="display:none">
+        <b id="userName"></b><span id="userRole"></span>
       </div>
     </button>
     <div class="menu-pop" id="userPop">
-      <div style="padding:10px 12px; border-bottom: 1px solid var(--line-soft); margin-bottom:4px;">
-        <b id="popName" style="font-size:13px;font-weight:500;display:block;"></b>
+      <div style="padding:12px 14px; border-bottom: 1px solid var(--line-soft); margin-bottom:4px;">
+        <b id="popName" style="font-size:13px;font-weight:600;display:block;"></b>
         <span id="popEmail" style="font-size:11px;color:var(--ink-muted);"></span>
       </div>
       <button class="menu-item" id="logoutBtn">
@@ -475,80 +738,94 @@ tr:last-child td { border-bottom: none; }
 </header>
 
 <main>
-  <!-- Equipe -->
-  <section class="page active" id="page-equipe">
+  <!-- DASHBOARD GERAL -->
+  <section class="page active" id="page-dashboard">
+    <div class="page-header">
+      <div>
+        <h2 class="serif" id="dashTitle">Como a equipe está</h2>
+        <p id="dashSub">Acompanhamento contínuo · humor, energia, indicadores</p>
+      </div>
+      <button class="btn primary" id="quickCheckinBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Check-in de hoje
+      </button>
+    </div>
+    <div id="alertsArea"></div>
+    <div id="dashboardArea"><div class="loading"><div class="spinner"></div>Carregando dashboard…</div></div>
+  </section>
+
+  <!-- EQUIPE -->
+  <section class="page" id="page-equipe">
     <div class="page-header">
       <div>
         <h2 class="serif">Equipe Comercial</h2>
-        <p>Gestão integral · perfis, observações, OKRs e KPIs</p>
+        <p>5 pessoas · perfis, observações, OKRs e KPIs</p>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;" class="write-only">
-        <button class="btn primary" id="addMemberBtn">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Novo membro
-        </button>
+        <button class="btn primary" id="addMemberBtn">+ Novo membro</button>
       </div>
     </div>
     <div id="cardsArea"><div class="loading"><div class="spinner"></div>Carregando equipe…</div></div>
   </section>
 
-  <!-- Calendário -->
+  <!-- CALENDÁRIO -->
   <section class="page" id="page-calendar">
     <div class="page-header">
       <div>
         <h2 class="serif">Calendário</h2>
-        <p>Aniversários e datas importantes da equipe</p>
+        <p>Aniversários, anos de casa e próximas datas</p>
       </div>
     </div>
     <div id="calendarArea"></div>
   </section>
 
-  <!-- Usuários (admin) -->
+  <!-- USUÁRIOS -->
   <section class="page" id="page-users">
     <div class="page-header">
       <div>
         <h2 class="serif">Controle de Acesso</h2>
         <p>Gerencie quem entra e o que cada um vê</p>
       </div>
-      <button class="btn primary" id="addUserBtn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Novo usuário
-      </button>
+      <button class="btn primary" id="addUserBtn">+ Novo usuário</button>
     </div>
     <div id="usersArea"></div>
   </section>
 
-  <!-- Auditoria (admin) -->
+  <!-- AUDITORIA -->
   <section class="page" id="page-audit">
     <div class="page-header">
       <div>
         <h2 class="serif">Auditoria</h2>
-        <p>Tudo que aconteceu no sistema, por usuário e data</p>
+        <p>Histórico de ações no sistema</p>
       </div>
     </div>
     <div id="auditArea"></div>
   </section>
 </main>
 
-<!-- Drawer -->
-<div class="drawer-overlay" id="drawerOverlay"></div>
-<aside class="drawer" id="drawer">
-  <div class="drawer-head">
-    <div>
-      <div class="drawer-name" id="drawerName"></div>
-      <div class="drawer-meta" id="drawerMeta"></div>
+<!-- MODAL CENTRAL DO MEMBRO -->
+<div class="modal-bg" id="memberModalBg">
+  <div class="member-modal" id="memberModal">
+    <div class="mm-hero">
+      <div class="mm-avatar" id="mmAvatar"></div>
+      <div class="mm-info">
+        <div class="mm-name" id="mmName"></div>
+        <div class="mm-role" id="mmRole"></div>
+        <div class="mm-meta" id="mmMeta"></div>
+        <div class="mm-temps" id="mmTemps"></div>
+      </div>
+      <button class="mm-close" id="mmClose" aria-label="Fechar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
-    <button class="drawer-close" id="drawerClose">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
+    <nav class="mm-tabs" id="mmTabs"></nav>
+    <div class="mm-body" id="mmBody"></div>
   </div>
-  <nav class="drawer-tabs" id="drawerTabs"></nav>
-  <div class="drawer-body" id="drawerBody"></div>
-</aside>
+</div>
 
-<!-- Modais -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal" id="modal"></div>
+<!-- MODAL SIMPLES (formulários) -->
+<div class="simple-modal-bg" id="simpleModalBg">
+  <div class="simple-modal" id="simpleModal"></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -557,20 +834,20 @@ tr:last-child td { border-bottom: none; }
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 
-// ── State ──
 const state = {
-  user: null, members: [], byId: {}, currentMemberId: null, currentDrawerTab: 'resumo',
-  observations: {}, history: {}, okrs: {}, oneOnOnes: {}, kpis: {}
+  user: null, members: [], byId: {}, currentMemberId: null, currentMmTab: 'overview',
+  observations: {}, history: {}, okrs: {}, oneOnOnes: {}, kpis: {}, checkins: {},
+  alerts: [], dashData: null
 };
 
-// ── Refs ──
 const TEMPS = {
-  colerico: { label: 'Colérico', color: 'col', traits: ['Líder nato', 'Decisão rápida', 'Prático', 'Direto'] },
-  fleumatico: { label: 'Fleumático', color: 'flem', traits: ['Calmo', 'Estável', 'Diplomático', 'Confiável'] },
-  melancolico: { label: 'Melancólico', color: 'mel', traits: ['Analítico', 'Detalhista', 'Profundo', 'Perfeccionista'] },
-  sanguineo: { label: 'Sanguíneo', color: 'sang', traits: ['Sociável', 'Otimista', 'Comunicativo', 'Espontâneo'] }
+  colerico: { label: 'Colérico', class: 'colerico', traits: ['Líder nato', 'Decisão rápida', 'Prático', 'Direto'] },
+  fleumatico: { label: 'Fleumático', class: 'fleumatico', traits: ['Calmo', 'Estável', 'Diplomático', 'Confiável'] },
+  melancolico: { label: 'Melancólico', class: 'melancolico', traits: ['Analítico', 'Detalhista', 'Profundo', 'Perfeccionista'] },
+  sanguineo: { label: 'Sanguíneo', class: 'sanguineo', traits: ['Sociável', 'Otimista', 'Comunicativo', 'Espontâneo'] }
 };
 const ROLE_LABELS = { admin: 'Admin', gestor: 'Gestor', viewer: 'Visualizador', member: 'Membro' };
+const MOOD_EMOJI = { 1: '😞', 2: '😕', 3: '😐', 4: '🙂', 5: '😄' };
 
 // ── API helper ──
 async function api(path, opts = {}) {
@@ -584,49 +861,59 @@ async function api(path, opts = {}) {
   return data;
 }
 
-// ── UI helpers ──
 function toast(msg, isError) {
-  const t = $('#toast');
-  t.textContent = msg;
+  const t = $('#toast'); t.textContent = msg;
   t.classList.toggle('error', !!isError);
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+  setTimeout(() => t.classList.remove('show'), 2400);
 }
 
-function fmtDate(d) {
+// ── helpers ──
+function fmtDate(d) { if (!d) return '—'; return new Date(d).toLocaleDateString('pt-BR'); }
+function fmtDateTime(d) { if (!d) return '—'; return new Date(d).toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' }); }
+function fmtDateLong(d) {
   if (!d) return '—';
-  const dt = new Date(d);
-  return dt.toLocaleDateString('pt-BR');
+  return new Date(d).toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
 }
-function fmtDateTime(d) {
-  if (!d) return '—';
-  const dt = new Date(d);
-  return dt.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+function calcAge(birthday) {
+  if (!birthday) return null;
+  const b = new Date(birthday), now = new Date();
+  let a = now.getFullYear() - b.getFullYear();
+  const m = now.getMonth() - b.getMonth();
+  if (m < 0 || (m === 0 && now.getDate() < b.getDate())) a--;
+  return a;
 }
-function timeAt(start_date) {
-  if (!start_date) return '—';
+function calcTimeAt(start_date) {
+  if (!start_date) return null;
   const d = new Date(start_date), now = new Date();
-  const months = (now.getFullYear() - d.getFullYear()) * 12 + (now.getMonth() - d.getMonth());
-  if (months < 12) return `${months} meses`;
+  const months = (now.getFullYear() - d.getFullYear()) * 12 + (now.getMonth() - d.getMonth())
+    + (now.getDate() < d.getDate() ? -1 : 0);
+  if (months < 0) return { months: 0, label: 'novato', total: months };
+  if (months < 1) return { months: 0, label: 'recém-chegado', total: months };
+  if (months < 12) return { months, label: `${months} ${months===1?'mês':'meses'}`, total: months };
   const years = Math.floor(months / 12), rem = months % 12;
-  return rem === 0 ? `${years} ano${years>1?'s':''}` : `${years}a ${rem}m`;
+  return {
+    months, total: months,
+    label: rem === 0 ? `${years} ${years===1?'ano':'anos'}` : `${years}a ${rem}m`
+  };
 }
 function initials(name) {
-  return (name||'?').split(' ').filter(Boolean).slice(0,2).map(p=>p[0]).join('').toUpperCase();
+  return (name||'?').trim().split(/\s+/).slice(0,2).map(p=>p[0]).join('').toUpperCase();
 }
 function uid() { return Math.random().toString(36).slice(2,10) + Date.now().toString(36); }
-
+function escapeHtml(s) {
+  return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
 function canWrite() { return ['admin','gestor'].includes(state.user?.role); }
 function canAdmin() { return state.user?.role === 'admin'; }
 
-// ── Auth check ──
+// ── BOOTSTRAP ──
 async function bootstrap() {
   try {
     const me = await api('/api/auth/me');
     state.user = me.user;
-  } catch {
-    location.replace('/login.html'); return;
-  }
+  } catch { location.replace('/login.html'); return; }
+
   $('#userAvatar').textContent = initials(state.user.name);
   $('#userInfo').style.display = '';
   $('#userName').textContent = state.user.name;
@@ -635,7 +922,14 @@ async function bootstrap() {
   $('#popEmail').textContent = state.user.email;
   if (canAdmin()) $$('.admin-only').forEach(el => el.style.display = '');
   if (!canWrite()) $$('.write-only').forEach(el => el.style.display = 'none');
-  await loadMembers();
+
+  if (state.user.role === 'member') {
+    $('#dashTitle').textContent = `Olá, ${state.user.name.split(' ')[0]}`;
+    $('#dashSub').textContent = 'Seu painel pessoal · check-ins, OKRs e progresso';
+  }
+
+  await Promise.all([loadMembers(), loadAlerts()]);
+  await loadDashboard();
 }
 
 async function loadMembers() {
@@ -650,7 +944,170 @@ async function loadMembers() {
   }
 }
 
-// ── Render cards ──
+async function loadAlerts() {
+  try {
+    const { alerts } = await api('/api/alerts');
+    state.alerts = alerts;
+    renderAlertsBanner();
+    const urgent = alerts.filter(a => a.when <= 1).length;
+    const badge = $('#alertsBadge');
+    if (urgent) { badge.textContent = urgent; badge.style.display = ''; } else badge.style.display = 'none';
+  } catch (e) {}
+}
+
+function renderAlertsBanner() {
+  const area = $('#alertsArea');
+  const urgent = state.alerts.filter(a => a.when <= 1);
+  if (!urgent.length) { area.innerHTML = ''; return; }
+  area.innerHTML = `<div class="alerts-banner">${urgent.map(a => `
+    <div class="alert-pill ${a.urgency==='high'?'high':''}" onclick="openMemberModal('${a.member_id}')">
+      <span class="icon">${a.icon}</span>
+      <span><b style="font-weight:600;">${escapeHtml(a.title)}</b></span>
+    </div>
+  `).join('')}</div>`;
+}
+
+// ── DASHBOARD ──
+async function loadDashboard() {
+  try {
+    state.dashData = await api('/api/dashboard');
+    renderDashboard();
+  } catch (e) {
+    $('#dashboardArea').innerHTML = `<div class="empty-state">${e.message}</div>`;
+  }
+}
+
+function renderDashboard() {
+  const d = state.dashData;
+  if (!d) return;
+  const t = d.totals || {};
+  const isMember = state.user.role === 'member';
+
+  const stats = isMember ? `
+    <div class="stat warm"><div class="stat-label">Observações abertas</div><div class="stat-value">${t.obs_open||0}</div></div>
+    <div class="stat cool"><div class="stat-label">OKRs ativos</div><div class="stat-value">${t.okrs_active||0}</div></div>
+    <div class="stat fresh"><div class="stat-label">1-on-1 agendados</div><div class="stat-value">${t.oo_scheduled||0}</div></div>
+    <div class="stat soft"><div class="stat-label">Check-ins feitos</div><div class="stat-value">${t.checkins||0}</div></div>
+  ` : `
+    <div class="stat"><div class="stat-label">Equipe ativa</div><div class="stat-value">${t.members||0}</div><div class="stat-sub">colaboradores</div></div>
+    <div class="stat warm"><div class="stat-label">Observações abertas</div><div class="stat-value">${t.obs_open||0}</div><div class="stat-sub">aguardando ação</div></div>
+    <div class="stat cool"><div class="stat-label">OKRs em andamento</div><div class="stat-value">${t.okrs_active||0}</div></div>
+    <div class="stat fresh"><div class="stat-label">Check-ins hoje</div><div class="stat-value">${t.checkins_today||0}<span style="font-size:14px;color:var(--ink-muted);"> / ${state.members.length}</span></div></div>
+  `;
+
+  $('#dashboardArea').innerHTML = `
+    <div class="dash-stats">${stats}</div>
+    <div class="dash-grid">
+      <div class="panel">
+        <h3>Tendência de humor e energia · 30 dias</h3>
+        <p class="sub">${isMember ? 'Seus check-ins ao longo do tempo' : 'Média da equipe ao longo do tempo'}</p>
+        <div id="moodChart">${moodChartSVG(d.trend)}</div>
+      </div>
+      <div class="panel">
+        <h3>Pulso da equipe · últimos 7 dias</h3>
+        <p class="sub">Humor médio por pessoa</p>
+        <div id="memberPulse">${memberPulseHTML(d.perMember)}</div>
+      </div>
+    </div>
+    ${state.alerts.length && !isMember ? `
+      <div class="panel" style="margin-top:20px;">
+        <h3>Próximas datas</h3>
+        <p class="sub">Aniversários e anos de casa nos próximos 7 dias</p>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+          ${state.alerts.map(a => `
+            <div style="display:flex;align-items:center;gap:12px;padding:10px;background:var(--surface-2);border-radius:10px;cursor:pointer;" onclick="openMemberModal('${a.member_id}')">
+              <span style="font-size:22px;">${a.icon}</span>
+              <div style="flex:1;">
+                <div style="font-weight:500;font-size:13.5px;">${escapeHtml(a.title)}</div>
+                <div style="font-size:11.5px;color:var(--ink-muted);">${fmtDateLong(a.date)}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
+  `;
+}
+
+function moodChartSVG(trend) {
+  if (!trend?.length) {
+    return `<div style="text-align:center;padding:40px 20px;color:var(--ink-muted);font-size:12px;">
+      Sem dados ainda. Faça o primeiro check-in clicando em "Check-in de hoje"!
+    </div>`;
+  }
+  const W = 560, H = 200, P = { t: 18, r: 12, b: 26, l: 28 };
+  const w = W - P.l - P.r, h = H - P.t - P.b;
+  const dates = trend.map(t => t.date);
+  const xStep = trend.length > 1 ? w / (trend.length - 1) : w / 2;
+  const series = [
+    { key: 'mood', color: '#1c1917', label: 'Humor' },
+    { key: 'energy', color: '#16a34a', label: 'Energia' },
+    { key: 'workload', color: '#c2410c', label: 'Carga' }
+  ];
+  const ymin = 1, ymax = 5;
+  const yToPx = v => P.t + h - ((v - ymin) / (ymax - ymin)) * h;
+  const xToPx = i => P.l + i * xStep;
+
+  let lines = '';
+  for (const s of series) {
+    const pts = trend.map((t, i) => `${xToPx(i)},${yToPx(t[s.key]||3)}`).join(' ');
+    const area = `${P.l},${P.t+h} ${pts} ${P.l+w},${P.t+h}`;
+    lines += `<polygon points="${area}" fill="${s.color}" class="chart-area"/>`;
+    lines += `<polyline points="${pts}" stroke="${s.color}" class="chart-line"/>`;
+    trend.forEach((t, i) => {
+      lines += `<circle cx="${xToPx(i)}" cy="${yToPx(t[s.key]||3)}" r="3" fill="${s.color}" class="chart-dot"/>`;
+    });
+  }
+
+  let yLabels = '';
+  for (let v = 1; v <= 5; v++) {
+    yLabels += `<line x1="${P.l}" x2="${P.l+w}" y1="${yToPx(v)}" y2="${yToPx(v)}" class="chart-grid"/>
+                <text x="${P.l - 4}" y="${yToPx(v)+3}" text-anchor="end">${v}</text>`;
+  }
+  let xLabels = '';
+  const skip = Math.max(1, Math.floor(trend.length / 6));
+  trend.forEach((t, i) => {
+    if (i % skip === 0 || i === trend.length - 1) {
+      const dt = new Date(t.date);
+      const lbl = `${dt.getDate()}/${dt.getMonth()+1}`;
+      xLabels += `<text x="${xToPx(i)}" y="${P.t+h+14}" text-anchor="middle">${lbl}</text>`;
+    }
+  });
+
+  const legend = series.map(s => `
+    <span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--ink-soft);">
+      <span style="width:10px;height:10px;border-radius:2px;background:${s.color};"></span>${s.label}
+    </span>
+  `).join(' &nbsp; ');
+
+  return `
+    <svg class="chart-svg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+      <g class="chart-axis">${yLabels}${xLabels}</g>
+      ${lines}
+    </svg>
+    <div style="margin-top:6px;">${legend}</div>
+  `;
+}
+
+function memberPulseHTML(perMember) {
+  if (!perMember?.length) return `<div style="color:var(--ink-muted);font-size:12px;text-align:center;padding:20px;">Sem check-ins ainda.</div>`;
+  return `<div style="display:flex;flex-direction:column;gap:10px;">${perMember.map(p => {
+    const m = p.mood || 0;
+    const emoji = m ? MOOD_EMOJI[Math.round(m)] : '🆕';
+    return `
+      <div style="display:flex;align-items:center;gap:12px;cursor:pointer;padding:8px;border-radius:10px;transition:background .15s;" onmouseover="this.style.background='var(--surface-2)'" onmouseout="this.style.background='transparent'" onclick="openMemberModal('${p.id}')">
+        <span style="font-size:22px;">${emoji}</span>
+        <div style="flex:1;">
+          <div style="font-weight:500;font-size:13px;">${escapeHtml(p.name)}</div>
+          <div style="font-size:11px;color:var(--ink-muted);">${p.checkins} check-in${p.checkins===1?'':'s'} · humor ${m?m.toFixed(1):'—'}</div>
+        </div>
+        ${m ? `<div style="font-family:'Fraunces',serif;font-size:18px;font-weight:500;color:var(--ink-soft);">${m.toFixed(1)}</div>` : ''}
+      </div>
+    `;
+  }).join('')}</div>`;
+}
+
+// ── CARDS ──
 function renderCards(filter = '') {
   const f = filter.toLowerCase().trim();
   const list = state.members.filter(m =>
@@ -658,35 +1115,56 @@ function renderCards(filter = '') {
   );
   const area = $('#cardsArea');
   if (!list.length) {
-    area.innerHTML = `<div class="empty-state">Nenhum membro encontrado.</div>`;
+    area.innerHTML = `<div class="empty-state"><div class="big">🔍</div>Nenhum membro encontrado.</div>`;
     return;
   }
-  area.innerHTML = `<div class="cards">${list.map(cardHTML).join('')}</div>`;
-  $$('.card[data-id]').forEach(c => c.addEventListener('click', () => openDrawer(c.dataset.id)));
+  area.innerHTML = `<div class="cards">${list.map(memberCardHTML).join('')}</div>`;
+  $$('.member-card').forEach(c => c.addEventListener('click', () => openMemberModal(c.dataset.id)));
 }
 
-function cardHTML(m) {
+function memberCardHTML(m) {
   const t1 = TEMPS[m.temp1];
   const tempPills = [m.temp1, m.temp2].filter(Boolean).map(t => {
-    const T = TEMPS[t]; return `<span class="temp-pill temp-${T?.color||''}">${T?.label||t}</span>`;
-  }).join(' ');
-  const obsCount = (state.observations[m.id]||[]).length;
+    const T = TEMPS[t]; return `<span class="temp-pill temp-${T?.class||''}">${T?.label||t}</span>`;
+  }).join('');
+  const time = calcTimeAt(m.start_date);
+  const age = calcAge(m.birthday);
+  const obs = state.observations[m.id] || [];
+  const checkins = state.checkins[m.id] || [];
+  const recentMoods = checkins.slice(0, 7).reverse().map(c => c.mood);
+  const lastMood = checkins[0]?.mood;
   const priority = computePriority(m);
+
+  const moodBars = recentMoods.length
+    ? `<div class="mood-bar">${[1,2,3,4,5,6,7].map(i => {
+        const v = recentMoods[i-1];
+        return v ? `<span class="m${v}" style="height:${(v/5)*16+2}px"></span>` : `<span style="height:2px"></span>`;
+      }).join('')}</div>`
+    : '<span style="font-size:11px;color:var(--ink-muted);">Sem check-ins</span>';
+
   return `
-    <div class="card" data-id="${m.id}">
-      <div class="card-head">
-        <div>
-          <div class="card-name serif">${escapeHtml(m.name)}</div>
-          <div class="card-role">${escapeHtml(m.role||'—')}</div>
+    <div class="member-card ${t1?.class||''}" data-id="${m.id}">
+      <div class="mc-head">
+        <div class="mc-avatar av-${t1?.class||'default'}">${initials(m.name)}</div>
+        <div style="flex:1;min-width:0;">
+          <div class="mc-name">${escapeHtml(m.name)}</div>
+          <div class="mc-role">${escapeHtml(m.role||'')}</div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;">${tempPills}</div>
       </div>
-      <div class="card-stats">
-        <div class="card-stat"><b>${timeAt(m.start_date)}</b>tempo de casa</div>
-        <div class="card-stat"><b>${m.age||'—'}</b>idade</div>
-        <div class="card-stat"><b>${obsCount}</b>obs.</div>
+      <div class="mc-temps">${tempPills}</div>
+      <div class="mc-stats">
+        <div class="mc-stat"><b>${time?.label || '—'}</b><span>de casa</span></div>
+        <div class="mc-stat"><b>${age || '—'}</b><span>anos</span></div>
+        <div class="mc-stat"><b>${obs.length}</b><span>obs.</span></div>
       </div>
-      ${priority ? `<div class="card-priority ${priority.level}"><b>Prioridade da semana</b>${escapeHtml(priority.text)}</div>` : ''}
+      <div class="mc-mood">
+        <div class="mood-trend">
+          <span class="mood-emoji">${lastMood ? MOOD_EMOJI[lastMood] : '🆕'}</span>
+          <span style="color:var(--ink-soft);">${lastMood ? `Humor ${lastMood}/5` : 'Sem check-in'}</span>
+        </div>
+        ${moodBars}
+      </div>
+      ${priority ? `<div class="mc-priority ${priority.level}"><b>Prioridade da semana</b>${escapeHtml(priority.text)}</div>` : ''}
     </div>
   `;
 }
@@ -703,167 +1181,298 @@ function computePriority(m) {
   return { level: 'baixa', text: 'Tudo em ordem' };
 }
 
-function escapeHtml(s) {
-  return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-
-// ── DRAWER ──
-const DRAWER_TABS = [
-  { id: 'resumo', label: 'Resumo' },
-  { id: 'perfil', label: 'Perfil' },
-  { id: 'bigfive', label: 'Big Five' },
+// ── MEMBER MODAL ──
+const MM_TABS = [
+  { id: 'overview', label: 'Visão geral' },
+  { id: 'profile', label: 'Perfil' },
+  { id: 'checkins', label: 'Check-ins' },
   { id: 'kpis', label: 'KPIs' },
   { id: 'okrs', label: 'OKRs' },
-  { id: 'observacoes', label: 'Observações' },
   { id: 'oneonones', label: '1-on-1s' },
-  { id: 'fortes', label: 'Fortes' },
-  { id: 'atencao', label: 'Atenção' },
+  { id: 'observations', label: 'Observações' },
+  { id: 'bigfive', label: 'Big Five' },
   { id: 'feedback', label: 'Feedback' },
-  { id: 'historico', label: 'Histórico' }
+  { id: 'history', label: 'Histórico' }
 ];
 
-async function openDrawer(memberId) {
+window.openMemberModal = async function(memberId) {
   state.currentMemberId = memberId;
-  state.currentDrawerTab = 'resumo';
+  state.currentMmTab = 'overview';
   const m = state.byId[memberId]; if (!m) return;
 
-  $('#drawer').classList.add('show');
-  $('#drawerOverlay').classList.add('show');
-  $('#drawerName').textContent = m.name;
-  $('#drawerName').contentEditable = canWrite();
-  $('#drawerName').onblur = () => saveMemberField('name', $('#drawerName').textContent.trim());
+  $('#memberModalBg').classList.add('show');
+  document.body.style.overflow = 'hidden';
 
-  $('#drawerMeta').innerHTML = `${escapeHtml(m.role||'')} · ${timeAt(m.start_date)} de casa · ${m.age||'?'} anos`;
-  $('#drawerTabs').innerHTML = DRAWER_TABS.map(t => `<button class="drawer-tab ${t.id===state.currentDrawerTab?'active':''}" data-tab="${t.id}">${t.label}</button>`).join('');
-  $$('.drawer-tab').forEach(b => b.addEventListener('click', () => switchDrawerTab(b.dataset.tab)));
+  const t1 = TEMPS[m.temp1];
+  const time = calcTimeAt(m.start_date);
+  const age = calcAge(m.birthday);
 
-  // load related data in parallel
+  $('#mmAvatar').className = 'mm-avatar av-' + (t1?.class || 'default');
+  $('#mmAvatar').textContent = initials(m.name);
+  $('#mmName').textContent = m.name;
+  $('#mmName').contentEditable = canWrite();
+  $('#mmName').onblur = () => saveMemberField('name', $('#mmName').textContent.trim());
+  $('#mmRole').textContent = m.role || '';
+  $('#mmRole').contentEditable = canWrite();
+  $('#mmRole').dataset.placeholder = '—';
+  $('#mmRole').onblur = () => saveMemberField('role', $('#mmRole').textContent.trim());
+  $('#mmMeta').innerHTML = `
+    ${time ? `<div class="mm-meta-item">⏱ <b>${time.label}</b> de casa</div>` : ''}
+    ${age ? `<div class="mm-meta-item">🎂 <b>${age}</b> anos</div>` : ''}
+    ${m.email ? `<div class="mm-meta-item">✉ ${escapeHtml(m.email)}</div>` : ''}
+  `;
+  $('#mmTemps').innerHTML = [m.temp1, m.temp2].filter(Boolean).map(t => {
+    const T = TEMPS[t]; return `<span class="temp-pill temp-${T?.class}">${T?.label}</span>`;
+  }).join('');
+
+  $('#mmTabs').innerHTML = MM_TABS.map(t => `<button class="mm-tab ${t.id===state.currentMmTab?'active':''}" data-tab="${t.id}">${t.label}</button>`).join('');
+  $$('.mm-tab').forEach(b => b.addEventListener('click', () => switchMmTab(b.dataset.tab)));
+
   await Promise.all([
     loadObservations(memberId),
     loadHistory(memberId),
     loadOkrs(memberId),
     loadOneOnOnes(memberId),
-    loadKpis(memberId)
+    loadKpis(memberId),
+    loadCheckins(memberId)
   ]);
-  renderDrawerSection();
-  // Re-render cards to update obs count
+  renderMmSection();
   renderCards($('#search').value);
-}
+};
 
-function closeDrawer() {
-  $('#drawer').classList.remove('show');
-  $('#drawerOverlay').classList.remove('show');
+function closeMemberModal() {
+  $('#memberModalBg').classList.remove('show');
+  document.body.style.overflow = '';
   state.currentMemberId = null;
 }
 
-function switchDrawerTab(tab) {
-  state.currentDrawerTab = tab;
-  $$('.drawer-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  renderDrawerSection();
+function switchMmTab(tab) {
+  state.currentMmTab = tab;
+  $$('.mm-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  renderMmSection();
 }
 
-async function loadObservations(memberId) {
-  const { observations } = await api(`/api/observations?member_id=${memberId}`);
-  state.observations[memberId] = observations;
-}
-async function loadHistory(memberId) {
-  const { history } = await api(`/api/history?member_id=${memberId}`);
-  state.history[memberId] = history;
-}
-async function loadOkrs(memberId) {
-  const { okrs } = await api(`/api/okrs?member_id=${memberId}`);
-  state.okrs[memberId] = okrs;
-}
-async function loadOneOnOnes(memberId) {
-  const { one_on_ones } = await api(`/api/one-on-ones?member_id=${memberId}`);
-  state.oneOnOnes[memberId] = one_on_ones;
-}
-async function loadKpis(memberId) {
-  const { kpis } = await api(`/api/kpis?member_id=${memberId}`);
-  state.kpis[memberId] = kpis;
-}
+async function loadObservations(id) { const { observations } = await api(`/api/observations?member_id=${id}`); state.observations[id] = observations; }
+async function loadHistory(id) { const { history } = await api(`/api/history?member_id=${id}`); state.history[id] = history; }
+async function loadOkrs(id) { const { okrs } = await api(`/api/okrs?member_id=${id}`); state.okrs[id] = okrs; }
+async function loadOneOnOnes(id) { const { one_on_ones } = await api(`/api/one-on-ones?member_id=${id}`); state.oneOnOnes[id] = one_on_ones; }
+async function loadKpis(id) { const { kpis } = await api(`/api/kpis?member_id=${id}`); state.kpis[id] = kpis; }
+async function loadCheckins(id) { const { checkins } = await api(`/api/checkins?member_id=${id}&days=60`); state.checkins[id] = checkins; }
 
-function renderDrawerSection() {
-  const m = state.byId[state.currentMemberId];
-  if (!m) return;
-  const tab = state.currentDrawerTab;
-  const body = $('#drawerBody');
-  const r = canWrite();
-  if (tab === 'resumo') body.innerHTML = sectionResumo(m);
-  else if (tab === 'perfil') body.innerHTML = sectionPerfil(m);
-  else if (tab === 'bigfive') body.innerHTML = sectionBigFive(m);
+function renderMmSection() {
+  const m = state.byId[state.currentMemberId]; if (!m) return;
+  const tab = state.currentMmTab;
+  const body = $('#mmBody');
+  if (tab === 'overview') body.innerHTML = sectionOverview(m);
+  else if (tab === 'profile') body.innerHTML = sectionProfile(m);
+  else if (tab === 'checkins') body.innerHTML = sectionCheckins(m);
   else if (tab === 'kpis') body.innerHTML = sectionKpis(m);
   else if (tab === 'okrs') body.innerHTML = sectionOkrs(m);
-  else if (tab === 'observacoes') body.innerHTML = sectionObs(m);
   else if (tab === 'oneonones') body.innerHTML = sectionOO(m);
-  else if (tab === 'fortes') body.innerHTML = sectionList(m, 'strengths', 'Pontos fortes');
-  else if (tab === 'atencao') body.innerHTML = sectionList(m, 'attention', 'Pontos de atenção');
+  else if (tab === 'observations') body.innerHTML = sectionObs(m);
+  else if (tab === 'bigfive') body.innerHTML = sectionBigFive(m);
   else if (tab === 'feedback') body.innerHTML = sectionFeedback(m);
-  else if (tab === 'historico') body.innerHTML = sectionHistorico(m);
+  else if (tab === 'history') body.innerHTML = sectionHistory(m);
   attachSectionHandlers(m);
 }
 
-function sectionResumo(m) {
+function sectionOverview(m) {
   const obs = state.observations[m.id] || [];
   const okrs = state.okrs[m.id] || [];
   const oos = state.oneOnOnes[m.id] || [];
-  const kpis = state.kpis[m.id] || [];
+  const cks = state.checkins[m.id] || [];
   const open = obs.filter(o => (o.data?.status||'aberto') !== 'resolvido');
   const nextOO = oos.find(o => o.status === 'agendado');
-
-  const t1 = TEMPS[m.temp1]; const t2 = TEMPS[m.temp2];
+  const t1 = TEMPS[m.temp1], t2 = TEMPS[m.temp2];
   const traits = [...(t1?.traits||[]), ...(t2?.traits||[])].slice(0, 6);
+  const lastCheckin = cks[0];
+
+  // mini chart
+  const last14 = cks.slice(0, 14).reverse();
+  const chart = last14.length ? mini14ChartSVG(last14) : `<div style="color:var(--ink-muted);font-size:12px;padding:20px;text-align:center;">Sem check-ins ainda.</div>`;
 
   return `
     <div class="kpi-grid" style="margin-bottom:24px;">
-      <div class="kpi"><div class="kpi-label">Tempo de casa</div><div class="kpi-value">${timeAt(m.start_date)}</div></div>
-      <div class="kpi"><div class="kpi-label">Observações abertas</div><div class="kpi-value">${open.length}</div></div>
-      <div class="kpi"><div class="kpi-label">OKRs em andamento</div><div class="kpi-value">${okrs.filter(o=>o.status==='em_andamento').length}</div></div>
-      <div class="kpi"><div class="kpi-label">KPIs registrados</div><div class="kpi-value">${kpis.length}</div></div>
+      <div class="kpi-card"><div class="kpi-label">Tempo de casa</div><div class="kpi-value">${calcTimeAt(m.start_date)?.label || '—'}</div></div>
+      <div class="kpi-card"><div class="kpi-label">Idade</div><div class="kpi-value">${calcAge(m.birthday) || '—'}</div></div>
+      <div class="kpi-card"><div class="kpi-label">Obs. abertas</div><div class="kpi-value">${open.length}</div></div>
+      <div class="kpi-card"><div class="kpi-label">OKRs ativos</div><div class="kpi-value">${okrs.filter(o=>o.status==='em_andamento').length}</div></div>
     </div>
+
+    ${lastCheckin ? `
     <div class="field-group">
-      <h3>Perfil temperamental</h3>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
-        ${[m.temp1, m.temp2].filter(Boolean).map(t => { const T=TEMPS[t]; return `<span class="temp-pill temp-${T?.color}">${T?.label}</span>`; }).join('')}
+      <h3 class="section-h">Último check-in <span style="font-size:12px;font-weight:400;color:var(--ink-muted);">${fmtDate(lastCheckin.date)}</span></h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;">
+        ${[
+          ['Humor', lastCheckin.mood, MOOD_EMOJI[lastCheckin.mood]],
+          ['Energia', lastCheckin.energy, '⚡'],
+          ['Carga', lastCheckin.workload, '📚'],
+          ['Foco', lastCheckin.focus, '🎯']
+        ].filter(x => x[1]).map(x => `
+          <div style="background:var(--surface-2);border-radius:10px;padding:12px;">
+            <div style="font-size:10.5px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">${x[0]}</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:4px;"><span style="font-size:18px;">${x[2]}</span><b style="font-family:'Fraunces',serif;font-size:18px;font-weight:500;">${x[1]}/5</b></div>
+          </div>
+        `).join('')}
       </div>
-      <div style="font-size:12px;color:var(--ink-soft);line-height:1.6;">
+      ${lastCheckin.blockers ? `<div style="margin-top:12px;padding:10px 12px;background:#fff7ed;border-radius:8px;font-size:13px;"><b style="font-size:11px;color:var(--warning);text-transform:uppercase;letter-spacing:0.04em;">Bloqueios</b><br>${escapeHtml(lastCheckin.blockers)}</div>` : ''}
+      ${lastCheckin.highlights ? `<div style="margin-top:8px;padding:10px 12px;background:#f0fdf4;border-radius:8px;font-size:13px;"><b style="font-size:11px;color:var(--positive);text-transform:uppercase;letter-spacing:0.04em;">Destaques</b><br>${escapeHtml(lastCheckin.highlights)}</div>` : ''}
+    </div>` : ''}
+
+    <div class="field-group">
+      <h3 class="section-h">Tendência · 14 dias</h3>
+      ${chart}
+    </div>
+
+    <div class="field-group">
+      <h3 class="section-h">Perfil temperamental</h3>
+      <div style="font-size:13px;color:var(--ink-soft);line-height:1.7;">
         ${traits.map(t=>`• ${t}`).join('<br>')}
       </div>
     </div>
+
     ${nextOO ? `<div class="field-group">
-      <h3>Próximo 1-on-1</h3>
+      <h3 class="section-h">Próximo 1-on-1</h3>
       <div class="oo">
-        <div style="display:flex;justify-content:space-between;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
           <div class="oo-date">${fmtDateTime(nextOO.scheduled_at)}</div>
           <span class="oo-status agendado">Agendado</span>
         </div>
+        ${nextOO.notes ? `<div style="font-size:12.5px;color:var(--ink-soft);margin-top:8px;">${escapeHtml(nextOO.notes)}</div>` : ''}
       </div>
     </div>` : ''}
   `;
 }
 
-function sectionPerfil(m) {
+function mini14ChartSVG(days) {
+  const W = 540, H = 130, P = { t: 12, r: 8, b: 18, l: 22 };
+  const w = W - P.l - P.r, h = H - P.t - P.b;
+  const xStep = days.length > 1 ? w / (days.length - 1) : w / 2;
+  const yPx = v => P.t + h - ((v - 1) / 4) * h;
+  const xPx = i => P.l + i * xStep;
+
+  const series = [
+    { key: 'mood', color: '#1c1917' },
+    { key: 'energy', color: '#16a34a' },
+    { key: 'workload', color: '#c2410c' }
+  ];
+  let lines = '';
+  for (const s of series) {
+    const pts = days.map((c, i) => `${xPx(i)},${yPx(c[s.key]||3)}`).join(' ');
+    lines += `<polyline points="${pts}" stroke="${s.color}" class="chart-line"/>`;
+    days.forEach((c, i) => {
+      lines += `<circle cx="${xPx(i)}" cy="${yPx(c[s.key]||3)}" r="2.5" fill="${s.color}" class="chart-dot"/>`;
+    });
+  }
+  let yLines = '';
+  for (let v = 1; v <= 5; v += 2) {
+    yLines += `<line x1="${P.l}" x2="${P.l+w}" y1="${yPx(v)}" y2="${yPx(v)}" class="chart-grid"/>
+              <text x="${P.l-3}" y="${yPx(v)+3}" text-anchor="end" style="font-size:9px;fill:var(--ink-muted);">${v}</text>`;
+  }
+  let xLabels = '';
+  const skip = Math.max(1, Math.floor(days.length / 5));
+  days.forEach((c, i) => {
+    if (i % skip === 0 || i === days.length - 1) {
+      const dt = new Date(c.date);
+      xLabels += `<text x="${xPx(i)}" y="${P.t+h+12}" text-anchor="middle" style="font-size:9px;fill:var(--ink-muted);">${dt.getDate()}/${dt.getMonth()+1}</text>`;
+    }
+  });
+  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+    <g class="chart-axis">${yLines}${xLabels}</g>
+    ${lines}
+  </svg>
+  <div style="font-size:10.5px;color:var(--ink-muted);display:flex;gap:14px;margin-top:4px;">
+    <span><span style="display:inline-block;width:8px;height:8px;background:#1c1917;border-radius:1px;"></span> Humor</span>
+    <span><span style="display:inline-block;width:8px;height:8px;background:#16a34a;border-radius:1px;"></span> Energia</span>
+    <span><span style="display:inline-block;width:8px;height:8px;background:#c2410c;border-radius:1px;"></span> Carga</span>
+  </div>`;
+}
+
+function sectionProfile(m) {
   const r = canWrite();
   const tempOpts = (sel) => Object.entries(TEMPS).map(([k,v])=>`<option value="${k}" ${sel===k?'selected':''}>${v.label}</option>`).join('');
   return `
     <div class="field-group">
-      <h3>Identificação</h3>
-      <div class="field-row"><label>Nome</label><div class="val" data-edit="name" ${r?'contenteditable="true"':''}>${escapeHtml(m.name)}</div></div>
-      <div class="field-row"><label>Cargo</label><div class="val" data-edit="role" ${r?'contenteditable="true"':''} data-placeholder="—">${escapeHtml(m.role||'')}</div></div>
+      <h3 class="section-h">Identificação</h3>
       <div class="field-row"><label>E-mail</label><div class="val" data-edit="email" ${r?'contenteditable="true"':''} data-placeholder="—">${escapeHtml(m.email||'')}</div></div>
       <div class="field-row"><label>Telefone</label><div class="val" data-edit="phone" ${r?'contenteditable="true"':''} data-placeholder="—">${escapeHtml(m.phone||'')}</div></div>
-      <div class="field-row"><label>Idade</label><div class="val" data-edit="age" data-edit-type="number" ${r?'contenteditable="true"':''} data-placeholder="—">${m.age||''}</div></div>
-      <div class="field-row"><label>Data admissão</label><div class="val" data-edit="start_date" data-edit-type="date" ${r?'contenteditable="true"':''} data-placeholder="—">${m.start_date?m.start_date.slice(0,10):''}</div></div>
-      <div class="field-row"><label>Aniversário</label><div class="val" data-edit="birthday" data-edit-type="date" ${r?'contenteditable="true"':''} data-placeholder="—">${m.birthday?m.birthday.slice(0,10):''}</div></div>
+      <div class="field-row"><label>Aniversário</label><div class="val" data-edit="birthday" data-edit-type="date" ${r?'contenteditable="true"':''} data-placeholder="AAAA-MM-DD">${m.birthday?m.birthday.slice(0,10):''}</div></div>
+      <div class="field-row"><label>Admissão</label><div class="val" data-edit="start_date" data-edit-type="date" ${r?'contenteditable="true"':''} data-placeholder="AAAA-MM-DD">${m.start_date?m.start_date.slice(0,10):''}</div></div>
+      <div class="field-row"><label>Formação</label><div class="val" data-edit="education" ${r?'contenteditable="true"':''} data-placeholder="—">${escapeHtml(m.education||'')}</div></div>
     </div>
     <div class="field-group">
-      <h3>Temperamento</h3>
-      <div class="field-row"><label>Primário</label><div class="val">${r?`<select data-edit-select="temp1" style="padding:5px 8px;border:1px solid var(--line);border-radius:6px;">${tempOpts(m.temp1)}</select>`:TEMPS[m.temp1]?.label||'—'}</div></div>
-      <div class="field-row"><label>Secundário</label><div class="val">${r?`<select data-edit-select="temp2" style="padding:5px 8px;border:1px solid var(--line);border-radius:6px;"><option value="">—</option>${tempOpts(m.temp2)}</select>`:TEMPS[m.temp2]?.label||'—'}</div></div>
+      <h3 class="section-h">Temperamento</h3>
+      <div class="field-row"><label>Primário</label><div class="val">${r?`<select data-edit-select="temp1" style="padding:6px 10px;border:1px solid var(--line);border-radius:7px;font-size:13px;">${tempOpts(m.temp1)}</select>`:TEMPS[m.temp1]?.label||'—'}</div></div>
+      <div class="field-row"><label>Secundário</label><div class="val">${r?`<select data-edit-select="temp2" style="padding:6px 10px;border:1px solid var(--line);border-radius:7px;font-size:13px;"><option value="">—</option>${tempOpts(m.temp2)}</select>`:TEMPS[m.temp2]?.label||'—'}</div></div>
     </div>
     <div class="field-group">
-      <h3>Atividades principais</h3>
+      <h3 class="section-h">Atividades principais</h3>
       ${listEditHTML(m, 'activities')}
+    </div>
+    <div class="field-group">
+      <h3 class="section-h">Pontos fortes</h3>
+      ${listEditHTML(m, 'strengths')}
+    </div>
+    <div class="field-group">
+      <h3 class="section-h">Pontos de atenção</h3>
+      ${listEditHTML(m, 'attention')}
+    </div>
+    <div class="field-group">
+      <h3 class="section-h">Trabalhando em</h3>
+      ${listEditHTML(m, 'working_on')}
+    </div>
+  `;
+}
+
+function listEditHTML(m, key) {
+  const r = canWrite();
+  const list = m.data?.[key] || [];
+  return `
+    <div class="list-edit" data-list="${key}">
+      ${list.map((item, i) => `
+        <div class="list-item">
+          <span class="bullet">•</span>
+          <div class="text" ${r?`contenteditable="true" data-list-edit="${key}" data-idx="${i}"`:''}>${escapeHtml(item)}</div>
+          ${r?`<button class="x" data-list-remove="${key}" data-idx="${i}">×</button>`:''}
+        </div>
+      `).join('')}
+      ${r?`<button class="list-add" data-list-add="${key}">+ adicionar item</button>`:''}
+    </div>
+  `;
+}
+
+function sectionCheckins(m) {
+  const r = canWrite();
+  const list = state.checkins[m.id] || [];
+  return `
+    <div class="field-group">
+      <h3 class="section-h">Check-ins diários
+        ${r?`<button class="btn sm primary" onclick="openCheckinModal('${m.id}')">+ Novo check-in</button>`:''}
+      </h3>
+      <p class="sub" style="font-size:12.5px;color:var(--ink-muted);margin-top:-8px;margin-bottom:14px;">Registre como a pessoa está cada dia. Os gráficos crescem com o tempo.</p>
+      ${list.length ? list.map(c => checkinHTML(c)).join('') : `<div class="empty-state">Sem check-ins ainda. ${r?'Clique em "Novo check-in" para começar.':''}</div>`}
+    </div>
+  `;
+}
+function bar(v) {
+  return `<span class="checkin-mini-bar">${[1,2,3,4,5].map(i=>`<i class="${i<=v?'on':''}"></i>`).join('')}</span>`;
+}
+function checkinHTML(c) {
+  return `
+    <div class="checkin-day">
+      <div class="checkin-head">
+        <div class="checkin-date">${fmtDateLong(c.date)}</div>
+        <div class="checkin-mood-emoji">${MOOD_EMOJI[c.mood]}</div>
+      </div>
+      <div class="checkin-bars">
+        <div>Humor ${bar(c.mood)}</div>
+        <div>Energia ${bar(c.energy)}</div>
+        <div>Carga ${bar(c.workload)}</div>
+        ${c.focus?`<div>Foco ${bar(c.focus)}</div>`:''}
+      </div>
+      ${c.highlights ? `<div class="checkin-text"><b style="color:var(--positive);font-size:11px;text-transform:uppercase;letter-spacing:0.04em;">Destaques</b> ${escapeHtml(c.highlights)}</div>` : ''}
+      ${c.blockers ? `<div class="checkin-text"><b style="color:var(--warning);font-size:11px;text-transform:uppercase;letter-spacing:0.04em;">Bloqueios</b> ${escapeHtml(c.blockers)}</div>` : ''}
+      ${c.notes ? `<div class="checkin-text">${escapeHtml(c.notes)}</div>` : ''}
     </div>
   `;
 }
@@ -880,15 +1489,12 @@ function sectionBigFive(m) {
   ];
   return `
     <div class="field-group">
-      <h3>Big Five (OCEAN) <span style="font-weight:400;text-transform:none;color:var(--ink-muted);">· baseado em Soto (2018) · personality-project.org</span></h3>
+      <h3 class="section-h">Big Five (OCEAN) <span style="font-weight:400;text-transform:none;color:var(--ink-muted);font-size:11px;">· Soto, 2018 · personality-project.org</span></h3>
       ${dims.map(d => `
-        <div style="margin-bottom:14px;">
-          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
-            <b>${d.label}</b><span data-bf-val="${d.k}" style="font-variant-numeric:tabular-nums;">${data[d.k]}</span>
-          </div>
-          <div style="font-size:11px;color:var(--ink-muted);margin-bottom:6px;">${d.desc}</div>
-          ${r ? `<input type="range" min="0" max="100" value="${data[d.k]}" data-bf-key="${d.k}" style="width:100%;">` : `
-          <div style="height:6px;background:var(--line);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${data[d.k]}%;background:var(--ink);"></div></div>`}
+        <div class="bf-row">
+          <div class="bf-head"><b>${d.label}</b><span class="bf-val" data-bf-val="${d.k}">${data[d.k]}</span></div>
+          <div class="bf-desc">${d.desc}</div>
+          ${r ? `<input type="range" min="0" max="100" value="${data[d.k]}" data-bf-key="${d.k}">` : `<div style="height:6px;background:var(--line);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${data[d.k]}%;background:var(--ink);"></div></div>`}
         </div>
       `).join('')}
     </div>
@@ -897,10 +1503,10 @@ function sectionBigFive(m) {
 
 function defaultBigFive(m) {
   const map = {
-    colerico:    { extroversion: 75, agreeableness: 35, conscientiousness: 70, neuroticism: 45, openness: 60 },
-    fleumatico:  { extroversion: 35, agreeableness: 75, conscientiousness: 65, neuroticism: 25, openness: 50 },
+    colerico: { extroversion: 75, agreeableness: 35, conscientiousness: 70, neuroticism: 45, openness: 60 },
+    fleumatico: { extroversion: 35, agreeableness: 75, conscientiousness: 65, neuroticism: 25, openness: 50 },
     melancolico: { extroversion: 30, agreeableness: 55, conscientiousness: 85, neuroticism: 60, openness: 70 },
-    sanguineo:   { extroversion: 85, agreeableness: 70, conscientiousness: 45, neuroticism: 35, openness: 75 }
+    sanguineo: { extroversion: 85, agreeableness: 70, conscientiousness: 45, neuroticism: 35, openness: 75 }
   };
   const a = map[m.temp1] || { extroversion: 50, agreeableness: 50, conscientiousness: 50, neuroticism: 50, openness: 50 };
   const b = m.temp2 ? map[m.temp2] : a;
@@ -914,10 +1520,7 @@ function sectionKpis(m) {
   const list = state.kpis[m.id] || [];
   return `
     <div class="field-group">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <h3 style="margin:0;">KPIs comerciais</h3>
-        ${r?`<button class="btn sm primary" onclick="openKpiModal('${m.id}')">+ Adicionar</button>`:''}
-      </div>
+      <h3 class="section-h">KPIs comerciais ${r?`<button class="btn sm primary" onclick="openKpiModal('${m.id}')">+ Adicionar</button>`:''}</h3>
       ${list.length ? `<div class="kpi-grid">${list.map(k => kpiCardHTML(k, r)).join('')}</div>` : `<div class="empty-state">Nenhum KPI registrado.</div>`}
     </div>
   `;
@@ -927,9 +1530,10 @@ function kpiCardHTML(k, r) {
   let cls = 'kpi-bar-fill';
   if (pct !== null) cls += pct >= 100 ? '' : pct >= 70 ? ' warn' : ' bad';
   return `
-    <div class="kpi">
-      <div class="kpi-label">${escapeHtml(k.metric)} · ${escapeHtml(k.period)}</div>
+    <div class="kpi-card">
+      <div class="kpi-label">${escapeHtml(k.metric)}</div>
       <div class="kpi-value">${k.value}</div>
+      <div style="font-size:10.5px;color:var(--ink-muted);margin-top:2px;">${escapeHtml(k.period)}</div>
       ${k.target ? `<div class="kpi-target">Meta: ${k.target} · ${pct.toFixed(0)}%</div><div class="kpi-bar"><div class="${cls}" style="width:${pct}%"></div></div>` : ''}
       ${r ? `<button class="btn sm danger" style="margin-top:8px;" onclick="deleteKpi(${k.id})">×</button>` : ''}
     </div>
@@ -941,10 +1545,7 @@ function sectionOkrs(m) {
   const list = state.okrs[m.id] || [];
   return `
     <div class="field-group">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <h3 style="margin:0;">OKRs trimestrais</h3>
-        ${r?`<button class="btn sm primary" onclick="openOkrModal('${m.id}')">+ Novo OKR</button>`:''}
-      </div>
+      <h3 class="section-h">OKRs trimestrais ${r?`<button class="btn sm primary" onclick="openOkrModal('${m.id}')">+ Novo</button>`:''}</h3>
       ${list.length ? list.map(o => okrHTML(o, r)).join('') : `<div class="empty-state">Nenhum OKR registrado.</div>`}
     </div>
   `;
@@ -955,7 +1556,7 @@ function okrHTML(o, r) {
     <div class="okr">
       <div class="okr-head">
         <div>
-          <div class="okr-q">${escapeHtml(o.quarter)} · ${o.status}</div>
+          <div class="okr-q">${escapeHtml(o.quarter)} · ${o.status.replace('_',' ')}</div>
           <div class="okr-obj">${escapeHtml(o.objective)}</div>
         </div>
         ${r?`<button class="btn sm danger" onclick="deleteOkr('${o.id}')">×</button>`:''}
@@ -974,10 +1575,7 @@ function sectionObs(m) {
   const list = state.observations[m.id] || [];
   return `
     <div class="field-group">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <h3 style="margin:0;">Observações da semana</h3>
-        ${r?`<button class="btn sm primary" onclick="openObsModal('${m.id}')">+ Nova observação</button>`:''}
-      </div>
+      <h3 class="section-h">Observações da semana ${r?`<button class="btn sm primary" onclick="openObsModal('${m.id}')">+ Nova</button>`:''}</h3>
       ${list.length ? `<div class="obs-list">${list.map(o => obsHTML(o, r)).join('')}</div>` : `<div class="empty-state">Sem observações ainda.</div>`}
     </div>
   `;
@@ -987,9 +1585,9 @@ function obsHTML(o, r) {
   return `
     <div class="obs ${d.type||''}">
       <div class="obs-head">
-        <div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
           <span class="obs-cat">${escapeHtml(d.category||'geral')}</span>
-          <span class="obs-cat" style="margin-left:8px;">${escapeHtml(d.status||'aberto')}</span>
+          <span class="obs-cat">${escapeHtml(d.status||'aberto')}</span>
         </div>
         <span class="obs-date">${fmtDate(o.created_at)}</span>
       </div>
@@ -1007,10 +1605,7 @@ function sectionOO(m) {
   const list = state.oneOnOnes[m.id] || [];
   return `
     <div class="field-group">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <h3 style="margin:0;">1-on-1s</h3>
-        ${r?`<button class="btn sm primary" onclick="openOOModal('${m.id}')">+ Agendar</button>`:''}
-      </div>
+      <h3 class="section-h">1-on-1s ${r?`<button class="btn sm primary" onclick="openOOModal('${m.id}')">+ Agendar</button>`:''}</h3>
       ${list.length ? list.map(o => ooHTML(o, r)).join('') : `<div class="empty-state">Nenhum 1-on-1 registrado.</div>`}
     </div>
   `;
@@ -1027,37 +1622,10 @@ function ooHTML(o, r) {
         </div>
       </div>
       ${o.notes ? `<div style="font-size:13px;line-height:1.5;color:var(--ink-soft);">${escapeHtml(o.notes)}</div>` : ''}
-      ${ai.length ? `<div style="margin-top:10px;font-size:12px;">
+      ${ai.length ? `<div style="margin-top:10px;font-size:12.5px;">
         <b style="display:block;margin-bottom:4px;">Action items:</b>
         ${ai.map(a=>`<div>• ${escapeHtml(a.text||a)}</div>`).join('')}
       </div>` : ''}
-    </div>
-  `;
-}
-
-function sectionList(m, key, title) {
-  const r = canWrite();
-  return `
-    <div class="field-group">
-      <h3>${title}</h3>
-      ${listEditHTML(m, key)}
-    </div>
-  `;
-}
-
-function listEditHTML(m, key) {
-  const r = canWrite();
-  const list = m.data?.[key] || [];
-  return `
-    <div class="list-edit" data-list="${key}">
-      ${list.map((item, i) => `
-        <div class="list-item">
-          <span class="bullet">•</span>
-          <div class="text" ${r?`contenteditable="true" data-list-edit="${key}" data-idx="${i}"`:''}>${escapeHtml(item)}</div>
-          ${r?`<button class="x" data-list-remove="${key}" data-idx="${i}">×</button>`:''}
-        </div>
-      `).join('')}
-      ${r?`<button class="list-add" data-list-add="${key}">+ adicionar</button>`:''}
     </div>
   `;
 }
@@ -1066,48 +1634,42 @@ function sectionFeedback(m) {
   const obs = state.observations[m.id] || [];
   const positive = obs.filter(o => o.data?.type === 'positive').slice(0, 3);
   const warning = obs.filter(o => o.data?.type === 'warning').slice(0, 3);
-  const t1 = TEMPS[m.temp1];
   const tone = m.temp1 === 'colerico' ? 'direto e prático'
     : m.temp1 === 'fleumatico' ? 'calmo e estruturado'
     : m.temp1 === 'melancolico' ? 'cuidadoso, com dados concretos'
     : 'leve e energético';
-
   return `
     <div class="field-group">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <h3 style="margin:0;">Roteiro de feedback · sexta-feira</h3>
-        <button class="btn sm" onclick="window.print()">📄 PDF</button>
-      </div>
+      <h3 class="section-h">Roteiro de feedback · sexta-feira <button class="btn sm" onclick="window.print()">📄 Imprimir / PDF</button></h3>
       <div class="feedback-script">
-        <h4>Abertura — tom ${tone}</h4>
+        <h4>Abertura · tom ${tone}</h4>
         <p>"${escapeHtml(m.name.split(' ')[0])}, valeu por separar esse tempo. Quero alinhar uns pontos da semana, é rápido."</p>
         ${positive.length ? `
-        <h4 style="margin-top:14px;">Reconhecimento</h4>
-        <p>Comece reconhecendo o que foi positivo:</p>
-        <ul style="padding-left:20px;">${positive.map(o=>`<li>${escapeHtml(o.data?.text||'')}</li>`).join('')}</ul>` : ''}
+          <h4>Reconhecimento</h4>
+          <p>Comece reconhecendo o que foi positivo:</p>
+          <ul>${positive.map(o=>`<li>${escapeHtml(o.data?.text||'')}</li>`).join('')}</ul>
+        ` : ''}
         ${warning.length ? `
-        <h4 style="margin-top:14px;">Pontos de atenção</h4>
-        <p>Aborda com curiosidade, não como acusação:</p>
-        <ul style="padding-left:20px;">${warning.map(o=>`<li>${escapeHtml(o.data?.text||'')}</li>`).join('')}</ul>
-        <blockquote>"O que você acha que aconteceu? Como podemos resolver juntos?"</blockquote>` : ''}
-        <h4 style="margin-top:14px;">Próximos passos</h4>
+          <h4>Pontos de atenção</h4>
+          <p>Aborda com curiosidade, não como acusação:</p>
+          <ul>${warning.map(o=>`<li>${escapeHtml(o.data?.text||'')}</li>`).join('')}</ul>
+          <blockquote>"O que você acha que aconteceu? Como podemos resolver juntos?"</blockquote>
+        ` : ''}
+        <h4>Próximos passos</h4>
         <p>Combine 1 a 3 ações concretas para a próxima semana e marque um check-in.</p>
-        <h4 style="margin-top:14px;">Fechamento</h4>
+        <h4>Fechamento</h4>
         <p>"Conta comigo. Qualquer coisa, pode bater na minha porta."</p>
       </div>
     </div>
   `;
 }
 
-function sectionHistorico(m) {
+function sectionHistory(m) {
   const r = canWrite();
   const list = state.history[m.id] || [];
   return `
     <div class="field-group">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <h3 style="margin:0;">Histórico de marcos</h3>
-        ${r?`<button class="btn sm primary" onclick="openHistoryModal('${m.id}')">+ Novo registro</button>`:''}
-      </div>
+      <h3 class="section-h">Histórico de marcos ${r?`<button class="btn sm primary" onclick="openHistoryModal('${m.id}')">+ Novo</button>`:''}</h3>
       ${list.length ? list.map(h=>`
         <div class="obs">
           <div class="obs-head">
@@ -1122,20 +1684,19 @@ function sectionHistorico(m) {
   `;
 }
 
+// ── Section handlers ──
 function attachSectionHandlers(m) {
-  // Inline edits
   $$('[data-edit]').forEach(el => {
     el.addEventListener('blur', () => {
       const f = el.dataset.edit;
       let v = el.textContent.trim();
-      if (el.dataset.editType === 'number') v = v ? parseInt(v, 10) : null;
+      if (el.dataset.editType === 'date') v = v || null;
       saveMemberField(f, v);
     });
   });
   $$('[data-edit-select]').forEach(el => {
     el.addEventListener('change', () => saveMemberField(el.dataset.editSelect, el.value || null));
   });
-  // List edits
   $$('[data-list-edit]').forEach(el => {
     el.addEventListener('blur', () => {
       const k = el.dataset.listEdit, i = parseInt(el.dataset.idx, 10);
@@ -1158,11 +1719,8 @@ function attachSectionHandlers(m) {
       saveMemberData(k, list);
     });
   });
-  // Big Five sliders
   $$('input[data-bf-key]').forEach(el => {
-    el.addEventListener('input', () => {
-      $(`[data-bf-val="${el.dataset.bfKey}"]`).textContent = el.value;
-    });
+    el.addEventListener('input', () => { $(`[data-bf-val="${el.dataset.bfKey}"]`).textContent = el.value; });
     el.addEventListener('change', () => {
       const data = { ...(m.data||{}), bigfive: { ...(m.data?.bigfive||defaultBigFive(m)), [el.dataset.bfKey]: parseInt(el.value,10) } };
       saveMemberFullData(data);
@@ -1178,18 +1736,15 @@ async function saveMemberField(field, value) {
     await api(`/api/members?id=${id}`, { method: 'PUT', body: { [field]: value } });
     m[field] = value;
     toast('Salvo');
-    if (field === 'name') $('#drawerName').textContent = value;
   } catch (e) { toast(e.message, true); }
 }
-
-async function saveMemberData(key, listValue) {
+async function saveMemberData(key, list) {
   const id = state.currentMemberId; if (!id) return;
   const m = state.byId[id];
-  const data = { ...(m.data||{}), [key]: listValue };
+  const data = { ...(m.data||{}), [key]: list };
   await saveMemberFullData(data);
-  renderDrawerSection();
+  renderMmSection();
 }
-
 async function saveMemberFullData(data) {
   const id = state.currentMemberId; if (!id) return;
   try {
@@ -1199,287 +1754,316 @@ async function saveMemberFullData(data) {
   } catch (e) { toast(e.message, true); }
 }
 
-// ── Modais ──
-function openModal(html) {
-  $('#modal').innerHTML = html;
-  $('#modalOverlay').classList.add('show');
-}
-function closeModal() { $('#modalOverlay').classList.remove('show'); }
+// ── SIMPLE MODAL ──
+function openSm(html) { $('#simpleModal').innerHTML = html; $('#simpleModalBg').classList.add('show'); }
+function closeSm() { $('#simpleModalBg').classList.remove('show'); }
+window.closeSm = closeSm;
 
-window.openObsModal = function(memberId) {
-  openModal(`
-    <div class="modal-head"><h3>Nova observação</h3></div>
-    <div class="modal-body">
-      <div class="field"><label>Categoria</label>
-        <select id="obsCat"><option>geral</option><option>desempenho</option><option>comportamento</option><option>resultado</option><option>desenvolvimento</option></select>
+// CHECK-IN
+window.openCheckinModal = function(memberId) {
+  const today = new Date().toISOString().slice(0,10);
+  openSm(`
+    <div class="smh"><h3>Check-in diário</h3><p style="font-size:12px;color:var(--ink-muted);margin-top:4px;">Como ${escapeHtml(state.byId[memberId]?.name||'a pessoa')} está hoje?</p></div>
+    <div class="smb">
+      <div class="field"><label>Data</label><input type="date" id="ciDate" value="${today}"/></div>
+      <div class="field"><label>Humor</label>
+        <div class="rate rate-emoji" data-r="ciMood">
+          ${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${MOOD_EMOJI[v]}</button>`).join('')}
+        </div>
       </div>
-      <div class="field"><label>Tipo</label>
-        <select id="obsType"><option value="positive">Positivo</option><option value="warning">Atenção</option><option value="critical">Crítico</option></select>
+      <div class="field"><label>Energia</label>
+        <div class="rate" data-r="ciEnergy">
+          ${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${v}</button>`).join('')}
+        </div>
       </div>
-      <div class="field"><label>Texto</label><textarea id="obsText" placeholder="O que aconteceu?"></textarea></div>
+      <div class="field"><label>Carga de trabalho</label>
+        <div class="rate" data-r="ciWorkload">
+          ${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${v}</button>`).join('')}
+        </div>
+      </div>
+      <div class="field"><label>Foco</label>
+        <div class="rate" data-r="ciFocus">
+          ${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${v}</button>`).join('')}
+        </div>
+      </div>
+      <div class="field"><label>Destaques</label><textarea id="ciHigh" placeholder="O que foi bom hoje?"></textarea></div>
+      <div class="field"><label>Bloqueios</label><textarea id="ciBlock" placeholder="O que travou?"></textarea></div>
+      <div class="field"><label>Notas adicionais</label><textarea id="ciNotes"></textarea></div>
     </div>
-    <div class="modal-foot">
-      <button class="btn" onclick="closeModal()">Cancelar</button>
-      <button class="btn primary" onclick="saveObs('${memberId}')">Salvar</button>
+    <div class="smf">
+      <button class="btn" onclick="closeSm()">Cancelar</button>
+      <button class="btn primary" onclick="saveCheckin('${memberId}')">Salvar</button>
     </div>
   `);
+  // wire rate buttons
+  $$('.rate').forEach(g => {
+    g.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+      g.querySelectorAll('button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      g.dataset.value = b.dataset.v;
+    }));
+  });
 };
-
-window.saveObs = async function(memberId) {
-  const data = {
-    category: $('#obsCat').value, type: $('#obsType').value,
-    text: $('#obsText').value.trim(), status: 'aberto'
+window.saveCheckin = async function(memberId) {
+  const get = id => parseInt(document.querySelector(`[data-r="${id}"]`).dataset.value || 0, 10);
+  const body = {
+    member_id: memberId,
+    date: $('#ciDate').value,
+    mood: get('ciMood'), energy: get('ciEnergy'),
+    workload: get('ciWorkload'), focus: get('ciFocus') || null,
+    highlights: $('#ciHigh').value.trim() || null,
+    blockers: $('#ciBlock').value.trim() || null,
+    notes: $('#ciNotes').value.trim() || null
   };
-  if (!data.text) return toast('texto vazio', true);
+  if (!body.mood || !body.energy || !body.workload) return toast('preencha humor, energia e carga', true);
   try {
-    await api('/api/observations', { method: 'POST', body: { id: uid(), member_id: memberId, data } });
-    closeModal(); toast('Observação criada');
-    await loadObservations(memberId); renderDrawerSection(); renderCards($('#search').value);
+    await api('/api/checkins', { method: 'POST', body });
+    closeSm(); toast('Check-in salvo');
+    if (state.currentMemberId) await loadCheckins(state.currentMemberId);
+    renderMmSection();
+    await loadDashboard();
   } catch (e) { toast(e.message, true); }
 };
 
+// QUICK CHECK-IN (de qualquer lugar)
+$('#quickCheckinBtn').addEventListener('click', () => {
+  if (state.user.role === 'member') {
+    openCheckinModal(state.user.member_id);
+    return;
+  }
+  // gestor escolhe quem
+  openSm(`
+    <div class="smh"><h3>Check-in de hoje</h3><p style="font-size:12px;color:var(--ink-muted);margin-top:4px;">Para quem você quer registrar?</p></div>
+    <div class="smb">
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        ${state.members.map(m => `
+          <button class="btn" style="justify-content:flex-start;" onclick="closeSm();openCheckinModal('${m.id}')">
+            <div class="user-avatar av-${TEMPS[m.temp1]?.class||'default'}" style="width:24px;height:24px;font-size:10px;">${initials(m.name)}</div>
+            ${escapeHtml(m.name)}
+          </button>
+        `).join('')}
+      </div>
+    </div>
+    <div class="smf"><button class="btn" onclick="closeSm()">Fechar</button></div>
+  `);
+});
+
+// ── OBSERVATIONS ──
+window.openObsModal = function(memberId) {
+  openSm(`
+    <div class="smh"><h3>Nova observação</h3></div>
+    <div class="smb">
+      <div class="field"><label>Categoria</label><select id="obsCat"><option>geral</option><option>desempenho</option><option>comportamento</option><option>resultado</option><option>desenvolvimento</option></select></div>
+      <div class="field"><label>Tipo</label><select id="obsType"><option value="positive">Positivo</option><option value="warning">Atenção</option><option value="critical">Crítico</option></select></div>
+      <div class="field"><label>Texto</label><textarea id="obsText" placeholder="O que aconteceu?"></textarea></div>
+    </div>
+    <div class="smf"><button class="btn" onclick="closeSm()">Cancelar</button><button class="btn primary" onclick="saveObs('${memberId}')">Salvar</button></div>
+  `);
+};
+window.saveObs = async function(memberId) {
+  const data = { category: $('#obsCat').value, type: $('#obsType').value, text: $('#obsText').value.trim(), status: 'aberto' };
+  if (!data.text) return toast('texto vazio', true);
+  await api('/api/observations', { method: 'POST', body: { id: uid(), member_id: memberId, data } });
+  closeSm(); toast('Observação criada');
+  await loadObservations(memberId); renderMmSection(); renderCards($('#search').value);
+};
 window.toggleObsStatus = async function(id, memberId) {
   const o = (state.observations[memberId]||[]).find(x => x.id === id);
   const newStatus = (o?.data?.status||'aberto') === 'resolvido' ? 'aberto' : 'resolvido';
-  const data = { ...o.data, status: newStatus };
-  await api(`/api/observations?id=${id}`, { method: 'PUT', body: { data } });
-  await loadObservations(memberId); renderDrawerSection(); renderCards($('#search').value);
+  await api(`/api/observations?id=${id}`, { method: 'PUT', body: { data: { ...o.data, status: newStatus } } });
+  await loadObservations(memberId); renderMmSection(); renderCards($('#search').value);
 };
-
 window.deleteObs = async function(id, memberId) {
   if (!confirm('Excluir observação?')) return;
   await api(`/api/observations?id=${id}`, { method: 'DELETE' });
-  await loadObservations(memberId); renderDrawerSection(); renderCards($('#search').value);
+  await loadObservations(memberId); renderMmSection(); renderCards($('#search').value);
 };
 
+// HISTORY
 window.openHistoryModal = function(memberId) {
-  openModal(`
-    <div class="modal-head"><h3>Novo registro histórico</h3></div>
-    <div class="modal-body">
-      <div class="field"><label>Título</label><input id="histTitle" placeholder="ex: promovido a sênior"/></div>
+  openSm(`
+    <div class="smh"><h3>Novo registro histórico</h3></div>
+    <div class="smb">
+      <div class="field"><label>Título</label><input id="histTitle"/></div>
       <div class="field"><label>Descrição</label><textarea id="histText"></textarea></div>
     </div>
-    <div class="modal-foot">
-      <button class="btn" onclick="closeModal()">Cancelar</button>
-      <button class="btn primary" onclick="saveHistory('${memberId}')">Salvar</button>
-    </div>
+    <div class="smf"><button class="btn" onclick="closeSm()">Cancelar</button><button class="btn primary" onclick="saveHistory('${memberId}')">Salvar</button></div>
   `);
 };
 window.saveHistory = async function(memberId) {
   const data = { title: $('#histTitle').value.trim(), text: $('#histText').value.trim() };
   if (!data.title) return toast('título obrigatório', true);
   await api('/api/history', { method: 'POST', body: { id: uid(), member_id: memberId, data } });
-  closeModal(); toast('Registro criado');
-  await loadHistory(memberId); renderDrawerSection();
+  closeSm(); await loadHistory(memberId); renderMmSection(); toast('Salvo');
 };
 window.deleteHistory = async function(id, memberId) {
   if (!confirm('Excluir?')) return;
   await api(`/api/history?id=${id}`, { method: 'DELETE' });
-  await loadHistory(memberId); renderDrawerSection();
+  await loadHistory(memberId); renderMmSection();
 };
 
+// OKR
 window.openOkrModal = function(memberId) {
   const q = `${new Date().getFullYear()}-Q${Math.floor(new Date().getMonth()/3)+1}`;
-  openModal(`
-    <div class="modal-head"><h3>Novo OKR</h3></div>
-    <div class="modal-body">
+  openSm(`
+    <div class="smh"><h3>Novo OKR</h3></div>
+    <div class="smb">
       <div class="field-row2">
         <div class="field"><label>Trimestre</label><input id="okrQ" value="${q}"/></div>
-        <div class="field"><label>Status</label>
-          <select id="okrStatus"><option value="em_andamento">Em andamento</option><option value="concluido">Concluído</option><option value="cancelado">Cancelado</option></select>
-        </div>
+        <div class="field"><label>Status</label><select id="okrStatus"><option value="em_andamento">Em andamento</option><option value="concluido">Concluído</option><option value="cancelado">Cancelado</option></select></div>
       </div>
       <div class="field"><label>Objetivo</label><textarea id="okrObj" placeholder="O que queremos alcançar"></textarea></div>
       <div class="field"><label>Resultados-chave (1 por linha)</label><textarea id="okrKR" placeholder="Aumentar X em 20%&#10;Atingir Y leads/mês"></textarea></div>
       <div class="field"><label>Progresso (%)</label><input type="number" id="okrProg" value="0" min="0" max="100"/></div>
     </div>
-    <div class="modal-foot">
-      <button class="btn" onclick="closeModal()">Cancelar</button>
-      <button class="btn primary" onclick="saveOkr('${memberId}')">Salvar</button>
-    </div>
+    <div class="smf"><button class="btn" onclick="closeSm()">Cancelar</button><button class="btn primary" onclick="saveOkr('${memberId}')">Salvar</button></div>
   `);
 };
 window.saveOkr = async function(memberId) {
   const krs = $('#okrKR').value.split('\n').map(s=>s.trim()).filter(Boolean).map(text=>({text, done:false}));
-  const body = {
-    id: uid(), member_id: memberId,
-    quarter: $('#okrQ').value.trim(),
-    objective: $('#okrObj').value.trim(),
-    key_results: krs,
-    progress: parseInt($('#okrProg').value,10)||0,
-    status: $('#okrStatus').value
-  };
+  const body = { id: uid(), member_id: memberId, quarter: $('#okrQ').value.trim(), objective: $('#okrObj').value.trim(), key_results: krs, progress: parseInt($('#okrProg').value,10)||0, status: $('#okrStatus').value };
   if (!body.objective) return toast('objetivo vazio', true);
   await api('/api/okrs', { method: 'POST', body });
-  closeModal(); toast('OKR criado');
-  await loadOkrs(memberId); renderDrawerSection();
+  closeSm(); toast('OKR criado');
+  await loadOkrs(memberId); renderMmSection();
 };
 window.deleteOkr = async function(id) {
   if (!confirm('Excluir OKR?')) return;
   await api(`/api/okrs?id=${id}`, { method: 'DELETE' });
-  await loadOkrs(state.currentMemberId); renderDrawerSection();
+  await loadOkrs(state.currentMemberId); renderMmSection();
 };
 
+// 1-ON-1
 window.openOOModal = function(memberId) {
   const dt = new Date(); dt.setDate(dt.getDate()+7); dt.setHours(10,0,0,0);
-  const isoLocal = dt.toISOString().slice(0,16);
-  openModal(`
-    <div class="modal-head"><h3>Agendar 1-on-1</h3></div>
-    <div class="modal-body">
-      <div class="field"><label>Quando</label><input type="datetime-local" id="ooWhen" value="${isoLocal}"/></div>
-      <div class="field"><label>Notas / agenda</label><textarea id="ooNotes" placeholder="Tópicos a discutir"></textarea></div>
-      <div class="field"><label>Action items (1 por linha)</label><textarea id="ooAI" placeholder="Levar dados X&#10;Apresentar plano Y"></textarea></div>
-      <div class="field"><label>Status</label>
-        <select id="ooStatus"><option value="agendado">Agendado</option><option value="realizado">Realizado</option><option value="cancelado">Cancelado</option></select>
-      </div>
+  openSm(`
+    <div class="smh"><h3>Agendar 1-on-1</h3></div>
+    <div class="smb">
+      <div class="field"><label>Quando</label><input type="datetime-local" id="ooWhen" value="${dt.toISOString().slice(0,16)}"/></div>
+      <div class="field"><label>Notas</label><textarea id="ooNotes"></textarea></div>
+      <div class="field"><label>Action items (1 por linha)</label><textarea id="ooAI"></textarea></div>
+      <div class="field"><label>Status</label><select id="ooStatus"><option value="agendado">Agendado</option><option value="realizado">Realizado</option><option value="cancelado">Cancelado</option></select></div>
     </div>
-    <div class="modal-foot">
-      <button class="btn" onclick="closeModal()">Cancelar</button>
-      <button class="btn primary" onclick="saveOO('${memberId}')">Salvar</button>
-    </div>
+    <div class="smf"><button class="btn" onclick="closeSm()">Cancelar</button><button class="btn primary" onclick="saveOO('${memberId}')">Salvar</button></div>
   `);
 };
 window.saveOO = async function(memberId) {
   const ai = $('#ooAI').value.split('\n').map(s=>s.trim()).filter(Boolean).map(text=>({text, done:false}));
-  const body = {
-    id: uid(), member_id: memberId,
-    scheduled_at: new Date($('#ooWhen').value).toISOString(),
-    notes: $('#ooNotes').value.trim(),
-    action_items: ai,
-    status: $('#ooStatus').value
-  };
+  const body = { id: uid(), member_id: memberId, scheduled_at: new Date($('#ooWhen').value).toISOString(), notes: $('#ooNotes').value.trim(), action_items: ai, status: $('#ooStatus').value };
   await api('/api/one-on-ones', { method: 'POST', body });
-  closeModal(); toast('1-on-1 salvo');
-  await loadOneOnOnes(memberId); renderDrawerSection();
+  closeSm(); toast('1-on-1 salvo');
+  await loadOneOnOnes(memberId); renderMmSection();
 };
 window.deleteOO = async function(id) {
-  if (!confirm('Excluir 1-on-1?')) return;
+  if (!confirm('Excluir?')) return;
   await api(`/api/one-on-ones?id=${id}`, { method: 'DELETE' });
-  await loadOneOnOnes(state.currentMemberId); renderDrawerSection();
+  await loadOneOnOnes(state.currentMemberId); renderMmSection();
 };
 
+// KPI
 window.openKpiModal = function(memberId) {
   const period = `${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,'0')}`;
-  openModal(`
-    <div class="modal-head"><h3>Adicionar KPI</h3></div>
-    <div class="modal-body">
-      <div class="field"><label>Métrica</label>
-        <select id="kpiMetric">
-          <option>Vendas (R$)</option><option>Propostas enviadas</option><option>Ligações</option><option>Leads qualificados</option><option>Reuniões</option><option>Taxa de conversão (%)</option><option>Ticket médio (R$)</option>
-        </select>
-      </div>
+  openSm(`
+    <div class="smh"><h3>Adicionar KPI</h3></div>
+    <div class="smb">
+      <div class="field"><label>Métrica</label><select id="kpiMetric"><option>Vendas (R$)</option><option>Propostas enviadas</option><option>Ligações</option><option>Leads qualificados</option><option>Reuniões</option><option>Taxa de conversão (%)</option><option>Ticket médio (R$)</option></select></div>
       <div class="field-row2">
         <div class="field"><label>Período (AAAA-MM)</label><input id="kpiPeriod" value="${period}"/></div>
         <div class="field"><label>Valor</label><input type="number" id="kpiValue" value="0" step="any"/></div>
       </div>
       <div class="field"><label>Meta (opcional)</label><input type="number" id="kpiTarget" step="any"/></div>
     </div>
-    <div class="modal-foot">
-      <button class="btn" onclick="closeModal()">Cancelar</button>
-      <button class="btn primary" onclick="saveKpi('${memberId}')">Salvar</button>
-    </div>
+    <div class="smf"><button class="btn" onclick="closeSm()">Cancelar</button><button class="btn primary" onclick="saveKpi('${memberId}')">Salvar</button></div>
   `);
 };
 window.saveKpi = async function(memberId) {
-  const body = {
-    member_id: memberId,
-    metric: $('#kpiMetric').value,
-    period: $('#kpiPeriod').value.trim(),
-    value: parseFloat($('#kpiValue').value)||0,
-    target: $('#kpiTarget').value ? parseFloat($('#kpiTarget').value) : null
-  };
+  const body = { member_id: memberId, metric: $('#kpiMetric').value, period: $('#kpiPeriod').value.trim(), value: parseFloat($('#kpiValue').value)||0, target: $('#kpiTarget').value ? parseFloat($('#kpiTarget').value) : null };
   await api('/api/kpis', { method: 'POST', body });
-  closeModal(); toast('KPI salvo');
-  await loadKpis(memberId); renderDrawerSection();
+  closeSm(); toast('KPI salvo');
+  await loadKpis(memberId); renderMmSection();
 };
 window.deleteKpi = async function(id) {
-  if (!confirm('Excluir KPI?')) return;
+  if (!confirm('Excluir?')) return;
   await api(`/api/kpis?id=${id}`, { method: 'DELETE' });
-  await loadKpis(state.currentMemberId); renderDrawerSection();
+  await loadKpis(state.currentMemberId); renderMmSection();
 };
 
-// ── ADD MEMBER ──
+// ADD MEMBER
 $('#addMemberBtn')?.addEventListener('click', () => {
   const tempOpts = (sel='') => Object.entries(TEMPS).map(([k,v])=>`<option value="${k}" ${sel===k?'selected':''}>${v.label}</option>`).join('');
-  openModal(`
-    <div class="modal-head"><h3>Novo membro</h3></div>
-    <div class="modal-body">
+  openSm(`
+    <div class="smh"><h3>Novo membro</h3></div>
+    <div class="smb">
       <div class="field-row2">
         <div class="field"><label>ID (sem espaços)</label><input id="mId" placeholder="ex: joao"/></div>
         <div class="field"><label>Nome</label><input id="mName"/></div>
       </div>
       <div class="field"><label>Cargo</label><input id="mRole"/></div>
       <div class="field-row2">
-        <div class="field"><label>Idade</label><input type="number" id="mAge"/></div>
+        <div class="field"><label>Aniversário</label><input type="date" id="mBday"/></div>
         <div class="field"><label>Admissão</label><input type="date" id="mStart"/></div>
       </div>
       <div class="field-row2">
         <div class="field"><label>Temperamento 1</label><select id="mT1">${tempOpts()}</select></div>
         <div class="field"><label>Temperamento 2</label><select id="mT2"><option value="">—</option>${tempOpts()}</select></div>
       </div>
+      <div class="field"><label>Formação</label><input id="mEdu"/></div>
     </div>
-    <div class="modal-foot">
-      <button class="btn" onclick="closeModal()">Cancelar</button>
-      <button class="btn primary" onclick="createMember()">Criar</button>
-    </div>
+    <div class="smf"><button class="btn" onclick="closeSm()">Cancelar</button><button class="btn primary" onclick="createMember()">Criar</button></div>
   `);
 });
-
 window.createMember = async function() {
   const body = {
     id: $('#mId').value.trim().toLowerCase(),
     name: $('#mName').value.trim(),
     role: $('#mRole').value.trim(),
-    age: parseInt($('#mAge').value,10) || null,
+    birthday: $('#mBday').value || null,
     start_date: $('#mStart').value || null,
-    temp1: $('#mT1').value,
-    temp2: $('#mT2').value || null,
+    temp1: $('#mT1').value, temp2: $('#mT2').value || null,
+    education: $('#mEdu').value.trim() || null,
     data: { activities: [], strengths: [], attention: [], working_on: [] }
   };
   if (!body.id || !body.name) return toast('id e nome obrigatórios', true);
-  try {
-    await api('/api/members', { method: 'POST', body });
-    closeModal(); toast('Membro criado');
-    await loadMembers();
-  } catch (e) { toast(e.message, true); }
+  try { await api('/api/members', { method: 'POST', body }); closeSm(); toast('Criado'); await loadMembers(); }
+  catch (e) { toast(e.message, true); }
 };
 
-// ── CALENDAR ──
+// CALENDAR
 function renderCalendar() {
   const events = [];
   state.members.forEach(m => {
     if (m.birthday) {
       const d = new Date(m.birthday);
-      events.push({ type: 'bday', name: m.name, date: d, label: 'Aniversário' });
+      events.push({ type: 'bday', name: m.name, mid: m.id, source: d, label: 'Aniversário', age: calcAge(m.birthday) });
     }
     if (m.start_date) {
       const d = new Date(m.start_date);
-      events.push({ type: 'anniv', name: m.name, date: d, label: `${(new Date()).getFullYear()-d.getFullYear()} anos de casa` });
+      events.push({ type: 'anniv', name: m.name, mid: m.id, source: d, label: 'Anos de casa' });
     }
   });
+  const today = new Date(); today.setHours(0,0,0,0);
   events.forEach(e => {
-    const today = new Date(); today.setHours(0,0,0,0);
-    const next = new Date(today.getFullYear(), e.date.getMonth(), e.date.getDate());
+    let next = new Date(today.getFullYear(), e.source.getMonth(), e.source.getDate());
     if (next < today) next.setFullYear(today.getFullYear()+1);
     e.next = next;
     e.daysUntil = Math.round((next - today) / 86400000);
+    if (e.type === 'anniv') e.years = next.getFullYear() - e.source.getFullYear();
   });
   events.sort((a,b) => a.daysUntil - b.daysUntil);
   $('#calendarArea').innerHTML = events.length ? `
     <div class="calendar">${events.map(e => `
-      <div class="cal-event">
+      <div class="cal-event" onclick="openMemberModal('${e.mid}')" style="cursor:pointer;">
         <div class="cal-icon ${e.type}">${e.type==='bday'?'🎂':'🎉'}</div>
         <div class="cal-info">
           <b>${escapeHtml(e.name)}</b>
-          <span>${e.label}</span>
-          <div class="when">${e.next.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})}${e.daysUntil===0?' · hoje!':e.daysUntil<=7?' · em '+e.daysUntil+'d':''}</div>
+          <span>${e.label}${e.type==='anniv'&&e.years?` (${e.years} ano${e.years>1?'s':''})`:''}${e.type==='bday'&&e.age?` · ${e.age+1} anos`:''}</span>
+          <div class="when">${e.next.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})}${e.daysUntil===0?' · hoje!':e.daysUntil===1?' · amanhã!':e.daysUntil<=7?' · em '+e.daysUntil+' dias':''}</div>
         </div>
       </div>
-    `).join('')}</div>
-  ` : `<div class="empty-state">Cadastre datas de aniversário e admissão nos perfis para ver o calendário.</div>`;
+    `).join('')}</div>` : `<div class="empty-state"><div class="big">📅</div>Cadastre datas de aniversário e admissão nos perfis para ver o calendário.</div>`;
 }
 
-// ── USERS (admin) ──
+// USERS
 async function loadUsers() {
   try {
     const { users } = await api('/api/users');
@@ -1504,17 +2088,13 @@ async function loadUsers() {
     `;
   } catch (e) { $('#usersArea').innerHTML = `<div class="empty-state">${e.message}</div>`; }
 }
-
-$('#addUserBtn')?.addEventListener('click', () => {
-  openUserModal();
-});
-
-function openUserModal(u = null) {
+$('#addUserBtn')?.addEventListener('click', () => openUserModal());
+function openUserModal(u=null) {
   const memberOpts = ['<option value="">—</option>', ...state.members.map(m => `<option value="${m.id}" ${u?.member_id===m.id?'selected':''}>${escapeHtml(m.name)}</option>`)].join('');
   const roleOpts = Object.entries(ROLE_LABELS).map(([k,v])=>`<option value="${k}" ${u?.role===k?'selected':''}>${v}</option>`).join('');
-  openModal(`
-    <div class="modal-head"><h3>${u?'Editar':'Novo'} usuário</h3></div>
-    <div class="modal-body">
+  openSm(`
+    <div class="smh"><h3>${u?'Editar':'Novo'} usuário</h3></div>
+    <div class="smb">
       <div class="field"><label>Nome</label><input id="uName" value="${escapeHtml(u?.name||'')}"/></div>
       <div class="field"><label>E-mail</label><input type="email" id="uEmail" value="${escapeHtml(u?.email||'')}" ${u?'readonly':''}/></div>
       <div class="field"><label>Senha ${u?'(deixe vazio para manter)':''}</label><input type="password" id="uPass" autocomplete="new-password"/></div>
@@ -1524,47 +2104,24 @@ function openUserModal(u = null) {
       </div>
       ${u?`<div class="field"><label><input type="checkbox" id="uActive" ${u.active?'checked':''}/> Ativo</label></div>`:''}
     </div>
-    <div class="modal-foot">
-      <button class="btn" onclick="closeModal()">Cancelar</button>
-      <button class="btn primary" onclick="saveUser(${u?.id||'null'})">Salvar</button>
-    </div>
+    <div class="smf"><button class="btn" onclick="closeSm()">Cancelar</button><button class="btn primary" onclick="saveUser(${u?.id||'null'})">Salvar</button></div>
   `);
 }
-
-window.editUser = async function(id) {
-  const { users } = await api('/api/users');
-  const u = users.find(x => x.id === id);
-  if (u) openUserModal(u);
-};
-
+window.editUser = async function(id) { const { users } = await api('/api/users'); const u = users.find(x => x.id === id); if (u) openUserModal(u); };
 window.saveUser = async function(id) {
-  const body = {
-    name: $('#uName').value.trim(),
-    email: $('#uEmail').value.trim(),
-    role: $('#uRole').value,
-    member_id: $('#uMember').value || null
-  };
-  const pass = $('#uPass').value;
-  if (pass) body.password = pass;
-  if (id) {
-    body.active = $('#uActive')?.checked;
-    delete body.email;
-    await api(`/api/users?id=${id}`, { method: 'PUT', body });
-  } else {
-    if (!body.email || !body.password) return toast('e-mail e senha obrigatórios', true);
-    await api('/api/users', { method: 'POST', body });
-  }
-  closeModal(); toast('Usuário salvo');
-  await loadUsers();
+  const body = { name: $('#uName').value.trim(), email: $('#uEmail').value.trim(), role: $('#uRole').value, member_id: $('#uMember').value || null };
+  const pass = $('#uPass').value; if (pass) body.password = pass;
+  if (id) { body.active = $('#uActive')?.checked; delete body.email; await api(`/api/users?id=${id}`, { method: 'PUT', body }); }
+  else { if (!body.email || !body.password) return toast('e-mail e senha obrigatórios', true); await api('/api/users', { method: 'POST', body }); }
+  closeSm(); toast('Salvo'); await loadUsers();
 };
-
 window.removeUser = async function(id) {
-  if (!confirm('Desativar usuário?')) return;
+  if (!confirm('Desativar?')) return;
   await api(`/api/users?id=${id}`, { method: 'DELETE' });
   await loadUsers();
 };
 
-// ── AUDIT ──
+// AUDIT
 async function loadAudit() {
   try {
     const { logs } = await api('/api/audit');
@@ -1585,7 +2142,7 @@ async function loadAudit() {
   } catch (e) { $('#auditArea').innerHTML = `<div class="empty-state">${e.message}</div>`; }
 }
 
-// ── Tabs ──
+// TABS
 $$('.tab').forEach(t => t.addEventListener('click', () => {
   const p = t.dataset.page;
   $$('.tab').forEach(x => x.classList.toggle('active', x === t));
@@ -1593,32 +2150,32 @@ $$('.tab').forEach(t => t.addEventListener('click', () => {
   if (p === 'users') loadUsers();
   if (p === 'audit') loadAudit();
   if (p === 'calendar') renderCalendar();
+  if (p === 'dashboard') loadDashboard();
 }));
 
-// ── Search ──
-$('#search').addEventListener('input', e => renderCards(e.target.value));
-
-// ── Drawer + modal close ──
-$('#drawerClose').addEventListener('click', closeDrawer);
-$('#drawerOverlay').addEventListener('click', closeDrawer);
-$('#modalOverlay').addEventListener('click', e => { if (e.target === $('#modalOverlay')) closeModal(); });
-window.closeModal = closeModal;
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeDrawer(); closeModal(); }
+// Search
+$('#search').addEventListener('input', e => {
+  renderCards(e.target.value);
+  if ($('#page-equipe').classList.contains('active') === false) {
+    $$('.tab').forEach(x => x.classList.toggle('active', x.dataset.page === 'equipe'));
+    $$('.page').forEach(x => x.classList.toggle('active', x.id === 'page-equipe'));
+  }
 });
 
-// ── User menu ──
-$('#userBtn').addEventListener('click', e => {
-  e.stopPropagation();
-  $('#userPop').classList.toggle('show');
-});
+// Modal closes
+$('#mmClose').addEventListener('click', closeMemberModal);
+$('#memberModalBg').addEventListener('click', e => { if (e.target === $('#memberModalBg')) closeMemberModal(); });
+$('#simpleModalBg').addEventListener('click', e => { if (e.target === $('#simpleModalBg')) closeSm(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeMemberModal(); closeSm(); } });
+
+// User menu
+$('#userBtn').addEventListener('click', e => { e.stopPropagation(); $('#userPop').classList.toggle('show'); });
 document.addEventListener('click', () => $('#userPop').classList.remove('show'));
 $('#logoutBtn').addEventListener('click', async () => {
   await api('/api/auth/logout', { method: 'POST' });
   location.replace('/login.html');
 });
 
-// ── Bootstrap ──
 bootstrap();
 </script>
 </body>

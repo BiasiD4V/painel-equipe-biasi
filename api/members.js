@@ -1,5 +1,5 @@
 import { sql } from '../lib/db.mjs';
-import { requireAuth, logAudit, CAN_WRITE, CAN_READ_ALL } from '../lib/auth.mjs';
+import { requireAuth, logAudit, CAN_WRITE } from '../lib/auth.mjs';
 
 export default async function handler(req, res) {
   const id = req.query.id;
@@ -7,7 +7,6 @@ export default async function handler(req, res) {
     const u = await requireAuth(req, res);
     if (!u) return;
     if (id) {
-      // Membro pode ver só o próprio card
       if (u.role === 'member' && u.member_id !== id) return res.status(403).json({ error: 'sem permissão' });
       const rows = await sql`SELECT * FROM members WHERE id = ${id} AND active = true`;
       if (!rows.length) return res.status(404).json({ error: 'não encontrado' });
@@ -27,9 +26,9 @@ export default async function handler(req, res) {
     const m = req.body || {};
     if (!m.id || !m.name) return res.status(400).json({ error: 'id e name obrigatórios' });
     await sql`
-      INSERT INTO members (id, name, role, age, start_date, birthday, email, phone, temp1, temp2, data)
-      VALUES (${m.id}, ${m.name}, ${m.role || null}, ${m.age || null}, ${m.start_date || null},
-              ${m.birthday || null}, ${m.email || null}, ${m.phone || null},
+      INSERT INTO members (id, name, role, start_date, birthday, email, phone, education, temp1, temp2, data)
+      VALUES (${m.id}, ${m.name}, ${m.role || null}, ${m.start_date || null}, ${m.birthday || null},
+              ${m.email || null}, ${m.phone || null}, ${m.education || null},
               ${m.temp1 || null}, ${m.temp2 || null}, ${JSON.stringify(m.data || {})})
     `;
     await logAudit(u.id, 'create', `member:${m.id}`, { name: m.name });
@@ -44,11 +43,11 @@ export default async function handler(req, res) {
       UPDATE members SET
         name = COALESCE(${m.name}, name),
         role = COALESCE(${m.role}, role),
-        age = COALESCE(${m.age}, age),
         start_date = COALESCE(${m.start_date}, start_date),
         birthday = COALESCE(${m.birthday}, birthday),
         email = COALESCE(${m.email}, email),
         phone = COALESCE(${m.phone}, phone),
+        education = COALESCE(${m.education}, education),
         temp1 = COALESCE(${m.temp1}, temp1),
         temp2 = COALESCE(${m.temp2}, temp2),
         data = COALESCE(${m.data ? JSON.stringify(m.data) : null}::jsonb, data),
