@@ -549,6 +549,109 @@ main { padding: 32px 28px 80px; max-width: 1440px; margin: 0 auto; }
 .rate button.active { background: var(--ink); border-color: var(--ink); color: var(--surface); transform: scale(1.05); }
 .rate-emoji button { font-size: 20px; }
 
+/* VISIBILITY BADGES */
+.vis-badge { font-size: 8px; vertical-align: 4px; opacity: 0.7; margin-left: 4px; }
+.vis-badge.mgr { color: var(--col); }
+.vis-badge.slf { color: var(--ink-muted); font-weight: 700; letter-spacing: 1px; }
+.vis-pill {
+  font-size: 9px; padding: 2px 7px; border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600;
+  margin-left: auto; flex-shrink: 0;
+}
+.vis-pill.private { background: #fee2e2; color: var(--critical); }
+.vis-pill.public { background: #dcfce7; color: var(--positive); }
+
+.manual-section-h {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 14px; padding: 12px 14px;
+  background: var(--surface-2); border-radius: 10px;
+}
+.manual-section-h .ms-icon { font-size: 20px; }
+.manual-section-h .ms-title { font-weight: 600; font-size: 13.5px; }
+.manual-section-h .ms-sub { font-size: 11.5px; color: var(--ink-muted); }
+.manual-card.private { background: linear-gradient(180deg, #fef2f2 0%, var(--surface) 100%); border-color: #fee2e2; }
+
+/* PERCEPTION GAP */
+.align-bar {
+  position: relative; height: 28px; background: var(--line-soft);
+  border-radius: 14px; overflow: hidden; margin-bottom: 14px;
+}
+.align-fill { position: absolute; left: 0; top: 0; bottom: 0; transition: width .5s; }
+.align-label {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; color: var(--ink);
+  text-shadow: 0 1px 2px rgba(255,255,255,.5);
+}
+.gap-table {
+  width: 100%; border-collapse: collapse;
+  background: var(--surface); border-radius: 10px; overflow: hidden;
+  border: 1px solid var(--line);
+}
+.gap-table th, .gap-table td { padding: 10px 14px; font-size: 13px; text-align: center; border-bottom: 1px solid var(--line-soft); }
+.gap-table th { background: var(--surface-2); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-muted); font-weight: 600; }
+.gap-table td:first-child { text-align: left; }
+.gap-table tr:last-child td { border-bottom: none; }
+.gap-ok { background: #dcfce7; color: var(--positive); padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+.gap-warn { background: #fef3c7; color: var(--sang); padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+.gap-bad { background: #fee2e2; color: var(--critical); padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+
+/* CHECKIN TYPE PICKER */
+.btn-mode {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px; border-radius: 12px;
+  background: var(--surface); border: 1.5px solid var(--line);
+  cursor: pointer; transition: all .15s; width: 100%;
+  font-family: inherit; color: inherit; text-align: left;
+}
+.btn-mode:hover { background: var(--surface-2); border-color: var(--ink-soft); transform: translateY(-1px); }
+
+/* FEEDBACK SESSIONS */
+.fb-upcoming {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border: 1px solid #bfdbfe; border-radius: 14px; padding: 18px 22px;
+  margin-bottom: 22px; position: relative; overflow: hidden;
+}
+.fb-up-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--info); font-weight: 700; }
+.fb-up-date { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; margin: 4px 0 8px; }
+.fb-up-topics { font-size: 13.5px; line-height: 1.5; color: var(--ink-soft); }
+
+.fb-empty-next {
+  background: var(--surface-2); border: 2px dashed var(--line);
+  border-radius: 14px; padding: 28px; text-align: center;
+  margin-bottom: 22px;
+}
+
+.fb-timeline-h {
+  margin: 24px 0 12px; padding: 10px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+.fb-timeline-h .ms-title { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 600; }
+.fb-timeline-h .ms-sub { font-size: 11.5px; color: var(--ink-muted); }
+
+.fb-timeline { display: flex; flex-direction: column; gap: 12px; }
+.fb-session {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px; padding: 16px 20px;
+  border-left: 3px solid var(--ink-soft); transition: box-shadow .15s;
+}
+.fb-session:hover { box-shadow: var(--shadow); }
+.fb-session.realizado { border-left-color: var(--positive); }
+.fb-session.cancelado { border-left-color: var(--ink-muted); opacity: 0.7; }
+.fb-session.pendente { border-left-color: var(--info); }
+.fb-session-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.fb-session-date { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 500; }
+.fb-session-status { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.fb-mood { font-size: 11.5px; color: var(--ink-soft); }
+
+.fb-block-mini { padding: 8px 0; border-top: 1px solid var(--line-soft); }
+.fb-block-mini:first-of-type { border-top: none; padding-top: 0; }
+.fb-mini-h { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-muted); font-weight: 600; margin-bottom: 4px; }
+.fb-mini-body { font-size: 13px; line-height: 1.55; color: var(--ink-soft); }
+.fb-ai-list { padding-left: 0; list-style: none; margin: 0; }
+.fb-ai-list li { font-size: 12.5px; padding: 3px 0; color: var(--ink-soft); }
+.fb-ai-list li.done { text-decoration: line-through; opacity: 0.6; }
+
 /* MANUAL TAB */
 .sub-text { font-size: 12.5px; color: var(--ink-muted); margin-bottom: 12px; line-height: 1.5; }
 .manual-intro {
@@ -1768,21 +1871,48 @@ function computePriority(m) {
 }
 
 // ── MEMBER MODAL ──
+// Visibilidade: 'public' = todo time vê; 'self' = só pessoa + gestor; 'manager' = só admin/gestor/viewer
 const MM_TABS = [
-  { id: 'overview', label: 'Visão geral' },
-  { id: 'guidance', label: 'Como lidar' },
-  { id: 'manual', label: 'Manual' },
-  { id: 'career', label: 'Carreira' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'profile', label: 'Perfil' },
-  { id: 'checkins', label: 'Check-ins' },
-  { id: 'kpis', label: 'KPIs' },
-  { id: 'okrs', label: 'OKRs' },
-  { id: 'oneonones', label: '1-on-1s' },
-  { id: 'observations', label: 'Observações' },
-  { id: 'bigfive', label: 'Big Five' },
-  { id: 'feedback', label: 'Feedback' },
-  { id: 'history', label: 'Histórico' }
+  { id: 'overview', label: 'Visão geral', vis: 'public' },
+  { id: 'feedback', label: 'Feedback', vis: 'self' },
+  { id: 'guidance', label: 'Como lidar', vis: 'manager' },
+  { id: 'manual', label: 'Manual', vis: 'public' },
+  { id: 'career', label: 'Carreira', vis: 'self' },
+  { id: 'skills', label: 'Skills', vis: 'public' },
+  { id: 'profile', label: 'Perfil', vis: 'public' },
+  { id: 'checkins', label: 'Check-ins', vis: 'self' },
+  { id: 'kpis', label: 'KPIs', vis: 'public' },
+  { id: 'okrs', label: 'OKRs', vis: 'public' },
+  { id: 'oneonones', label: '1-on-1s', vis: 'self' },
+  { id: 'observations', label: 'Observações', vis: 'manager' },
+  { id: 'bigfive', label: 'Big Five', vis: 'manager' },
+  { id: 'history', label: 'Histórico', vis: 'public' }
+];
+
+function visibleTabs(memberId) {
+  const u = state.user;
+  return MM_TABS.filter(t => {
+    if (t.vis === 'public') return true;
+    if (t.vis === 'manager') return ['admin','gestor','viewer'].includes(u.role);
+    if (t.vis === 'self') {
+      if (['admin','gestor','viewer'].includes(u.role)) return true;
+      return u.role === 'member' && u.member_id === memberId;
+    }
+    return false;
+  });
+}
+
+// Estrutura do Manual de Uso — divide em compartilhado (vis. time) e privado (só pessoa + gestor)
+const MANUAL_FIELDS = [
+  { key: 'best_time', label: 'Quando estou no meu melhor', placeholder: 'manhã, tarde, depois do café…', icon: '⏰', vis: 'public' },
+  { key: 'comm_pref', label: 'Como me comunico melhor', placeholder: 'reuniões curtas, áudio no whats, texto, doc estruturado…', icon: '💬', vis: 'public' },
+  { key: 'team_values', label: 'O que valorizo numa equipe', placeholder: 'transparência, autonomia, ritmo intenso, ambiente calmo, aprendizado…', icon: '🤝', vis: 'public' },
+  { key: 'unknown_fact', label: 'Algo que ninguém saberia me olhando', placeholder: 'uma curiosidade, hobby, história…', icon: '🪄', vis: 'public' },
+  { key: 'feedback_pref', label: 'Como gosto de receber feedback', placeholder: 'direto, com contexto, em particular, com tempo pra processar…', icon: '🎯', vis: 'private' },
+  { key: 'recognition', label: 'Como prefiro ser reconhecido', placeholder: 'em público, em particular, por escrito, com palavras, com responsabilidade…', icon: '⭐', vis: 'private' },
+  { key: 'stress_signals', label: 'Sinais de que estou estressado', placeholder: 'fico mais calado, irritado, perfeccionista demais, pulo refeições…', icon: '🌡️', vis: 'private' },
+  { key: 'recovery', label: 'O que me ajuda a recuperar', placeholder: 'pausa, exercício, conversar com alguém, organizar a mesa, dormir melhor…', icon: '🌿', vis: 'private' },
+  { key: 'pet_peeves', label: 'O que me incomoda muito', placeholder: 'reuniões sem pauta, ser interrompido, mudanças de última hora…', icon: '⚠️', vis: 'private' }
 ];
 
 // Estrutura do Manual de Uso
@@ -1961,7 +2091,9 @@ window.openMemberModal = async function(memberId) {
     const T = TEMPS[t]; return `<span class="temp-pill temp-${T?.class}">${T?.label}</span>`;
   }).join('');
 
-  $('#mmTabs').innerHTML = MM_TABS.map(t => `<button class="mm-tab ${t.id===state.currentMmTab?'active':''}" data-tab="${t.id}">${t.label}</button>`).join('');
+  const tabs = visibleTabs(memberId);
+  if (!tabs.find(t => t.id === state.currentMmTab)) state.currentMmTab = tabs[0].id;
+  $('#mmTabs').innerHTML = tabs.map(t => `<button class="mm-tab ${t.id===state.currentMmTab?'active':''}" data-tab="${t.id}">${t.label}${t.vis==='manager'?'<span class="vis-badge mgr">🔒</span>':''}${t.vis==='self'?'<span class="vis-badge slf">·</span>':''}</button>`).join('');
   $$('.mm-tab').forEach(b => b.addEventListener('click', () => switchMmTab(b.dataset.tab)));
 
   await Promise.all([
@@ -1970,7 +2102,9 @@ window.openMemberModal = async function(memberId) {
     loadOkrs(memberId),
     loadOneOnOnes(memberId),
     loadKpis(memberId),
-    loadCheckins(memberId)
+    loadCheckins(memberId),
+    loadGestorCheckins(memberId),
+    loadFeedbackSessions(memberId)
   ]);
   renderMmSection();
   renderCards($('#search').value);
@@ -1994,6 +2128,11 @@ async function loadOkrs(id) { const { okrs } = await api(`/api/okrs?member_id=${
 async function loadOneOnOnes(id) { const { one_on_ones } = await api(`/api/one-on-ones?member_id=${id}`); state.oneOnOnes[id] = one_on_ones; }
 async function loadKpis(id) { const { kpis } = await api(`/api/kpis?member_id=${id}`); state.kpis[id] = kpis; }
 async function loadCheckins(id) { const { checkins } = await api(`/api/checkins?member_id=${id}&days=60`); state.checkins[id] = checkins; }
+async function loadGestorCheckins(id) {
+  if (!['admin','gestor','viewer'].includes(state.user.role)) return;
+  try { const { checkins } = await api(`/api/checkins?member_id=${id}&type=gestor&days=60`); state.gestorCheckins = state.gestorCheckins || {}; state.gestorCheckins[id] = checkins; } catch {}
+}
+async function loadFeedbackSessions(id) { const { sessions } = await api(`/api/feedback?member_id=${id}`); state.feedbackSessions = state.feedbackSessions || {}; state.feedbackSessions[id] = sessions; }
 
 function renderMmSection() {
   const m = state.byId[state.currentMemberId]; if (!m) return;
@@ -2071,6 +2210,8 @@ function sectionOverview(m) {
       </div>
     </div>
 
+    ${perceptionGapHTML(m)}
+
     ${nextOO ? `<div class="field-group">
       <h3 class="section-h">Próximo 1-on-1</h3>
       <div class="oo">
@@ -2081,6 +2222,57 @@ function sectionOverview(m) {
         ${nextOO.notes ? `<div style="font-size:12.5px;color:var(--ink-soft);margin-top:8px;">${escapeHtml(nextOO.notes)}</div>` : ''}
       </div>
     </div>` : ''}
+  `;
+}
+
+// ── PERCEPTION GAP — cruza self vs gestor ──
+function perceptionGapHTML(m) {
+  if (!['admin','gestor','viewer'].includes(state.user.role)) return '';
+  const self = (state.checkins[m.id] || []).slice(0, 7);
+  const gestor = (state.gestorCheckins||{})[m.id] || [];
+  const gestorRecent = gestor.slice(0, 7);
+  if (!self.length && !gestorRecent.length) return '';
+
+  const avg = (arr, key) => arr.length ? arr.reduce((s,x) => s + (x[key]||0), 0) / arr.length : null;
+  const selfAvg = { mood: avg(self,'mood'), energy: avg(self,'energy'), workload: avg(self,'workload') };
+  const gestorAvg = {
+    mood: avg(gestorRecent,'perceived_mood'),
+    energy: avg(gestorRecent,'perceived_energy'),
+    workload: avg(gestorRecent,'perceived_workload')
+  };
+  const gap = (a, b) => (a !== null && b !== null) ? Math.abs(a - b) : null;
+  const gapMood = gap(selfAvg.mood, gestorAvg.mood);
+  const gapEnergy = gap(selfAvg.energy, gestorAvg.energy);
+  const gapWork = gap(selfAvg.workload, gestorAvg.workload);
+  const avgGap = [gapMood, gapEnergy, gapWork].filter(g => g !== null);
+  const totalGap = avgGap.length ? avgGap.reduce((s,g)=>s+g,0) / avgGap.length : null;
+  const alignment = totalGap !== null ? Math.max(0, 100 - (totalGap * 25)) : null;
+
+  const fmtVal = v => v === null ? '—' : v.toFixed(1);
+  const gapBadge = g => g === null ? '' : g < 0.5 ? '<span class="gap-ok">✓ alinhado</span>' : g < 1.5 ? '<span class="gap-warn">≈ próximo</span>' : '<span class="gap-bad">⚠ distante</span>';
+
+  return `
+    <div class="field-group">
+      <h3 class="section-h">Cruzamento de percepção <span style="font-weight:400;color:var(--ink-muted);font-size:11px;">· o que ELE diz vs o que VOCÊ vê</span></h3>
+      ${alignment !== null ? `
+        <div class="align-bar">
+          <div class="align-fill" style="width:${alignment}%; background:${alignment>80?'var(--positive)':alignment>60?'var(--warning)':'var(--critical)'};"></div>
+          <div class="align-label">Alinhamento ${alignment.toFixed(0)}%</div>
+        </div>
+      ` : ''}
+      <table class="gap-table">
+        <thead><tr><th></th><th>Auto-avaliação</th><th>Sua percepção</th><th>Gap</th></tr></thead>
+        <tbody>
+          <tr><td><b>Humor</b></td><td>${fmtVal(selfAvg.mood)}</td><td>${fmtVal(gestorAvg.mood)}</td><td>${gapBadge(gapMood)}</td></tr>
+          <tr><td><b>Energia</b></td><td>${fmtVal(selfAvg.energy)}</td><td>${fmtVal(gestorAvg.energy)}</td><td>${gapBadge(gapEnergy)}</td></tr>
+          <tr><td><b>Carga</b></td><td>${fmtVal(selfAvg.workload)}</td><td>${fmtVal(gestorAvg.workload)}</td><td>${gapBadge(gapWork)}</td></tr>
+        </tbody>
+      </table>
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+        <button class="btn sm" onclick="openCheckinModal('${m.id}','self')">+ Auto-avaliação</button>
+        ${canWrite()?`<button class="btn sm primary" onclick="openCheckinModal('${m.id}','gestor')">+ Sua percepção</button>`:''}
+      </div>
+    </div>
   `;
 }
 
@@ -2378,24 +2570,59 @@ function ooHTML(o, r) {
 }
 
 function sectionManual(m) {
-  const r = canWrite() || (state.user.role === 'member' && state.user.member_id === m.id);
+  const isSelf = state.user.role === 'member' && state.user.member_id === m.id;
+  const isMgr = ['admin','gestor','viewer'].includes(state.user.role);
+  const canEdit = canWrite() || isSelf;
   const manual = m.data?.manual || {};
+
+  // Quem vê o quê:
+  // - admin/gestor/viewer: tudo
+  // - member visualizando OUTRO: só campos 'public'
+  // - member visualizando o PRÓPRIO: tudo
+  const visibleFields = (state.user.role === 'member' && !isSelf)
+    ? MANUAL_FIELDS.filter(f => f.vis === 'public')
+    : MANUAL_FIELDS;
+
+  const publicFields = visibleFields.filter(f => f.vis === 'public');
+  const privateFields = visibleFields.filter(f => f.vis === 'private');
+
+  const cardHTML = (f) => `
+    <div class="manual-card ${f.vis==='private'?'private':''}">
+      <div class="manual-card-h">
+        <span class="manual-icon">${f.icon}</span><b>${f.label}</b>
+        ${f.vis==='private'?`<span class="vis-pill private">🔒 só você + gestor</span>`:`<span class="vis-pill public">👥 time vê</span>`}
+      </div>
+      <div class="manual-card-body" data-manual-key="${f.key}" ${canEdit?'contenteditable="true"':''} data-placeholder="${escapeHtml(f.placeholder)}">${escapeHtml(manual[f.key]||'')}</div>
+    </div>`;
+
   return `
     <div class="manual-intro">
-      <div class="manual-intro-tag">Manual de uso da pessoa</div>
-      <h3 class="manual-intro-title serif">Como trabalhar comigo</h3>
+      <div class="manual-intro-tag">Manual de uso</div>
+      <h3 class="manual-intro-title serif">Como trabalhar com ${escapeHtml(m.name.split(' ')[0])}</h3>
       <p class="manual-intro-text">
-        Esses campos são preenchidos pela própria pessoa (ou pelo gestor em conversa). Servem como atalho pra qualquer um da equipe entender o que funciona, o que não funciona, e como ter uma relação produtiva e saudável.
+        Atalho para qualquer pessoa do time entender como ter uma relação produtiva. Campos com 🔒 são mais íntimos — só a pessoa e o gestor enxergam.
       </p>
     </div>
-    <div class="manual-grid">
-      ${MANUAL_FIELDS.map(f => `
-        <div class="manual-card">
-          <div class="manual-card-h"><span class="manual-icon">${f.icon}</span><b>${f.label}</b></div>
-          <div class="manual-card-body" data-manual-key="${f.key}" ${r?'contenteditable="true"':''} data-placeholder="${escapeHtml(f.placeholder)}">${escapeHtml(manual[f.key]||'')}</div>
-        </div>
-      `).join('')}
+
+    ${publicFields.length ? `
+    <div class="manual-section-h">
+      <span class="ms-icon">👥</span>
+      <div>
+        <div class="ms-title">Compartilhado com o time</div>
+        <div class="ms-sub">Ajuda os colegas a interagir melhor no dia a dia</div>
+      </div>
     </div>
+    <div class="manual-grid">${publicFields.map(cardHTML).join('')}</div>` : ''}
+
+    ${privateFields.length ? `
+    <div class="manual-section-h" style="margin-top:24px;">
+      <span class="ms-icon">🔒</span>
+      <div>
+        <div class="ms-title">Particular · só você ${isMgr?'+ time de liderança':'(o gestor também vê)'}</div>
+        <div class="ms-sub">Material sensível, usado para feedback e cuidado individual</div>
+      </div>
+    </div>
+    <div class="manual-grid">${privateFields.map(cardHTML).join('')}</div>` : ''}
   `;
 }
 
@@ -2574,6 +2801,123 @@ function sectionGuidance(m) {
 }
 
 function sectionFeedback(m) {
+  const sessions = (state.feedbackSessions||{})[m.id] || [];
+  const upcoming = sessions.filter(s => s.status === 'pendente').sort((a,b) => new Date(a.scheduled_date) - new Date(b.scheduled_date))[0];
+  const past = sessions.filter(s => s.status !== 'pendente').sort((a,b) => new Date(b.scheduled_date) - new Date(a.scheduled_date));
+  const lastDone = past[0];
+  const r = canWrite();
+  const fname = m.name.split(' ')[0];
+
+  // Próxima sugerida: 14 dias depois da última realizada
+  let suggestedNext = '';
+  if (lastDone) {
+    const d = new Date(lastDone.scheduled_date); d.setDate(d.getDate() + 14);
+    suggestedNext = d.toISOString().slice(0,10);
+  } else {
+    const d = new Date(); d.setDate(d.getDate() + 14);
+    suggestedNext = d.toISOString().slice(0,10);
+  }
+
+  return `
+    <div class="fb-hero">
+      <div class="fb-hero-tag">Feedbacks quinzenais</div>
+      <div class="fb-hero-title serif">Conversa com ${escapeHtml(fname)}</div>
+      <div class="fb-hero-tone">Cada sessão a cada 15 dias · histórico fica registrado abaixo</div>
+      <div class="fb-actions">
+        ${r?`<button class="btn primary sm" onclick="openFeedbackSessionModal('${m.id}', '${suggestedNext}')">+ Nova sessão</button>`:''}
+        <button class="btn sm" onclick="openFeedbackScript('${m.id}')">📜 Ver roteiro guiado</button>
+      </div>
+    </div>
+
+    ${upcoming ? `
+      <div class="fb-upcoming">
+        <div class="fb-up-tag">📅 Próxima sessão agendada</div>
+        <div class="fb-up-date">${fmtDateLong(upcoming.scheduled_date)}</div>
+        ${upcoming.next_topics ? `<div class="fb-up-topics"><b>Pauta:</b> ${escapeHtml(upcoming.next_topics)}</div>` : '<div class="fb-up-topics" style="color:var(--ink-muted);font-style:italic;">Sem pauta definida ainda</div>'}
+        ${r ? `<div style="display:flex;gap:6px;margin-top:10px;">
+          <button class="btn sm primary" onclick="markFeedbackDone(${upcoming.id}, '${m.id}')">Marcar realizado</button>
+          <button class="btn sm" onclick="editFeedbackSession(${upcoming.id}, '${m.id}')">Editar</button>
+        </div>`:''}
+      </div>
+    ` : `
+      ${r ? `<div class="fb-empty-next">
+        <div style="font-size:32px;opacity:0.4;">🤝</div>
+        <div style="font-weight:500;margin-top:6px;">Nenhuma sessão agendada</div>
+        <div style="font-size:12px;color:var(--ink-muted);margin-top:4px;">Sugestão: ${fmtDateLong(suggestedNext)}</div>
+        <button class="btn primary sm" style="margin-top:10px;" onclick="openFeedbackSessionModal('${m.id}', '${suggestedNext}')">Agendar agora</button>
+      </div>` : ''}
+    `}
+
+    ${past.length ? `
+      <div class="fb-timeline-h">
+        <div class="ms-title">Histórico de feedbacks</div>
+        <div class="ms-sub">${past.length} sessão${past.length>1?'ões':''} já realizada${past.length>1?'s':''}</div>
+      </div>
+      <div class="fb-timeline">
+        ${past.map(s => feedbackSessionCardHTML(s, m, r)).join('')}
+      </div>
+    ` : ''}
+  `;
+}
+
+function feedbackSessionCardHTML(s, m, r) {
+  const ai = Array.isArray(s.action_items) ? s.action_items : [];
+  const moodEmoji = s.member_mood ? MOOD_EMOJI[s.member_mood] : '';
+  return `
+    <div class="fb-session ${s.status}">
+      <div class="fb-session-head">
+        <div>
+          <div class="fb-session-date">${fmtDateLong(s.scheduled_date)}</div>
+          <div class="fb-session-status">
+            <span class="oo-status ${s.status}">${s.status}</span>
+            ${moodEmoji?`<span class="fb-mood">${moodEmoji} humor ${s.member_mood}/5</span>`:''}
+          </div>
+        </div>
+        ${r?`<div style="display:flex;gap:4px;">
+          <button class="btn sm" onclick="editFeedbackSession(${s.id}, '${m.id}')">✎</button>
+          <button class="btn sm danger" onclick="deleteFeedbackSession(${s.id}, '${m.id}')">×</button>
+        </div>`:''}
+      </div>
+
+      ${s.last_topics ? `<div class="fb-block-mini">
+        <div class="fb-mini-h">📋 O que foi tratado no último</div>
+        <div class="fb-mini-body">${escapeHtml(s.last_topics)}</div>
+      </div>` : ''}
+
+      ${s.period_review ? `<div class="fb-block-mini">
+        <div class="fb-mini-h">📊 Como foi o período</div>
+        <div class="fb-mini-body">${escapeHtml(s.period_review)}</div>
+      </div>` : ''}
+
+      ${s.next_topics ? `<div class="fb-block-mini">
+        <div class="fb-mini-h">🎯 Para o próximo</div>
+        <div class="fb-mini-body">${escapeHtml(s.next_topics)}</div>
+      </div>` : ''}
+
+      ${ai.length ? `<div class="fb-block-mini">
+        <div class="fb-mini-h">✅ Combinados</div>
+        <ul class="fb-ai-list">${ai.map(a => `<li class="${a.done?'done':''}">${a.done?'✓':'○'} ${escapeHtml(a.text||a)}</li>`).join('')}</ul>
+      </div>` : ''}
+
+      ${s.notes ? `<div class="fb-block-mini">
+        <div class="fb-mini-h">📝 Notas</div>
+        <div class="fb-mini-body" style="font-style:italic;color:var(--ink-soft);">${escapeHtml(s.notes)}</div>
+      </div>` : ''}
+    </div>
+  `;
+}
+
+// Função antiga (roteiro guiado) virou modal acessório
+function openFeedbackScript(memberId) {
+  const m = state.byId[memberId];
+  if (!m) return;
+  openSm(`<div class="smh"><h3>Roteiro guiado · ${escapeHtml(m.name.split(' ')[0])}</h3></div>
+    <div class="smb">${buildFeedbackScriptHTML(m)}</div>
+    <div class="smf"><button class="btn" onclick="closeSm()">Fechar</button><button class="btn primary" onclick="window.print()">Imprimir / PDF</button></div>`);
+}
+window.openFeedbackScript = openFeedbackScript;
+
+function buildFeedbackScriptHTML(m) {
   const obs = state.observations[m.id] || [];
   const cks = state.checkins[m.id] || [];
   const okrs = state.okrs[m.id] || [];
@@ -2844,42 +3188,74 @@ function openSm(html) { $('#simpleModal').innerHTML = html; $('#simpleModalBg').
 function closeSm() { $('#simpleModalBg').classList.remove('show'); }
 window.closeSm = closeSm;
 
-// CHECK-IN
-window.openCheckinModal = function(memberId) {
+// CHECK-IN — type='self' (pessoa) ou 'gestor' (percepção do gestor)
+window.openCheckinModal = function(memberId, type='self') {
   const today = new Date().toISOString().slice(0,10);
-  openSm(`
-    <div class="smh"><h3>Check-in diário</h3><p style="font-size:12px;color:var(--ink-muted);margin-top:4px;">Como ${escapeHtml(state.byId[memberId]?.name||'a pessoa')} está hoje?</p></div>
-    <div class="smb">
-      <div class="field"><label>Data</label><input type="date" id="ciDate" value="${today}"/></div>
-      <div class="field"><label>Humor</label>
-        <div class="rate rate-emoji" data-r="ciMood">
-          ${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${MOOD_EMOJI[v]}</button>`).join('')}
-        </div>
+  const m = state.byId[memberId];
+  const fname = m?.name?.split(' ')[0] || '';
+
+  if (type === 'gestor') {
+    openSm(`
+      <div class="smh">
+        <h3>Como eu vejo ${escapeHtml(fname)}</h3>
+        <p style="font-size:12px;color:var(--ink-muted);margin-top:4px;">Sua percepção como gestor — privada · cruzada depois com a auto-avaliação</p>
       </div>
-      <div class="field"><label>Energia</label>
-        <div class="rate" data-r="ciEnergy">
-          ${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${v}</button>`).join('')}
+      <div class="smb">
+        <div class="field"><label>Data</label><input type="date" id="ciDate" value="${today}"/></div>
+        <div class="field"><label>Humor que percebi</label>
+          <div class="rate rate-emoji" data-r="ciMood">${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${MOOD_EMOJI[v]}</button>`).join('')}</div>
         </div>
-      </div>
-      <div class="field"><label>Carga de trabalho</label>
-        <div class="rate" data-r="ciWorkload">
-          ${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${v}</button>`).join('')}
+        <div class="field"><label>Energia percebida</label>
+          <div class="rate" data-r="ciEnergy">${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${v}</button>`).join('')}</div>
         </div>
-      </div>
-      <div class="field"><label>Foco</label>
-        <div class="rate" data-r="ciFocus">
-          ${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${v}</button>`).join('')}
+        <div class="field"><label>Carga (quanto eu acho que ele(a) tá lotado)</label>
+          <div class="rate" data-r="ciWorkload">${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${v}</button>`).join('')}</div>
         </div>
+        <div class="field"><label>Engajamento</label>
+          <div class="rate" data-r="ciEng">${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${v}</button>`).join('')}</div>
+        </div>
+        <div class="field"><label>Performance</label>
+          <div class="rate" data-r="ciPerf">${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${v}</button>`).join('')}</div>
+        </div>
+        <div class="field"><label>Vitórias que observei</label><textarea id="ciWins" placeholder="O que foi bom de verdade essa semana"></textarea></div>
+        <div class="field"><label>Preocupações</label><textarea id="ciConcerns" placeholder="O que tá me deixando atento"></textarea></div>
+        <div class="field"><label>Notas pessoais</label><textarea id="ciNotes"></textarea></div>
       </div>
-      <div class="field"><label>Destaques</label><textarea id="ciHigh" placeholder="O que foi bom hoje?"></textarea></div>
-      <div class="field"><label>Bloqueios</label><textarea id="ciBlock" placeholder="O que travou?"></textarea></div>
-      <div class="field"><label>Notas adicionais</label><textarea id="ciNotes"></textarea></div>
-    </div>
-    <div class="smf">
-      <button class="btn" onclick="closeSm()">Cancelar</button>
-      <button class="btn primary" onclick="saveCheckin('${memberId}')">Salvar</button>
-    </div>
-  `);
+      <div class="smf">
+        <button class="btn" onclick="closeSm()">Cancelar</button>
+        <button class="btn primary" onclick="saveGestorCheckin('${memberId}')">Salvar percepção</button>
+      </div>
+    `);
+  } else {
+    openSm(`
+      <div class="smh">
+        <h3>Como ${escapeHtml(fname)} está hoje</h3>
+        <p style="font-size:12px;color:var(--ink-muted);margin-top:4px;">Auto-avaliação · pessoa registra como está se sentindo</p>
+      </div>
+      <div class="smb">
+        <div class="field"><label>Data</label><input type="date" id="ciDate" value="${today}"/></div>
+        <div class="field"><label>Humor</label>
+          <div class="rate rate-emoji" data-r="ciMood">${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${MOOD_EMOJI[v]}</button>`).join('')}</div>
+        </div>
+        <div class="field"><label>Energia</label>
+          <div class="rate" data-r="ciEnergy">${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${v}</button>`).join('')}</div>
+        </div>
+        <div class="field"><label>Carga de trabalho</label>
+          <div class="rate" data-r="ciWorkload">${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${v}</button>`).join('')}</div>
+        </div>
+        <div class="field"><label>Foco</label>
+          <div class="rate" data-r="ciFocus">${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}">${v}</button>`).join('')}</div>
+        </div>
+        <div class="field"><label>Destaques</label><textarea id="ciHigh" placeholder="O que foi bom hoje?"></textarea></div>
+        <div class="field"><label>Bloqueios</label><textarea id="ciBlock" placeholder="O que travou?"></textarea></div>
+        <div class="field"><label>Notas</label><textarea id="ciNotes"></textarea></div>
+      </div>
+      <div class="smf">
+        <button class="btn" onclick="closeSm()">Cancelar</button>
+        <button class="btn primary" onclick="saveCheckin('${memberId}')">Salvar</button>
+      </div>
+    `);
+  }
   // wire rate buttons
   $$('.rate').forEach(g => {
     g.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
@@ -2889,11 +3265,11 @@ window.openCheckinModal = function(memberId) {
     }));
   });
 };
+
 window.saveCheckin = async function(memberId) {
-  const get = id => parseInt(document.querySelector(`[data-r="${id}"]`).dataset.value || 0, 10);
+  const get = id => parseInt(document.querySelector(`[data-r="${id}"]`)?.dataset.value || 0, 10);
   const body = {
-    member_id: memberId,
-    date: $('#ciDate').value,
+    member_id: memberId, date: $('#ciDate').value,
     mood: get('ciMood'), energy: get('ciEnergy'),
     workload: get('ciWorkload'), focus: get('ciFocus') || null,
     highlights: $('#ciHigh').value.trim() || null,
@@ -2902,36 +3278,83 @@ window.saveCheckin = async function(memberId) {
   };
   if (!body.mood || !body.energy || !body.workload) return toast('preencha humor, energia e carga', true);
   try {
-    await api('/api/checkins', { method: 'POST', body });
-    closeSm(); toast('Check-in salvo');
+    await api('/api/checkins?type=self', { method: 'POST', body });
+    closeSm(); toast('Auto-avaliação salva');
     if (state.currentMemberId) await loadCheckins(state.currentMemberId);
     renderMmSection();
     await loadDashboard();
   } catch (e) { toast(e.message, true); }
 };
 
-// QUICK CHECK-IN (de qualquer lugar)
+window.saveGestorCheckin = async function(memberId) {
+  const get = id => parseInt(document.querySelector(`[data-r="${id}"]`)?.dataset.value || 0, 10);
+  const body = {
+    member_id: memberId, date: $('#ciDate').value,
+    perceived_mood: get('ciMood') || null,
+    perceived_energy: get('ciEnergy') || null,
+    perceived_workload: get('ciWorkload') || null,
+    perceived_engagement: get('ciEng') || null,
+    perceived_performance: get('ciPerf') || null,
+    wins: $('#ciWins').value.trim() || null,
+    concerns: $('#ciConcerns').value.trim() || null,
+    notes: $('#ciNotes').value.trim() || null
+  };
+  if (!body.perceived_mood && !body.perceived_energy && !body.perceived_workload) return toast('avalie pelo menos humor, energia ou carga', true);
+  try {
+    await api('/api/checkins?type=gestor', { method: 'POST', body });
+    closeSm(); toast('Percepção registrada');
+    if (state.currentMemberId) await loadGestorCheckins(state.currentMemberId);
+    renderMmSection();
+    await loadDashboard();
+  } catch (e) { toast(e.message, true); }
+};
+
+// QUICK CHECK-IN (gestor escolhe tipo + pessoa, member faz auto)
 $('#quickCheckinBtn').addEventListener('click', () => {
   if (state.user.role === 'member') {
-    openCheckinModal(state.user.member_id);
+    openCheckinModal(state.user.member_id, 'self');
     return;
   }
-  // gestor escolhe quem
   openSm(`
-    <div class="smh"><h3>Check-in de hoje</h3><p style="font-size:12px;color:var(--ink-muted);margin-top:4px;">Para quem você quer registrar?</p></div>
+    <div class="smh"><h3>Check-in</h3><p style="font-size:12px;color:var(--ink-muted);margin-top:4px;">Que tipo de check-in?</p></div>
+    <div class="smb">
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+        <button class="btn-mode" data-type="self" onclick="pickPerson('self')">
+          <div style="font-size:22px;">😊</div>
+          <div style="text-align:left;flex:1;">
+            <div style="font-weight:600;font-size:13.5px;">Como o colaborador está</div>
+            <div style="font-size:11.5px;color:var(--ink-muted);">Auto-avaliação · pessoa preenche pelo próprio acesso</div>
+          </div>
+        </button>
+        <button class="btn-mode" data-type="gestor" onclick="pickPerson('gestor')">
+          <div style="font-size:22px;">🔍</div>
+          <div style="text-align:left;flex:1;">
+            <div style="font-weight:600;font-size:13.5px;">Como eu vejo o colaborador</div>
+            <div style="font-size:11.5px;color:var(--ink-muted);">Sua percepção como gestor · privado</div>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="smf"><button class="btn" onclick="closeSm()">Fechar</button></div>
+  `);
+});
+
+window.pickPerson = function(type) {
+  openSm(`
+    <div class="smh"><h3>${type==='gestor'?'Como você vê':'Auto-avaliação'}</h3><p style="font-size:12px;color:var(--ink-muted);margin-top:4px;">Para quem?</p></div>
     <div class="smb">
       <div style="display:flex;flex-direction:column;gap:6px;">
         ${state.members.map(m => `
-          <button class="btn" style="justify-content:flex-start;" onclick="closeSm();openCheckinModal('${m.id}')">
+          <button class="btn" style="justify-content:flex-start;" onclick="closeSm();openCheckinModal('${m.id}','${type}')">
             <div class="user-avatar av-${TEMPS[m.temp1]?.class||'default'}" style="width:24px;height:24px;font-size:10px;">${initials(m.name)}</div>
             ${escapeHtml(m.name)}
           </button>
         `).join('')}
       </div>
     </div>
-    <div class="smf"><button class="btn" onclick="closeSm()">Fechar</button></div>
+    <div class="smf"><button class="btn" onclick="closeSm()">Voltar</button></div>
   `);
-});
+};
 
 // ── OBSERVATIONS ──
 window.openObsModal = function(memberId) {
@@ -2962,6 +3385,108 @@ window.deleteObs = async function(id, memberId) {
   if (!confirm('Excluir observação?')) return;
   await api(`/api/observations?id=${id}`, { method: 'DELETE' });
   await loadObservations(memberId); renderMmSection(); renderCards($('#search').value);
+};
+
+// FEEDBACK SESSION
+window.openFeedbackSessionModal = function(memberId, suggestedDate, existing=null) {
+  const sessions = (state.feedbackSessions||{})[memberId] || [];
+  const last = sessions.filter(s => s.status === 'realizado').sort((a,b)=>new Date(b.scheduled_date)-new Date(a.scheduled_date))[0];
+  const lastTopicsAuto = last?.next_topics || '';
+  const e = existing || {};
+  const ai = Array.isArray(e.action_items) ? e.action_items : [];
+  openSm(`
+    <div class="smh">
+      <h3>${existing?'Editar':'Nova'} sessão de feedback</h3>
+      <p style="font-size:12px;color:var(--ink-muted);margin-top:4px;">Quinzenal · cada bloco é uma ficha do que aconteceu e o que vem</p>
+    </div>
+    <div class="smb">
+      <div class="field-row2">
+        <div class="field"><label>Data agendada</label><input type="date" id="fsDate" value="${e.scheduled_date?e.scheduled_date.slice(0,10):suggestedDate}"/></div>
+        <div class="field"><label>Status</label><select id="fsStatus">
+          <option value="pendente" ${e.status==='pendente'?'selected':''}>Pendente</option>
+          <option value="realizado" ${e.status==='realizado'?'selected':''}>Realizado</option>
+          <option value="cancelado" ${e.status==='cancelado'?'selected':''}>Cancelado</option>
+        </select></div>
+      </div>
+      <div class="field"><label>📋 O que foi tratado no último feedback</label>
+        <textarea id="fsLast" placeholder="O que falamos no último encontro?">${escapeHtml(e.last_topics||lastTopicsAuto)}</textarea>
+        ${lastTopicsAuto && !e.last_topics?`<small style="color:var(--ink-muted);font-size:11px;">Pré-preenchido com o "próximo" da última sessão</small>`:''}
+      </div>
+      <div class="field"><label>📊 Como foi este período (até esta sessão)</label>
+        <textarea id="fsReview" placeholder="O que rolou nas duas semanas? Avanços, dificuldades, observações…">${escapeHtml(e.period_review||'')}</textarea>
+      </div>
+      <div class="field"><label>🎯 O que tratar no próximo feedback</label>
+        <textarea id="fsNext" placeholder="Tópicos para a próxima sessão · vira o 'último' da próxima ficha">${escapeHtml(e.next_topics||'')}</textarea>
+      </div>
+      <div class="field"><label>Humor da pessoa na sessão (opcional)</label>
+        <div class="rate rate-emoji" data-r="fsMood">
+          ${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}" class="${e.member_mood===v?'active':''}">${MOOD_EMOJI[v]}</button>`).join('')}
+        </div>
+      </div>
+      <div class="field"><label>✅ Combinados (1 por linha)</label>
+        <textarea id="fsAI" placeholder="Ações combinadas para acompanhar">${ai.map(a=>a.text||a).join('\n')}</textarea>
+      </div>
+      <div class="field"><label>📝 Notas particulares</label>
+        <textarea id="fsNotes">${escapeHtml(e.notes||'')}</textarea>
+      </div>
+    </div>
+    <div class="smf">
+      <button class="btn" onclick="closeSm()">Cancelar</button>
+      <button class="btn primary" onclick="saveFeedbackSession('${memberId}', ${existing?existing.id:'null'})">Salvar</button>
+    </div>
+  `);
+  // mood rate
+  $$('.rate').forEach(g => {
+    g.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+      g.querySelectorAll('button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      g.dataset.value = b.dataset.v;
+    }));
+  });
+  if (e.member_mood) {
+    const g = document.querySelector('[data-r="fsMood"]');
+    if (g) g.dataset.value = e.member_mood;
+  }
+};
+
+window.saveFeedbackSession = async function(memberId, sessionId) {
+  const aiTxt = $('#fsAI').value.split('\n').map(s=>s.trim()).filter(Boolean).map(t=>({text:t,done:false}));
+  const moodG = document.querySelector('[data-r="fsMood"]');
+  const body = {
+    member_id: memberId,
+    scheduled_date: $('#fsDate').value,
+    status: $('#fsStatus').value,
+    last_topics: $('#fsLast').value.trim() || null,
+    period_review: $('#fsReview').value.trim() || null,
+    next_topics: $('#fsNext').value.trim() || null,
+    member_mood: moodG?.dataset.value ? parseInt(moodG.dataset.value, 10) : null,
+    action_items: aiTxt,
+    notes: $('#fsNotes').value.trim() || null
+  };
+  try {
+    if (sessionId) await api(`/api/feedback?id=${sessionId}`, { method: 'PUT', body });
+    else await api('/api/feedback', { method: 'POST', body });
+    closeSm(); toast('Sessão salva');
+    await loadFeedbackSessions(memberId); renderMmSection();
+  } catch (e) { toast(e.message, true); }
+};
+
+window.editFeedbackSession = async function(id, memberId) {
+  const sessions = (state.feedbackSessions||{})[memberId] || [];
+  const s = sessions.find(x => x.id === id);
+  if (s) openFeedbackSessionModal(memberId, s.scheduled_date.slice(0,10), s);
+};
+
+window.deleteFeedbackSession = async function(id, memberId) {
+  if (!confirm('Excluir essa sessão?')) return;
+  await api(`/api/feedback?id=${id}`, { method: 'DELETE' });
+  await loadFeedbackSessions(memberId); renderMmSection();
+};
+
+window.markFeedbackDone = async function(id, memberId) {
+  await api(`/api/feedback?id=${id}`, { method: 'PUT', body: { status: 'realizado' } });
+  await loadFeedbackSessions(memberId); renderMmSection();
+  toast('Sessão marcada como realizada');
 };
 
 // HISTORY

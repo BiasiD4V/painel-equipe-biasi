@@ -144,4 +144,41 @@ await sql`CREATE INDEX IF NOT EXISTS idx_kpis_member ON kpis(member_id)`;
 await sql`CREATE INDEX IF NOT EXISTS idx_checkin_member_date ON daily_checkins(member_id, date DESC)`;
 await sql`CREATE INDEX IF NOT EXISTS idx_alerts_trigger ON alerts(trigger_date, acknowledged)`;
 
+// NOVA: check-in do gestor (percepção dele sobre o colaborador)
+await sql`CREATE TABLE IF NOT EXISTS gestor_checkins (
+  id SERIAL PRIMARY KEY,
+  member_id TEXT NOT NULL REFERENCES members(id) ON DELETE CASCADE,
+  date DATE NOT NULL,
+  perceived_mood SMALLINT CHECK (perceived_mood BETWEEN 1 AND 5),
+  perceived_energy SMALLINT CHECK (perceived_energy BETWEEN 1 AND 5),
+  perceived_workload SMALLINT CHECK (perceived_workload BETWEEN 1 AND 5),
+  perceived_engagement SMALLINT CHECK (perceived_engagement BETWEEN 1 AND 5),
+  perceived_performance SMALLINT CHECK (perceived_performance BETWEEN 1 AND 5),
+  concerns TEXT,
+  wins TEXT,
+  notes TEXT,
+  created_by INT REFERENCES users(id) ON DELETE SET NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (member_id, date, created_by)
+)`;
+await sql`CREATE INDEX IF NOT EXISTS idx_gck_member_date ON gestor_checkins(member_id, date DESC)`;
+
+// NOVA: sessões de feedback quinzenais (fichas)
+await sql`CREATE TABLE IF NOT EXISTS feedback_sessions (
+  id SERIAL PRIMARY KEY,
+  member_id TEXT NOT NULL REFERENCES members(id) ON DELETE CASCADE,
+  scheduled_date DATE NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pendente' CHECK (status IN ('pendente','realizado','cancelado')),
+  last_topics TEXT,
+  period_review TEXT,
+  next_topics TEXT,
+  member_mood SMALLINT,
+  action_items JSONB NOT NULL DEFAULT '[]'::jsonb,
+  notes TEXT,
+  created_by INT REFERENCES users(id) ON DELETE SET NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+)`;
+await sql`CREATE INDEX IF NOT EXISTS idx_fb_member_date ON feedback_sessions(member_id, scheduled_date DESC)`;
+
 console.log('✓ schema criado');
