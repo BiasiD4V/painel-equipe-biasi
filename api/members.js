@@ -35,10 +35,18 @@ export default async function handler(req, res) {
     return res.status(201).json({ ok: true });
   }
   if (req.method === 'PUT') {
-    const u = await requireAuth(req, res, CAN_WRITE);
+    // member pode editar só o próprio (campos limitados); admin/gestor editam tudo
+    const u = await requireAuth(req, res);
     if (!u) return;
     if (!id) return res.status(400).json({ error: 'id ausente' });
-    const m = req.body || {};
+    const isSelf = u.role === 'member' && u.member_id === id;
+    const isWriter = ['admin','gestor'].includes(u.role);
+    if (!isWriter && !isSelf) return res.status(403).json({ error: 'sem permissão' });
+    let m = req.body || {};
+    // membro só pode mexer no .data (manual, career, skills, etc) — não em nome/cargo/datas
+    if (!isWriter) {
+      m = { data: m.data };
+    }
     await sql`
       UPDATE members SET
         name = COALESCE(${m.name}, name),

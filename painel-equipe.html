@@ -549,6 +549,122 @@ main { padding: 32px 28px 80px; max-width: 1440px; margin: 0 auto; }
 .rate button.active { background: var(--ink); border-color: var(--ink); color: var(--surface); transform: scale(1.05); }
 .rate-emoji button { font-size: 20px; }
 
+/* MANUAL TAB */
+.sub-text { font-size: 12.5px; color: var(--ink-muted); margin-bottom: 12px; line-height: 1.5; }
+.manual-intro {
+  background: linear-gradient(135deg, #fafaf7 0%, #fffbf5 100%);
+  border: 1px solid var(--line); border-radius: 16px;
+  padding: 20px 24px; margin-bottom: 18px;
+  position: relative; overflow: hidden;
+}
+.manual-intro::before {
+  content: ''; position: absolute; top: -40px; right: -40px;
+  width: 180px; height: 180px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(180,83,9,.08), transparent 70%);
+}
+.manual-intro-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-muted); font-weight: 600; }
+.manual-intro-title { font-size: 26px; font-weight: 500; margin: 6px 0 10px; letter-spacing: -0.02em; }
+.manual-intro-text { font-size: 13px; line-height: 1.65; color: var(--ink-soft); position: relative; }
+
+.manual-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+@media (max-width: 700px) {
+  .manual-grid { grid-template-columns: 1fr; }
+}
+.manual-card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 16px;
+  box-shadow: var(--shadow-sm);
+  transition: all .2s;
+}
+.manual-card:hover { border-color: var(--ink-soft); box-shadow: var(--shadow); }
+.manual-card-h {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12.5px; margin-bottom: 8px;
+  color: var(--ink); font-weight: 500;
+}
+.manual-icon { font-size: 16px; }
+.manual-card-body {
+  font-size: 13px; line-height: 1.55; color: var(--ink-soft);
+  min-height: 30px; padding: 6px 8px;
+  border-radius: 6px; transition: background .15s;
+}
+.manual-card-body:empty::before {
+  content: attr(data-placeholder);
+  color: var(--ink-muted); font-style: italic; font-size: 12.5px;
+}
+.manual-card-body:hover { background: var(--surface-2); }
+.manual-card-body:focus { background: #fffbeb; outline: none; box-shadow: 0 0 0 2px #fef3c7; }
+
+/* CAREER */
+.career-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+@media (max-width: 700px) {
+  .career-grid { grid-template-columns: 1fr; }
+}
+.career-card {
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+  border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 16px;
+}
+.career-h { font-size: 12.5px; font-weight: 600; margin-bottom: 6px; }
+.career-body {
+  font-size: 13px; line-height: 1.55; color: var(--ink-soft);
+  min-height: 30px; padding: 6px 8px;
+  border-radius: 6px;
+}
+.career-body:empty::before { content: attr(data-placeholder); color: var(--ink-muted); font-style: italic; }
+.career-body:hover { background: var(--surface-2); }
+.career-body:focus { background: #fffbeb; outline: none; box-shadow: 0 0 0 2px #fef3c7; }
+
+.recog-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+@media (max-width: 700px) { .recog-grid { grid-template-columns: 1fr; } }
+.recog-card { background: var(--surface-2); border-radius: 10px; padding: 12px 14px; }
+.recog-h { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-muted); font-weight: 600; margin-bottom: 6px; }
+.recog-body {
+  font-size: 13px; line-height: 1.5; color: var(--ink);
+  min-height: 24px; padding: 4px 6px;
+  border-radius: 5px;
+}
+.recog-body:empty::before { content: attr(data-placeholder); color: var(--ink-muted); font-style: italic; font-size: 12px; }
+.recog-body:focus { background: #fffbeb; outline: none; }
+
+/* SKILLS */
+.skill-cat { margin-bottom: 22px; }
+.skill-cat-h {
+  font-family: 'Fraunces', serif; font-size: 14px; font-weight: 600;
+  margin-bottom: 10px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.skill-list { display: flex; flex-direction: column; gap: 4px; }
+.skill-row {
+  display: grid; grid-template-columns: 1fr auto auto;
+  gap: 14px; align-items: center;
+  padding: 8px 12px; border-radius: 8px;
+  background: var(--surface);
+  transition: background .15s;
+}
+.skill-row:hover { background: var(--surface-2); }
+.skill-name { font-size: 13px; }
+.skill-rate { display: flex; gap: 3px; }
+.skill-rate button {
+  width: 22px; height: 22px; border-radius: 4px;
+  background: var(--line); border: none; cursor: pointer;
+  transition: all .15s;
+}
+.skill-rate button:hover:not(:disabled) { background: var(--ink-muted); transform: scale(1.1); }
+.skill-rate button.on { background: var(--ink); }
+.skill-rate button:disabled { cursor: not-allowed; opacity: 0.6; }
+.skill-lbl {
+  font-size: 11px; color: var(--ink-muted);
+  text-transform: lowercase; letter-spacing: 0.02em;
+  min-width: 80px; text-align: right;
+}
+
 /* GUIDANCE TAB */
 .guide-hero { margin-bottom: 24px; }
 .guide-temp-card {
@@ -852,6 +968,104 @@ tr:hover td { background: var(--surface-2); }
 }
 .spinner { width: 16px; height: 16px; border: 2px solid var(--line); border-top-color: var(--ink); border-radius: 50%; animation: spin .6s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── TEAM BAR CHART ── */
+.team-bars-legend {
+  display: flex; gap: 18px; align-items: center;
+  padding: 10px 0 14px; font-size: 11.5px; color: var(--ink-soft);
+  border-bottom: 1px solid var(--line-soft); margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.team-bars-legend .dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; margin-right: 4px; vertical-align: -1px; }
+
+.team-bars-chart {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.person-bar {
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: 14px; padding: 14px;
+  cursor: pointer; transition: all .2s;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.person-bar:hover { border-color: var(--ink-soft); transform: translateY(-2px); box-shadow: var(--shadow); background: var(--surface); }
+.person-bar:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.person-bar-head { display: flex; align-items: center; gap: 10px; }
+.person-bar-name { font-size: 13.5px; font-weight: 600; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.person-bar-meta { font-size: 10.5px; color: var(--ink-muted); margin-top: 2px; }
+.person-bar-emoji { font-size: 22px; }
+
+.person-bar-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.bar-col { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.bar-col-track {
+  width: 100%; height: 70px;
+  background: linear-gradient(180deg, var(--line-soft) 0%, var(--surface) 100%);
+  border-radius: 6px; position: relative; overflow: hidden;
+  border: 1px solid var(--line);
+}
+.bar-col-fill {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  border-radius: 5px;
+  transition: height .4s cubic-bezier(.32,.72,0,1);
+  box-shadow: inset 0 -2px 4px rgba(0,0,0,.08);
+}
+.bar-col-avg {
+  position: absolute; left: -2px; right: -2px;
+  border-top: 1.5px dashed var(--ink-soft);
+  pointer-events: none;
+}
+.bar-col-val { font-family: 'Fraunces', serif; font-size: 14px; font-weight: 600; }
+.bar-col-lbl { font-size: 9px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+
+.person-bar-status {
+  text-align: center; font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 4px 8px; border-radius: 999px;
+}
+.person-bar-status.good { background: #dcfce7; color: var(--positive); }
+.person-bar-status.mid { background: #fef3c7; color: var(--sang); }
+.person-bar-status.warn { background: #ffedd5; color: var(--col); }
+.person-bar-status.bad { background: #fee2e2; color: var(--critical); }
+.person-bar-status.gray { background: var(--line-soft); color: var(--ink-muted); }
+
+.team-bars-summary {
+  display: flex; gap: 22px; margin-top: 18px; padding-top: 16px;
+  border-top: 1px solid var(--line-soft); justify-content: center;
+}
+.team-bars-summary > div { text-align: center; }
+.team-bars-summary b { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; display: block; line-height: 1; }
+.team-bars-summary span { font-size: 10.5px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; display: block; }
+
+/* HEATMAP */
+.heatmap-summary {
+  display: flex; gap: 22px; margin-bottom: 14px;
+  padding-bottom: 14px; border-bottom: 1px solid var(--line-soft);
+}
+.heatmap-summary > div b { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; display: block; line-height: 1; }
+.heatmap-summary > div span { font-size: 10.5px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 3px; display: block; }
+
+.heatmap-grid {
+  display: grid; grid-template-columns: repeat(15, 1fr); gap: 4px;
+  margin-bottom: 14px;
+}
+.heat-cell {
+  aspect-ratio: 1; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; transition: transform .15s;
+  cursor: default;
+}
+.heat-cell:hover { transform: scale(1.15); z-index: 2; box-shadow: var(--shadow); }
+.heat-cell.today { box-shadow: 0 0 0 2px var(--ink); }
+.heatmap-legend {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--ink-soft);
+}
+.heatmap-legend .heat-cell { width: 14px; height: 14px; aspect-ratio: 1; }
+.heatmap-legend small { margin-right: 6px; font-size: 11px; }
+
+@media (max-width: 600px) {
+  .heatmap-grid { grid-template-columns: repeat(10, 1fr); }
+  .person-bar-cols .bar-col-track { height: 50px; }
+}
 
 /* ── CHARTS (inline SVG) ── */
 .chart-wrap { width: 100%; }
@@ -1204,18 +1418,24 @@ function renderDashboard() {
 
   $('#dashboardArea').innerHTML = `
     <div class="dash-stats">${stats}</div>
-    <div class="dash-grid">
-      <div class="panel">
-        <h3>Tendência de humor e energia · 30 dias</h3>
-        <p class="sub">${isMember ? 'Seus check-ins ao longo do tempo' : 'Média da equipe ao longo do tempo'}</p>
-        <div id="moodChart">${moodChartSVG(d.trend)}</div>
+    ${isMember ? `
+      <div class="panel" style="margin-bottom:20px;">
+        <h3>Sua evolução · 30 dias</h3>
+        <p class="sub">Como você esteve ao longo do tempo</p>
+        ${moodHeatmapHTML(d.trend, 30)}
+      </div>
+    ` : `
+      <div class="panel" style="margin-bottom:20px;">
+        <h3>Como cada pessoa está</h3>
+        <p class="sub">Humor, energia e carga · média dos últimos 7 dias</p>
+        ${teamBarChartHTML(d.perMember)}
       </div>
       <div class="panel">
-        <h3>Pulso da equipe · últimos 7 dias</h3>
-        <p class="sub">Humor médio por pessoa</p>
-        <div id="memberPulse">${memberPulseHTML(d.perMember)}</div>
+        <h3>Tendência da equipe · 30 dias</h3>
+        <p class="sub">Média da equipe ao longo do tempo</p>
+        ${moodChartSVG(d.trend)}
       </div>
-    </div>
+    `}
     ${state.alerts.length && !isMember ? `
       <div class="panel" style="margin-top:20px;">
         <h3>Próximas datas</h3>
@@ -1325,6 +1545,136 @@ function moodChartSVG(trend) {
   `;
 }
 
+function teamBarChartHTML(perMember) {
+  if (!perMember?.length) return `<div style="text-align:center;padding:40px;color:var(--ink-muted);font-size:13px;">Sem check-ins na semana ainda.</div>`;
+  const withData = perMember.filter(p => p.checkins > 0);
+  if (!withData.length) return `<div style="text-align:center;padding:40px 20px;color:var(--ink-muted);">
+    <div style="font-size:36px;opacity:0.3;margin-bottom:8px;">📊</div>
+    <div style="font-size:13px;">Ninguém fez check-in nos últimos 7 dias.</div>
+  </div>`;
+
+  const avgMood = withData.reduce((s,p) => s + (p.mood||0), 0) / withData.length;
+  const avgEnergy = withData.reduce((s,p) => s + (p.energy||0), 0) / withData.length;
+  const avgWork = withData.reduce((s,p) => s + (p.workload||0), 0) / withData.length;
+
+  return `
+    <div class="team-bars">
+      <div class="team-bars-legend">
+        <span><span class="dot" style="background:#1c1917;"></span> Humor</span>
+        <span><span class="dot" style="background:#16a34a;"></span> Energia</span>
+        <span><span class="dot" style="background:#c2410c;"></span> Carga</span>
+        <span style="margin-left:auto;color:var(--ink-muted);font-size:11px;">linha tracejada = média do time</span>
+      </div>
+      <div class="team-bars-chart">
+        ${perMember.map(p => personBarHTML(p, avgMood)).join('')}
+      </div>
+      <div class="team-bars-summary">
+        <div><b>${avgMood.toFixed(1)}</b><span>humor médio</span></div>
+        <div><b>${avgEnergy.toFixed(1)}</b><span>energia média</span></div>
+        <div><b>${avgWork.toFixed(1)}</b><span>carga média</span></div>
+      </div>
+    </div>
+  `;
+}
+
+function personBarHTML(p, teamAvg) {
+  const has = p.checkins > 0;
+  const m = p.mood || 0, e = p.energy || 0, w = p.workload || 0;
+  const T = TEMPS[state.byId[p.id]?.temp1];
+  const emoji = has ? MOOD_EMOJI[Math.round(m)] : '🆕';
+  const status = !has ? 'sem check-in' : m >= 4 ? 'bem' : m >= 3 ? 'ok' : m >= 2 ? 'atenção' : 'crítico';
+  const statusCls = !has ? 'gray' : m >= 4 ? 'good' : m >= 3 ? 'mid' : m >= 2 ? 'warn' : 'bad';
+  return `
+    <div class="person-bar" onclick="openMemberModal('${p.id}')" tabindex="0">
+      <div class="person-bar-head">
+        <div class="mc-avatar av-${T?.class||'default'}" style="width:36px;height:36px;font-size:14px;">${initials(p.name)}</div>
+        <div style="flex:1;min-width:0;">
+          <div class="person-bar-name">${escapeHtml(p.name)}</div>
+          <div class="person-bar-meta">${has ? `${p.checkins} check-in${p.checkins>1?'s':''} · ${status}` : 'aguardando'}</div>
+        </div>
+        <div class="person-bar-emoji">${emoji}</div>
+      </div>
+      <div class="person-bar-cols">
+        <div class="bar-col">
+          <div class="bar-col-track">
+            ${has?`<div class="bar-col-fill" style="height:${(m/5)*100}%;background:#1c1917;"></div>`:''}
+            ${teamAvg ? `<div class="bar-col-avg" style="bottom:${(teamAvg/5)*100}%"></div>` : ''}
+          </div>
+          <div class="bar-col-val">${has ? m.toFixed(1) : '—'}</div>
+          <div class="bar-col-lbl">humor</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-col-track">
+            ${has?`<div class="bar-col-fill" style="height:${(e/5)*100}%;background:#16a34a;"></div>`:''}
+          </div>
+          <div class="bar-col-val">${has ? e.toFixed(1) : '—'}</div>
+          <div class="bar-col-lbl">energia</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-col-track">
+            ${has?`<div class="bar-col-fill" style="height:${(w/5)*100}%;background:#c2410c;"></div>`:''}
+          </div>
+          <div class="bar-col-val">${has ? w.toFixed(1) : '—'}</div>
+          <div class="bar-col-lbl">carga</div>
+        </div>
+      </div>
+      <div class="person-bar-status ${statusCls}">${status}</div>
+    </div>
+  `;
+}
+
+function moodHeatmapHTML(trend, days = 30) {
+  // monta um array de 'days' dias até hoje, faltantes ficam vazios
+  const today = new Date(); today.setHours(0,0,0,0);
+  const map = {};
+  (trend || []).forEach(t => { map[t.date.slice(0,10)] = t; });
+  const cells = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(today); d.setDate(today.getDate() - i);
+    const k = d.toISOString().slice(0,10);
+    const t = map[k];
+    cells.push({ date: d, data: t });
+  }
+  const colorFor = m => {
+    if (!m) return 'var(--line-soft)';
+    if (m >= 4.5) return '#16a34a';
+    if (m >= 3.5) return '#84cc16';
+    if (m >= 2.5) return '#eab308';
+    if (m >= 1.5) return '#f97316';
+    return '#ef4444';
+  };
+  const filled = cells.filter(c => c.data).length;
+  const sumMood = cells.reduce((s,c) => s + (c.data?.mood || 0), 0);
+  const avgMood = filled ? (sumMood / filled).toFixed(1) : null;
+
+  return `
+    <div class="heatmap-summary">
+      <div><b>${filled}/${days}</b><span>dias com check-in</span></div>
+      <div><b>${avgMood || '—'}</b><span>humor médio</span></div>
+    </div>
+    <div class="heatmap-grid">
+      ${cells.map(c => {
+        const m = c.data?.mood;
+        const isToday = sameDay(c.date, today);
+        const tooltip = c.data
+          ? `${c.date.toLocaleDateString('pt-BR')} · humor ${m} · energia ${c.data.energy} · carga ${c.data.workload}`
+          : `${c.date.toLocaleDateString('pt-BR')} · sem check-in`;
+        return `<div class="heat-cell ${isToday?'today':''}" style="background:${colorFor(m)};" title="${tooltip}">
+          ${m ? MOOD_EMOJI[Math.round(m)] : ''}
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="heatmap-legend">
+      <span class="heat-cell" style="background:#ef4444;"></span><small>1</small>
+      <span class="heat-cell" style="background:#f97316;"></span><small>2</small>
+      <span class="heat-cell" style="background:#eab308;"></span><small>3</small>
+      <span class="heat-cell" style="background:#84cc16;"></span><small>4</small>
+      <span class="heat-cell" style="background:#16a34a;"></span><small>5</small>
+      <span style="margin-left:auto;color:var(--ink-muted);font-size:11px;">cada quadrado = 1 dia · cinza = sem check-in</small>
+    </div>
+  `;
+}
+
 function memberPulseHTML(perMember) {
   if (!perMember?.length) return `<div style="color:var(--ink-muted);font-size:12px;text-align:center;padding:20px;">Sem check-ins ainda.</div>`;
   return `<div style="display:flex;flex-direction:column;gap:10px;">${perMember.map(p => {
@@ -1421,6 +1771,9 @@ function computePriority(m) {
 const MM_TABS = [
   { id: 'overview', label: 'Visão geral' },
   { id: 'guidance', label: 'Como lidar' },
+  { id: 'manual', label: 'Manual' },
+  { id: 'career', label: 'Carreira' },
+  { id: 'skills', label: 'Skills' },
   { id: 'profile', label: 'Perfil' },
   { id: 'checkins', label: 'Check-ins' },
   { id: 'kpis', label: 'KPIs' },
@@ -1430,6 +1783,26 @@ const MM_TABS = [
   { id: 'bigfive', label: 'Big Five' },
   { id: 'feedback', label: 'Feedback' },
   { id: 'history', label: 'Histórico' }
+];
+
+// Estrutura do Manual de Uso
+const MANUAL_FIELDS = [
+  { key: 'best_time', label: 'Quando estou no meu melhor', placeholder: 'manhã, tarde, depois do café…', icon: '⏰' },
+  { key: 'comm_pref', label: 'Como me comunico melhor', placeholder: 'reuniões curtas, áudio no whats, texto, doc estruturado…', icon: '💬' },
+  { key: 'feedback_pref', label: 'Como gosto de receber feedback', placeholder: 'direto, com contexto, em particular, com tempo pra processar…', icon: '🎯' },
+  { key: 'recognition', label: 'Como prefiro ser reconhecido', placeholder: 'em público, em particular, por escrito, com palavras, com responsabilidade…', icon: '⭐' },
+  { key: 'stress_signals', label: 'Sinais de que estou estressado', placeholder: 'fico mais calado, irritado, perfeccionista demais, pulo refeições…', icon: '🌡️' },
+  { key: 'recovery', label: 'O que me ajuda a recuperar', placeholder: 'pausa, exercício, conversar com alguém, organizar a mesa, dormir melhor…', icon: '🌿' },
+  { key: 'team_values', label: 'O que valorizo numa equipe', placeholder: 'transparência, autonomia, ritmo intenso, ambiente calmo, aprendizado…', icon: '🤝' },
+  { key: 'pet_peeves', label: 'O que me incomoda muito', placeholder: 'reuniões sem pauta, ser interrompido, mudanças de última hora…', icon: '⚠️' },
+  { key: 'unknown_fact', label: 'Algo que ninguém saberia me olhando', placeholder: 'uma curiosidade, hobby, história…', icon: '🪄' }
+];
+
+const SKILLS_DEFAULT = [
+  // Técnicas comerciais
+  { cat: 'Técnicas', items: ['Levantamento de quantitativos', 'Cotação com fornecedores', 'Composição de custos / BDI', 'Leitura de projetos (PDF/DWG)', 'Planilha orçamentária', 'PlanSwift', 'Sienge', 'Excel avançado'] },
+  { cat: 'Comerciais', items: ['Negociação', 'Apresentação de propostas', 'Follow-up de leads', 'Comunicação com cliente', 'Gestão de pipeline'] },
+  { cat: 'Soft skills', items: ['Comunicação clara', 'Escuta ativa', 'Trabalho em equipe', 'Gestão do tempo', 'Iniciativa', 'Resolução de problemas', 'Resiliência'] }
 ];
 
 // ── CONTEÚDO DE COMO LIDAR (extraído de Hipócrates + práticas de gestão) ──
@@ -1628,6 +2001,9 @@ function renderMmSection() {
   const body = $('#mmBody');
   if (tab === 'overview') body.innerHTML = sectionOverview(m);
   else if (tab === 'guidance') body.innerHTML = sectionGuidance(m);
+  else if (tab === 'manual') body.innerHTML = sectionManual(m);
+  else if (tab === 'career') body.innerHTML = sectionCareer(m);
+  else if (tab === 'skills') body.innerHTML = sectionSkills(m);
   else if (tab === 'profile') body.innerHTML = sectionProfile(m);
   else if (tab === 'checkins') body.innerHTML = sectionCheckins(m);
   else if (tab === 'kpis') body.innerHTML = sectionKpis(m);
@@ -2001,6 +2377,128 @@ function ooHTML(o, r) {
   `;
 }
 
+function sectionManual(m) {
+  const r = canWrite() || (state.user.role === 'member' && state.user.member_id === m.id);
+  const manual = m.data?.manual || {};
+  return `
+    <div class="manual-intro">
+      <div class="manual-intro-tag">Manual de uso da pessoa</div>
+      <h3 class="manual-intro-title serif">Como trabalhar comigo</h3>
+      <p class="manual-intro-text">
+        Esses campos são preenchidos pela própria pessoa (ou pelo gestor em conversa). Servem como atalho pra qualquer um da equipe entender o que funciona, o que não funciona, e como ter uma relação produtiva e saudável.
+      </p>
+    </div>
+    <div class="manual-grid">
+      ${MANUAL_FIELDS.map(f => `
+        <div class="manual-card">
+          <div class="manual-card-h"><span class="manual-icon">${f.icon}</span><b>${f.label}</b></div>
+          <div class="manual-card-body" data-manual-key="${f.key}" ${r?'contenteditable="true"':''} data-placeholder="${escapeHtml(f.placeholder)}">${escapeHtml(manual[f.key]||'')}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function sectionCareer(m) {
+  const r = canWrite() || (state.user.role === 'member' && state.user.member_id === m.id);
+  const c = m.data?.career || {};
+  return `
+    <div class="field-group">
+      <h3 class="section-h">Aspirações</h3>
+      <p class="sub-text">Onde a pessoa quer chegar — orienta as decisões de desenvolvimento, projetos e oportunidades.</p>
+      <div class="career-grid">
+        <div class="career-card">
+          <div class="career-h">📍 Onde está hoje</div>
+          <div class="career-body" data-career-key="position_now" ${r?'contenteditable="true"':''} data-placeholder="cargo atual e o que mais define o momento profissional">${escapeHtml(c.position_now||'')}</div>
+        </div>
+        <div class="career-card">
+          <div class="career-h">🎯 Onde quer chegar (1-2 anos)</div>
+          <div class="career-body" data-career-key="goal_short" ${r?'contenteditable="true"':''} data-placeholder="próximo passo realista">${escapeHtml(c.goal_short||'')}</div>
+        </div>
+        <div class="career-card">
+          <div class="career-h">🌟 Aonde quer chegar (longo prazo)</div>
+          <div class="career-body" data-career-key="goal_long" ${r?'contenteditable="true"':''} data-placeholder="3-5 anos · sonho profissional">${escapeHtml(c.goal_long||'')}</div>
+        </div>
+        <div class="career-card">
+          <div class="career-h">📚 O que precisa aprender</div>
+          <div class="career-body" data-career-key="learning_needs" ${r?'contenteditable="true"':''} data-placeholder="conhecimentos, técnicas, soft skills">${escapeHtml(c.learning_needs||'')}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <h3 class="section-h">Reconhecimento</h3>
+      <p class="sub-text">O tipo de reconhecimento que de fato importa pra essa pessoa. Use isso pra acertar o tom.</p>
+      <div class="recog-grid">
+        ${[
+          { k: 'recog_style', label: 'Estilo preferido', placeholder: 'público, em particular, por escrito, com responsabilidade nova…' },
+          { k: 'recog_freq', label: 'Frequência ideal', placeholder: 'imediato, semanal, mensal…' },
+          { k: 'recog_things', label: 'O que mais valoriza', placeholder: 'palavras de gestor, $$ / aumento, autonomia, novos projetos, formação paga…' },
+          { k: 'recog_avoid', label: 'O que NÃO funciona', placeholder: 'evitar elogio público, evitar mimo material, evitar bônus financeiro…' }
+        ].map(f => `
+          <div class="recog-card">
+            <div class="recog-h">${f.label}</div>
+            <div class="recog-body" data-career-key="${f.k}" ${r?'contenteditable="true"':''} data-placeholder="${escapeHtml(f.placeholder)}">${escapeHtml(c[f.k]||'')}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="field-group">
+      <h3 class="section-h">Próximos passos combinados</h3>
+      ${listEditCareerHTML(m, 'next_steps')}
+    </div>
+  `;
+}
+
+function listEditCareerHTML(m, key) {
+  const r = canWrite() || (state.user.role === 'member' && state.user.member_id === m.id);
+  const list = m.data?.career?.[key] || [];
+  return `
+    <div class="list-edit" data-career-list="${key}">
+      ${list.map((item, i) => `
+        <div class="list-item">
+          <span class="bullet">→</span>
+          <div class="text" ${r?`contenteditable="true" data-career-list-edit="${key}" data-idx="${i}"`:''}>${escapeHtml(item)}</div>
+          ${r?`<button class="x" data-career-list-remove="${key}" data-idx="${i}">×</button>`:''}
+        </div>
+      `).join('')}
+      ${r?`<button class="list-add" data-career-list-add="${key}">+ adicionar próximo passo</button>`:''}
+    </div>
+  `;
+}
+
+function sectionSkills(m) {
+  const r = canWrite();
+  const skills = m.data?.skills || {};
+  return `
+    <div class="field-group">
+      <h3 class="section-h">Matriz de competências</h3>
+      <p class="sub-text">Avalie cada habilidade de 1 a 5 — clique para definir. Use isso pra distribuir trabalho, montar pares de mentoria e identificar gaps de formação.</p>
+      ${SKILLS_DEFAULT.map(g => `
+        <div class="skill-cat">
+          <div class="skill-cat-h">${escapeHtml(g.cat)}</div>
+          <div class="skill-list">
+            ${g.items.map(item => {
+              const lvl = skills[`${g.cat}|${item}`] || 0;
+              return `
+                <div class="skill-row">
+                  <div class="skill-name">${escapeHtml(item)}</div>
+                  <div class="skill-rate" data-skill-key="${escapeHtml(g.cat+'|'+item)}">
+                    ${[1,2,3,4,5].map(v => `<button type="button" data-v="${v}" class="${lvl>=v?'on':''}" ${r?'':'disabled'}></button>`).join('')}
+                  </div>
+                  <div class="skill-lbl">${SKILL_LABELS[lvl]||'—'}</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+const SKILL_LABELS = { 0: '—', 1: 'iniciante', 2: 'aprendendo', 3: 'autônomo', 4: 'avançado', 5: 'referência' };
+
 function sectionGuidance(m) {
   const t1 = TEMP_GUIDE[m.temp1];
   const t2 = m.temp2 ? TEMP_GUIDE[m.temp2] : null;
@@ -2252,6 +2750,65 @@ function attachSectionHandlers(m) {
     el.addEventListener('change', () => {
       const data = { ...(m.data||{}), bigfive: { ...(m.data?.bigfive||defaultBigFive(m)), [el.dataset.bfKey]: parseInt(el.value,10) } };
       saveMemberFullData(data);
+    });
+  });
+  // Manual
+  $$('[data-manual-key]').forEach(el => {
+    el.addEventListener('blur', () => {
+      const k = el.dataset.manualKey;
+      const v = el.textContent.trim();
+      const manual = { ...(m.data?.manual||{}), [k]: v };
+      saveMemberFullData({ ...(m.data||{}), manual });
+    });
+  });
+  // Career
+  $$('[data-career-key]').forEach(el => {
+    el.addEventListener('blur', () => {
+      const k = el.dataset.careerKey;
+      const v = el.textContent.trim();
+      const career = { ...(m.data?.career||{}), [k]: v };
+      saveMemberFullData({ ...(m.data||{}), career });
+    });
+  });
+  $$('[data-career-list-edit]').forEach(el => {
+    el.addEventListener('blur', () => {
+      const k = el.dataset.careerListEdit, i = parseInt(el.dataset.idx, 10);
+      const list = [...(m.data?.career?.[k]||[])];
+      list[i] = el.textContent.trim();
+      const career = { ...(m.data?.career||{}), [k]: list };
+      saveMemberFullData({ ...(m.data||{}), career });
+    });
+  });
+  $$('[data-career-list-remove]').forEach(el => {
+    el.addEventListener('click', () => {
+      const k = el.dataset.careerListRemove, i = parseInt(el.dataset.idx, 10);
+      const list = [...(m.data?.career?.[k]||[])]; list.splice(i, 1);
+      const career = { ...(m.data?.career||{}), [k]: list };
+      saveMemberFullData({ ...(m.data||{}), career });
+      renderMmSection();
+    });
+  });
+  $$('[data-career-list-add]').forEach(el => {
+    el.addEventListener('click', () => {
+      const k = el.dataset.careerListAdd;
+      const list = [...(m.data?.career?.[k]||[]), 'novo passo'];
+      const career = { ...(m.data?.career||{}), [k]: list };
+      saveMemberFullData({ ...(m.data||{}), career });
+      renderMmSection();
+    });
+  });
+  // Skills
+  $$('.skill-rate button').forEach(b => {
+    b.addEventListener('click', () => {
+      if (b.disabled) return;
+      const group = b.parentElement;
+      const key = group.dataset.skillKey;
+      const v = parseInt(b.dataset.v, 10);
+      const skills = { ...(m.data?.skills||{}), [key]: v };
+      saveMemberFullData({ ...(m.data||{}), skills });
+      // visual immediate update
+      group.querySelectorAll('button').forEach((btn, idx) => btn.classList.toggle('on', idx < v));
+      group.parentElement.querySelector('.skill-lbl').textContent = SKILL_LABELS[v];
     });
   });
 }
@@ -2664,15 +3221,6 @@ function sameDay(a, b) { return a.getFullYear()===b.getFullYear() && a.getMonth(
 
 function collectAllEvents(yyyy) {
   const evs = [];
-  // Aniversário Biasi
-  evs.push({
-    type: 'biasi', icon: '⭐',
-    date: new Date(yyyy, BIASI_FOUNDED.getMonth(), BIASI_FOUNDED.getDate()).toISOString(),
-    title: `Biasi · ${yyyy - BIASI_FOUNDED.getFullYear()} anos de fundação`,
-    shortLabel: `Biasi ${yyyy - BIASI_FOUNDED.getFullYear()} anos`,
-    subtitle: 'Aniversário da empresa'
-  });
-
   // Aniversários e anos de casa
   state.members.forEach(m => {
     if (m.birthday) {
