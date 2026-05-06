@@ -209,7 +209,13 @@ main { padding: 32px 28px 80px; max-width: 1440px; margin: 0 auto; }
 }
 .stat::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: var(--ink); opacity: 0.6;
+  background: linear-gradient(90deg, var(--ink), var(--ink-soft)); opacity: 0.7;
+}
+.stat::after {
+  content: ''; position: absolute; bottom: -30px; right: -30px;
+  width: 100px; height: 100px; border-radius: 50%;
+  background: radial-gradient(circle, currentColor, transparent 70%);
+  opacity: 0.05; pointer-events: none;
 }
 .stat.warm::before { background: var(--col); }
 .stat.cool::before { background: var(--info); }
@@ -543,7 +549,135 @@ main { padding: 32px 28px 80px; max-width: 1440px; margin: 0 auto; }
 .rate button.active { background: var(--ink); border-color: var(--ink); color: var(--surface); transform: scale(1.05); }
 .rate-emoji button { font-size: 20px; }
 
-/* Feedback script */
+/* GUIDANCE TAB */
+.guide-hero { margin-bottom: 24px; }
+.guide-temp-card {
+  background: linear-gradient(135deg, #fffbf5 0%, #fff 100%);
+  border: 1px solid var(--line); border-radius: 16px;
+  padding: 24px 26px; position: relative; overflow: hidden;
+}
+.guide-temp-card::before {
+  content: ''; position: absolute; top: -60px; right: -60px; width: 220px; height: 220px;
+  border-radius: 50%; opacity: 0.08; background: radial-gradient(circle, var(--ink), transparent 70%);
+}
+.guide-temp-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--ink-muted); font-weight: 600; margin-bottom: 6px;
+}
+.guide-temp-name {
+  font-family: 'Fraunces', serif; font-size: 28px; font-weight: 500;
+  letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 8px;
+}
+.guide-temp-name.temp-colerico { color: var(--col); }
+.guide-temp-name.temp-fleumatico { color: var(--flem); }
+.guide-temp-name.temp-melancolico { color: var(--mel); }
+.guide-temp-name.temp-sanguineo { color: var(--sang); }
+.guide-combo {
+  font-size: 12.5px; color: var(--ink-soft); padding: 8px 12px;
+  background: var(--surface-2); border-radius: 8px; margin-bottom: 12px;
+  border-left: 3px solid var(--ink); font-style: italic;
+}
+.guide-summary { font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+
+.guide-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  margin-bottom: 18px;
+}
+.guide-card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px; padding: 18px;
+  box-shadow: var(--shadow-sm);
+}
+.guide-card-do { background: linear-gradient(180deg, #f0fdf4 0%, var(--surface) 100%); border-color: #bbf7d0; }
+.guide-card-dont { background: linear-gradient(180deg, #fef2f2 0%, var(--surface) 100%); border-color: #fecaca; }
+.guide-card-h {
+  font-family: 'Fraunces', serif; font-size: 14px; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
+}
+.guide-card-h b { font-weight: 600; }
+
+.guide-quote {
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: 14px; padding: 18px 22px; margin-bottom: 14px;
+}
+.guide-quote-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--ink-muted); font-weight: 600; margin-bottom: 8px;
+}
+
+@media (max-width: 700px) {
+  .guide-grid { grid-template-columns: 1fr; }
+}
+
+/* FEEDBACK */
+.fb-hero {
+  background: linear-gradient(135deg, #fafaf7 0%, #fffbf5 100%);
+  border: 1px solid var(--line); border-radius: 16px;
+  padding: 22px 26px; margin-bottom: 18px;
+  position: relative; overflow: hidden;
+}
+.fb-hero::before {
+  content: ''; position: absolute; top: -50px; right: -50px;
+  width: 180px; height: 180px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(180,83,9,.12), transparent 70%);
+}
+.fb-hero-tag {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--ink-muted); font-weight: 600;
+}
+.fb-hero-title { font-size: 26px; font-weight: 500; letter-spacing: -0.02em; margin: 6px 0 10px; }
+.fb-hero-tone { font-size: 12.5px; color: var(--ink-soft); }
+.fb-hero-tone b { color: var(--ink); font-weight: 600; }
+.fb-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; position: relative; }
+
+.fb-block {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px; padding: 18px 22px; margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.fb-block-h {
+  font-family: 'Fraunces', serif; font-size: 15px; font-weight: 600;
+  margin-bottom: 10px; letter-spacing: -0.01em;
+}
+.fb-text { font-size: 13.5px; line-height: 1.6; color: var(--ink-soft); margin-bottom: 8px; }
+.fb-list { padding-left: 22px; margin: 6px 0; }
+.fb-list li { font-size: 13.5px; line-height: 1.6; margin-bottom: 5px; color: var(--ink-soft); }
+.fb-list li b { color: var(--ink); font-weight: 600; }
+.fb-quote {
+  font-family: 'Fraunces', serif; font-size: 16px; font-style: italic;
+  line-height: 1.55; color: var(--ink);
+  background: var(--surface-2); border-left: 3px solid var(--ink);
+  padding: 12px 16px; border-radius: 0 10px 10px 0;
+  margin: 8px 0;
+}
+.fb-pulse {
+  background: linear-gradient(135deg, #fff 0%, #fafaf7 100%);
+}
+.fb-pulse-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  margin: 10px 0;
+}
+.fb-pulse-grid > div {
+  background: var(--surface-2); border-radius: 10px; padding: 12px 10px;
+  text-align: center;
+}
+.fb-pulse-num { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 500; line-height: 1; }
+.fb-pulse-lbl { font-size: 10px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; font-weight: 500; }
+.fb-pulse-note {
+  background: #fff7ed; border: 1px solid #fed7aa;
+  border-radius: 8px; padding: 8px 12px;
+  font-size: 12.5px; color: var(--warning); margin-top: 8px;
+}
+.fb-block-empty { background: var(--surface-2); border-style: dashed; }
+.fb-blockers { background: #fff7ed; border-color: #fed7aa; }
+.fb-okr {
+  background: var(--surface-2); border-radius: 8px; padding: 10px 12px;
+  margin-bottom: 6px; font-size: 13px;
+}
+.fb-close { background: linear-gradient(135deg, #fffbf5 0%, #fff 100%); }
+
+/* Feedback script (legacy) */
 .feedback-script {
   background: linear-gradient(180deg, #fffbf5, var(--surface));
   border: 1px solid var(--line); border-radius: 14px; padding: 24px 26px;
@@ -609,23 +743,96 @@ tr:hover td { background: var(--surface-2); }
 .role-viewer { background: var(--line-soft); color: var(--ink-soft); }
 .role-member { background: #f0fdf4; color: var(--positive); }
 
-/* Calendar */
-.calendar { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
-.cal-event {
-  background: var(--surface); border: 1px solid var(--line);
-  border-radius: var(--radius); padding: 16px;
-  display: flex; gap: 14px; box-shadow: var(--shadow-sm);
+/* CALENDAR — month grid */
+.cal-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px; gap: 10px; flex-wrap: wrap;
 }
-.cal-icon {
-  width: 44px; height: 44px; border-radius: 12px;
+.cal-month-label {
+  font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500;
+  letter-spacing: -0.02em; text-transform: capitalize;
+}
+.cal-nav { display: flex; gap: 4px; align-items: center; }
+.cal-nav-btn {
+  width: 34px; height: 34px; border-radius: 9px;
+  border: 1px solid var(--line); background: var(--surface);
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px; flex-shrink: 0;
+  color: var(--ink-soft); transition: all .15s;
 }
-.cal-icon.bday { background: var(--grad-warm); }
-.cal-icon.anniv { background: var(--grad-cool); }
-.cal-info b { display: block; font-family: 'Fraunces', serif; font-size: 16px; font-weight: 500; }
-.cal-info span { font-size: 11.5px; color: var(--ink-muted); }
-.cal-info .when { color: var(--ink); font-weight: 500; margin-top: 4px; font-size: 13px; }
+.cal-nav-btn:hover { background: var(--surface-2); color: var(--ink); }
+.cal-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 1px; background: var(--line);
+  border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.cal-day-h {
+  background: var(--surface-2); padding: 10px 8px;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--ink-muted); font-weight: 600; text-align: center;
+}
+.cal-cell {
+  background: var(--surface); min-height: 100px; padding: 8px;
+  display: flex; flex-direction: column; gap: 4px;
+  position: relative; transition: background .15s;
+}
+.cal-cell.other-month { background: var(--surface-2); opacity: 0.5; }
+.cal-cell.today { background: linear-gradient(180deg, #fffbf5 0%, var(--surface) 100%); }
+.cal-cell.today .cal-day-num {
+  background: var(--ink); color: var(--surface);
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600;
+}
+.cal-day-num {
+  font-size: 13px; font-weight: 500; color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+.cal-evt {
+  font-size: 10.5px; padding: 3px 6px; border-radius: 5px;
+  cursor: pointer; line-height: 1.3; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap;
+  display: flex; align-items: center; gap: 4px;
+  transition: transform .15s;
+}
+.cal-evt:hover { transform: translateX(2px); }
+.cal-evt.bday { background: #fef3c7; color: #92400e; }
+.cal-evt.anniv { background: #dbeafe; color: var(--info); }
+.cal-evt.biasi { background: #fce7f3; color: #9d174d; font-weight: 600; }
+.cal-evt.oo { background: #f5f3ff; color: var(--mel); }
+.cal-evt-icon { font-size: 11px; flex-shrink: 0; }
+
+.cal-side {
+  display: grid; grid-template-columns: 2fr 1fr; gap: 18px;
+  margin-top: 18px;
+}
+.cal-upcoming-list { display: flex; flex-direction: column; gap: 8px; max-height: 380px; overflow-y: auto; }
+.cal-upcoming {
+  display: flex; gap: 12px; padding: 10px 12px;
+  background: var(--surface-2); border-radius: 10px;
+  cursor: pointer; transition: all .15s;
+  border: 1px solid transparent;
+}
+.cal-upcoming:hover { background: var(--surface); border-color: var(--line); }
+.cal-upcoming-icon {
+  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.cal-upcoming-icon.bday { background: var(--grad-warm); }
+.cal-upcoming-icon.anniv { background: var(--grad-cool); }
+.cal-upcoming-icon.biasi { background: var(--grad-soft); }
+.cal-upcoming-icon.oo { background: linear-gradient(135deg, #f5f3ff, #fce7f3); }
+.cal-upcoming-info { flex: 1; min-width: 0; }
+.cal-upcoming-info b { display: block; font-size: 13px; font-weight: 500; }
+.cal-upcoming-info .meta { font-size: 11px; color: var(--ink-muted); }
+.cal-upcoming-info .when { color: var(--ink); font-weight: 500; margin-top: 2px; font-size: 12px; }
+
+@media (max-width: 768px) {
+  .cal-side { grid-template-columns: 1fr; }
+  .cal-cell { min-height: 70px; padding: 5px; }
+  .cal-day-num { font-size: 11px; }
+  .cal-evt { font-size: 9px; padding: 2px 4px; }
+}
 
 /* Toast / loading */
 .toast {
@@ -1029,63 +1236,92 @@ function renderDashboard() {
   `;
 }
 
+// Gera path suave (cardinal spline) entre pontos
+function smoothPath(points) {
+  if (points.length < 2) return '';
+  if (points.length === 2) return `M${points[0][0]},${points[0][1]} L${points[1][0]},${points[1][1]}`;
+  let d = `M${points[0][0]},${points[0][1]}`;
+  for (let i = 0; i < points.length - 1; i++) {
+    const p0 = points[i-1] || points[i];
+    const p1 = points[i];
+    const p2 = points[i+1];
+    const p3 = points[i+2] || p2;
+    const t = 0.2; // tensão
+    const c1x = p1[0] + (p2[0]-p0[0]) * t;
+    const c1y = p1[1] + (p2[1]-p0[1]) * t;
+    const c2x = p2[0] - (p3[0]-p1[0]) * t;
+    const c2y = p2[1] - (p3[1]-p1[1]) * t;
+    d += ` C${c1x},${c1y} ${c2x},${c2y} ${p2[0]},${p2[1]}`;
+  }
+  return d;
+}
+
 function moodChartSVG(trend) {
   if (!trend?.length) {
-    return `<div style="text-align:center;padding:40px 20px;color:var(--ink-muted);font-size:12px;">
-      Sem dados ainda. Faça o primeiro check-in clicando em "Check-in de hoje"!
+    return `<div style="text-align:center;padding:60px 20px;color:var(--ink-muted);">
+      <div style="font-size:36px;opacity:0.3;margin-bottom:8px;">📈</div>
+      <div style="font-size:13px;">Sem dados ainda.</div>
+      <div style="font-size:11.5px;margin-top:4px;">Faça o primeiro check-in para começar a ver a evolução.</div>
     </div>`;
   }
-  const W = 560, H = 200, P = { t: 18, r: 12, b: 26, l: 28 };
+  const W = 580, H = 240, P = { t: 16, r: 16, b: 32, l: 32 };
   const w = W - P.l - P.r, h = H - P.t - P.b;
-  const dates = trend.map(t => t.date);
   const xStep = trend.length > 1 ? w / (trend.length - 1) : w / 2;
   const series = [
-    { key: 'mood', color: '#1c1917', label: 'Humor' },
-    { key: 'energy', color: '#16a34a', label: 'Energia' },
-    { key: 'workload', color: '#c2410c', label: 'Carga' }
+    { key: 'mood', color: '#1c1917', label: 'Humor', gid: 'gMood' },
+    { key: 'energy', color: '#16a34a', label: 'Energia', gid: 'gEnergy' },
+    { key: 'workload', color: '#c2410c', label: 'Carga', gid: 'gWork' }
   ];
-  const ymin = 1, ymax = 5;
-  const yToPx = v => P.t + h - ((v - ymin) / (ymax - ymin)) * h;
-  const xToPx = i => P.l + i * xStep;
+  const yPx = v => P.t + h - ((v - 1) / 4) * h;
+  const xPx = i => P.l + i * xStep;
 
-  let lines = '';
+  let defs = `<defs>${series.map(s => `
+    <linearGradient id="${s.gid}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${s.color}" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="${s.color}" stop-opacity="0"/>
+    </linearGradient>
+  `).join('')}<filter id="shadow" x="-2" y="-2" width="120%" height="120%">
+    <feGaussianBlur stdDeviation="1.2"/>
+  </filter></defs>`;
+
+  let svg = '';
   for (const s of series) {
-    const pts = trend.map((t, i) => `${xToPx(i)},${yToPx(t[s.key]||3)}`).join(' ');
-    const area = `${P.l},${P.t+h} ${pts} ${P.l+w},${P.t+h}`;
-    lines += `<polygon points="${area}" fill="${s.color}" class="chart-area"/>`;
-    lines += `<polyline points="${pts}" stroke="${s.color}" class="chart-line"/>`;
-    trend.forEach((t, i) => {
-      lines += `<circle cx="${xToPx(i)}" cy="${yToPx(t[s.key]||3)}" r="3" fill="${s.color}" class="chart-dot"/>`;
+    const pts = trend.map((t, i) => [xPx(i), yPx(t[s.key]||3)]);
+    const path = smoothPath(pts);
+    const areaPath = `${path} L${pts[pts.length-1][0]},${P.t+h} L${pts[0][0]},${P.t+h} Z`;
+    svg += `<path d="${areaPath}" fill="url(#${s.gid})"/>`;
+    svg += `<path d="${path}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`;
+    pts.forEach(([x,y]) => {
+      svg += `<circle cx="${x}" cy="${y}" r="3.5" fill="${s.color}" stroke="white" stroke-width="2"/>`;
     });
   }
 
-  let yLabels = '';
+  let yLines = '', yLabels = '';
   for (let v = 1; v <= 5; v++) {
-    yLabels += `<line x1="${P.l}" x2="${P.l+w}" y1="${yToPx(v)}" y2="${yToPx(v)}" class="chart-grid"/>
-                <text x="${P.l - 4}" y="${yToPx(v)+3}" text-anchor="end">${v}</text>`;
+    yLines += `<line x1="${P.l}" x2="${P.l+w}" y1="${yPx(v)}" y2="${yPx(v)}" stroke="${v===1?'#e7e5e4':'#f4f4f5'}" stroke-width="1" ${v!==1?'stroke-dasharray="2 4"':''}/>`;
+    yLabels += `<text x="${P.l-8}" y="${yPx(v)+4}" text-anchor="end" style="font-size:10px;fill:#a8a29e;font-family:Inter;">${v}</text>`;
   }
   let xLabels = '';
-  const skip = Math.max(1, Math.floor(trend.length / 6));
+  const skip = Math.max(1, Math.floor(trend.length / 7));
   trend.forEach((t, i) => {
     if (i % skip === 0 || i === trend.length - 1) {
       const dt = new Date(t.date);
-      const lbl = `${dt.getDate()}/${dt.getMonth()+1}`;
-      xLabels += `<text x="${xToPx(i)}" y="${P.t+h+14}" text-anchor="middle">${lbl}</text>`;
+      const lbl = `${dt.getDate()}/${(dt.getMonth()+1).toString().padStart(2,'0')}`;
+      xLabels += `<text x="${xPx(i)}" y="${P.t+h+18}" text-anchor="middle" style="font-size:10px;fill:#a8a29e;font-family:Inter;">${lbl}</text>`;
     }
   });
 
   const legend = series.map(s => `
-    <span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--ink-soft);">
-      <span style="width:10px;height:10px;border-radius:2px;background:${s.color};"></span>${s.label}
+    <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-soft);font-weight:500;">
+      <span style="width:12px;height:3px;border-radius:2px;background:${s.color};"></span>${s.label}
     </span>
-  `).join(' &nbsp; ');
+  `).join(' &nbsp; &nbsp; ');
 
   return `
-    <svg class="chart-svg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
-      <g class="chart-axis">${yLabels}${xLabels}</g>
-      ${lines}
+    <svg class="chart-svg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      ${defs}${yLines}${yLabels}${xLabels}${svg}
     </svg>
-    <div style="margin-top:6px;">${legend}</div>
+    <div style="margin-top:10px;">${legend}</div>
   `;
 }
 
@@ -1184,6 +1420,7 @@ function computePriority(m) {
 // ── MEMBER MODAL ──
 const MM_TABS = [
   { id: 'overview', label: 'Visão geral' },
+  { id: 'guidance', label: 'Como lidar' },
   { id: 'profile', label: 'Perfil' },
   { id: 'checkins', label: 'Check-ins' },
   { id: 'kpis', label: 'KPIs' },
@@ -1194,6 +1431,132 @@ const MM_TABS = [
   { id: 'feedback', label: 'Feedback' },
   { id: 'history', label: 'Histórico' }
 ];
+
+// ── CONTEÚDO DE COMO LIDAR (extraído de Hipócrates + práticas de gestão) ──
+const TEMP_GUIDE = {
+  colerico: {
+    summary: 'Pessoas movidas por desafio, resultado e propósito. Pensam grande, decidem rápido, querem direção clara. Quando contrariadas, reagem com firmeza.',
+    motivators: [
+      'Autonomia e responsabilidade real',
+      'Metas ambiciosas e mensuráveis',
+      'Reconhecimento por entregas concretas',
+      'Liberdade para liderar projetos',
+      'Desafios que tirem da zona de conforto'
+    ],
+    fears: ['Ser controlado em detalhes', 'Perder tempo em reuniões circulares', 'Trabalho sem propósito', 'Decisões lentas'],
+    do: [
+      'Vá direto ao ponto — diga o que precisa, em quantas linhas, até quando',
+      'Dê o "porquê" antes do "como" — eles aceitam a missão, não a microgestão',
+      'Estabeleça metas com números e prazos visíveis',
+      'Reconheça em público quando entregam',
+      'Discorde com fatos, não com sentimento'
+    ],
+    dont: [
+      'Não rodeie — perde credibilidade',
+      'Não interrompa enquanto explicam o raciocínio',
+      'Não delegue tarefa pequena demais — eles se ofendem',
+      'Não cobre processo se o resultado está chegando',
+      'Não dê feedback emocional sem dado concreto'
+    ],
+    feedbackTone: 'Direto, prático, com fatos. "Aconteceu X, impactou Y, próximo passo Z." Sem rodeios, sem suavizar demais.',
+    inConflict: 'Em conflito, ele eleva o tom. Não responda no mesmo nível — reduza o ritmo, traga dados, faça perguntas. Ele respeita quem segura a posição com calma e razão.'
+  },
+  fleumatico: {
+    summary: 'Pessoas calmas, equilibradas, leais. Trabalham bem em equipe, evitam conflito, preferem rotina previsível. Aprendem profundo, mas precisam de tempo.',
+    motivators: [
+      'Ambiente estável e relações de confiança',
+      'Reconhecimento privado e sincero',
+      'Clareza sobre o papel e expectativas',
+      'Tempo para se aprofundar antes de entregar',
+      'Sentir-se parte de algo maior'
+    ],
+    fears: ['Mudanças bruscas sem aviso', 'Conflito direto', 'Pressão pública', 'Ter que improvisar do zero'],
+    do: [
+      'Avise mudanças com antecedência — dê tempo de processar',
+      'Faça perguntas abertas e espere — eles pensam antes de falar',
+      'Reconheça em particular, com sinceridade',
+      'Estruture tarefas com começo, meio e fim claros',
+      'Crie segurança psicológica para que tragam ideias'
+    ],
+    dont: [
+      'Não jogue tudo em cima de uma vez',
+      'Não cobre velocidade — cobre qualidade',
+      'Não exponha em reunião grande sem preparar',
+      'Não confunda silêncio com concordância',
+      'Não pressione decisão imediata'
+    ],
+    feedbackTone: 'Calmo, estruturado, com tempo para resposta. Comece pelo positivo, vá pro ponto de atenção devagar, termine com plano claro.',
+    inConflict: 'Em conflito, ele se cala e se afasta. Volte depois com paciência: "Notei que você ficou quieto, queria entender o que pensou." Não force resposta na hora.'
+  },
+  melancolico: {
+    summary: 'Pessoas analíticas, profundas, exigentes consigo mesmas. Pensam em detalhes que ninguém viu, mas podem travar no perfeccionismo. Sensíveis a injustiça.',
+    motivators: [
+      'Trabalho que exige profundidade analítica',
+      'Reconhecimento da qualidade técnica',
+      'Justiça e coerência nas decisões',
+      'Espaço para pensar sem interrupção',
+      'Sentido — entender por que aquilo importa'
+    ],
+    fears: ['Ser superficial', 'Cometer erro público', 'Conflito interpessoal', 'Trabalho sem padrão claro'],
+    do: [
+      'Reconheça o cuidado e a profundidade — não só o resultado',
+      'Dê contexto e lógica antes de pedir entrega',
+      'Aceite que vão querer revisar — combine "quando está bom o suficiente"',
+      'Proteja contra cobranças injustas',
+      'Dê tempo de qualidade individual antes de decidir'
+    ],
+    dont: [
+      'Não mude regras sem explicar',
+      'Não trate erro como falha pessoal',
+      'Não force entregas em rascunho',
+      'Não os exponha como exemplo negativo',
+      'Não pressione sem dar contexto'
+    ],
+    feedbackTone: 'Cuidadoso, com dados concretos. Reconheça primeiro a parte bem feita. Foque em comportamento, não em pessoa. Termine com plano realista.',
+    inConflict: 'Em conflito, ele rumina e se culpa. Aborde devagar, separe fato de interpretação: "O que aconteceu foi X — não é sobre você como pessoa." Reforce que o vínculo segue.'
+  },
+  sanguineo: {
+    summary: 'Pessoas calorosas, comunicativas, otimistas. Energizam o time, têm muitas ideias, mas perdem foco com facilidade. Precisam de validação contínua.',
+    motivators: [
+      'Variedade — projetos novos e diferentes',
+      'Interação social, trabalho colaborativo',
+      'Reconhecimento público frequente',
+      'Liberdade para se expressar',
+      'Ritmo dinâmico, sem monotonia'
+    ],
+    fears: ['Trabalho repetitivo isolado', 'Crítica em tom duro', 'Ser ignorado', 'Excesso de regras'],
+    do: [
+      'Use o entusiasmo deles — eles puxam o time pra cima',
+      'Reconheça com frequência, mesmo o pequeno',
+      'Crie checkpoints curtos — eles dispersam em entregas longas',
+      'Permita conversa antes de tarefa solo',
+      'Direcione energia com objetivos claros'
+    ],
+    dont: [
+      'Não isole em sala fechada por horas seguidas',
+      'Não dê feedback sem reconhecer algo positivo',
+      'Não confunda animação com superficialidade',
+      'Não cobre processo rígido',
+      'Não os deixe sem retorno por muito tempo'
+    ],
+    feedbackTone: 'Leve, energético, com humor leve. Comece com algo positivo de verdade, traga o ponto de atenção como "vamos junto resolver isso", termine animando.',
+    inConflict: 'Em conflito, ele dramatiza e expressa. Deixe falar, valide o sentimento ("entendo que isso te incomodou"), depois traga o fato. Volte ao trabalho com leveza.'
+  }
+};
+const TEMP_COMBO = {
+  'colerico-melancolico': 'Líder analítico — quer resultado mas exige qualidade. Cobre por dado, não por achismo. Reconheça competência técnica.',
+  'colerico-sanguineo': 'Líder carismático — energia + ação. Reconheça em público. Dê palco e desafio.',
+  'colerico-fleumatico': 'Líder estável — firme mas equilibrado. Combine direção clara + segurança emocional.',
+  'fleumatico-colerico': 'Executor confiável — calmo mas com força quando precisa. Dê estrutura e autonomia.',
+  'fleumatico-melancolico': 'Profundo silencioso — escuta, observa, entrega com cuidado. Pergunte abertamente, espere.',
+  'fleumatico-sanguineo': 'Mediador natural — conecta pessoas. Use isso em times com tensão.',
+  'melancolico-colerico': 'Perfeccionista determinado — sabe o que quer e como fazer certo. Defina "bom o suficiente" junto.',
+  'melancolico-fleumatico': 'Analítico paciente — pensa fundo, sem pressa. Dê espaço, valorize o pensamento.',
+  'melancolico-sanguineo': 'Sensível social — exigente consigo mas warmth com outros. Cuide do equilíbrio.',
+  'sanguineo-colerico': 'Animador com força — empolga e executa. Canalize com metas claras.',
+  'sanguineo-fleumatico': 'Conector calmo — acolhe sem pressa. Use em onboarding.',
+  'sanguineo-melancolico': 'Criativo sensível — ideias + cuidado. Proteja de crítica dura.'
+};
 
 window.openMemberModal = async function(memberId) {
   state.currentMemberId = memberId;
@@ -1264,6 +1627,7 @@ function renderMmSection() {
   const tab = state.currentMmTab;
   const body = $('#mmBody');
   if (tab === 'overview') body.innerHTML = sectionOverview(m);
+  else if (tab === 'guidance') body.innerHTML = sectionGuidance(m);
   else if (tab === 'profile') body.innerHTML = sectionProfile(m);
   else if (tab === 'checkins') body.innerHTML = sectionCheckins(m);
   else if (tab === 'kpis') body.innerHTML = sectionKpis(m);
@@ -1345,46 +1709,53 @@ function sectionOverview(m) {
 }
 
 function mini14ChartSVG(days) {
-  const W = 540, H = 130, P = { t: 12, r: 8, b: 18, l: 22 };
+  const W = 560, H = 160, P = { t: 14, r: 12, b: 22, l: 26 };
   const w = W - P.l - P.r, h = H - P.t - P.b;
   const xStep = days.length > 1 ? w / (days.length - 1) : w / 2;
   const yPx = v => P.t + h - ((v - 1) / 4) * h;
   const xPx = i => P.l + i * xStep;
-
   const series = [
-    { key: 'mood', color: '#1c1917' },
-    { key: 'energy', color: '#16a34a' },
-    { key: 'workload', color: '#c2410c' }
+    { key: 'mood', color: '#1c1917', gid: 'mg1' },
+    { key: 'energy', color: '#16a34a', gid: 'mg2' },
+    { key: 'workload', color: '#c2410c', gid: 'mg3' }
   ];
-  let lines = '';
+  let defs = `<defs>${series.map(s => `
+    <linearGradient id="${s.gid}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${s.color}" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="${s.color}" stop-opacity="0"/>
+    </linearGradient>`).join('')}</defs>`;
+
+  let svg = '';
   for (const s of series) {
-    const pts = days.map((c, i) => `${xPx(i)},${yPx(c[s.key]||3)}`).join(' ');
-    lines += `<polyline points="${pts}" stroke="${s.color}" class="chart-line"/>`;
-    days.forEach((c, i) => {
-      lines += `<circle cx="${xPx(i)}" cy="${yPx(c[s.key]||3)}" r="2.5" fill="${s.color}" class="chart-dot"/>`;
+    const pts = days.map((c, i) => [xPx(i), yPx(c[s.key]||3)]);
+    const path = smoothPath(pts);
+    const areaPath = `${path} L${pts[pts.length-1][0]},${P.t+h} L${pts[0][0]},${P.t+h} Z`;
+    svg += `<path d="${areaPath}" fill="url(#${s.gid})"/>`;
+    svg += `<path d="${path}" fill="none" stroke="${s.color}" stroke-width="2" stroke-linecap="round"/>`;
+    pts.forEach(([x,y]) => {
+      svg += `<circle cx="${x}" cy="${y}" r="2.8" fill="${s.color}" stroke="white" stroke-width="1.5"/>`;
     });
   }
   let yLines = '';
   for (let v = 1; v <= 5; v += 2) {
-    yLines += `<line x1="${P.l}" x2="${P.l+w}" y1="${yPx(v)}" y2="${yPx(v)}" class="chart-grid"/>
-              <text x="${P.l-3}" y="${yPx(v)+3}" text-anchor="end" style="font-size:9px;fill:var(--ink-muted);">${v}</text>`;
+    yLines += `<line x1="${P.l}" x2="${P.l+w}" y1="${yPx(v)}" y2="${yPx(v)}" stroke="${v===1?'#e7e5e4':'#f4f4f5'}" stroke-width="1" ${v!==1?'stroke-dasharray="2 4"':''}/>
+              <text x="${P.l-6}" y="${yPx(v)+3}" text-anchor="end" style="font-size:9px;fill:#a8a29e;">${v}</text>`;
   }
   let xLabels = '';
   const skip = Math.max(1, Math.floor(days.length / 5));
   days.forEach((c, i) => {
     if (i % skip === 0 || i === days.length - 1) {
       const dt = new Date(c.date);
-      xLabels += `<text x="${xPx(i)}" y="${P.t+h+12}" text-anchor="middle" style="font-size:9px;fill:var(--ink-muted);">${dt.getDate()}/${dt.getMonth()+1}</text>`;
+      xLabels += `<text x="${xPx(i)}" y="${P.t+h+14}" text-anchor="middle" style="font-size:9px;fill:#a8a29e;">${dt.getDate()}/${dt.getMonth()+1}</text>`;
     }
   });
   return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
-    <g class="chart-axis">${yLines}${xLabels}</g>
-    ${lines}
+    ${defs}${yLines}${xLabels}${svg}
   </svg>
-  <div style="font-size:10.5px;color:var(--ink-muted);display:flex;gap:14px;margin-top:4px;">
-    <span><span style="display:inline-block;width:8px;height:8px;background:#1c1917;border-radius:1px;"></span> Humor</span>
-    <span><span style="display:inline-block;width:8px;height:8px;background:#16a34a;border-radius:1px;"></span> Energia</span>
-    <span><span style="display:inline-block;width:8px;height:8px;background:#c2410c;border-radius:1px;"></span> Carga</span>
+  <div style="font-size:10.5px;color:var(--ink-muted);display:flex;gap:14px;margin-top:6px;">
+    <span><span style="display:inline-block;width:10px;height:3px;background:#1c1917;border-radius:2px;vertical-align:middle;"></span> Humor</span>
+    <span><span style="display:inline-block;width:10px;height:3px;background:#16a34a;border-radius:2px;vertical-align:middle;"></span> Energia</span>
+    <span><span style="display:inline-block;width:10px;height:3px;background:#c2410c;border-radius:2px;vertical-align:middle;"></span> Carga</span>
   </div>`;
 }
 
@@ -1630,36 +2001,193 @@ function ooHTML(o, r) {
   `;
 }
 
+function sectionGuidance(m) {
+  const t1 = TEMP_GUIDE[m.temp1];
+  const t2 = m.temp2 ? TEMP_GUIDE[m.temp2] : null;
+  const T1 = TEMPS[m.temp1];
+  const T2 = m.temp2 ? TEMPS[m.temp2] : null;
+  const comboKey = m.temp2 ? `${m.temp1}-${m.temp2}` : null;
+  const combo = comboKey ? TEMP_COMBO[comboKey] : null;
+  if (!t1) return '<div class="empty-state">Defina o temperamento no Perfil para ver o guia.</div>';
+
+  const list = (arr, color, icon) => `
+    <ul style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+      ${arr.map(x => `
+        <li style="display:flex;gap:10px;font-size:13.5px;line-height:1.5;color:var(--ink-soft);align-items:flex-start;">
+          <span style="color:${color};flex-shrink:0;margin-top:2px;">${icon}</span><span>${escapeHtml(x)}</span>
+        </li>
+      `).join('')}
+    </ul>`;
+
+  return `
+    <div class="guide-hero">
+      <div class="guide-temp-card">
+        <div class="guide-temp-label">Perfil predominante</div>
+        <div class="guide-temp-name temp-${T1.class}">${T1.label}${T2?` <span style="color:var(--ink-muted);font-weight:400;">+ ${T2.label}</span>`:''}</div>
+        ${combo ? `<div class="guide-combo">${escapeHtml(combo)}</div>` : ''}
+        <p class="guide-summary">${escapeHtml(t1.summary)}</p>
+      </div>
+    </div>
+
+    <div class="guide-grid">
+      <div class="guide-card">
+        <div class="guide-card-h">⚡ <b>O que motiva</b></div>
+        ${list(t1.motivators, 'var(--positive)', '✓')}
+      </div>
+      <div class="guide-card">
+        <div class="guide-card-h">⚠ <b>O que tira do eixo</b></div>
+        ${list(t1.fears, 'var(--warning)', '✕')}
+      </div>
+    </div>
+
+    <div class="guide-grid">
+      <div class="guide-card guide-card-do">
+        <div class="guide-card-h" style="color:var(--positive);">FAÇA</div>
+        ${list(t1.do, 'var(--positive)', '✓')}
+      </div>
+      <div class="guide-card guide-card-dont">
+        <div class="guide-card-h" style="color:var(--critical);">EVITE</div>
+        ${list(t1.dont, 'var(--critical)', '✕')}
+      </div>
+    </div>
+
+    <div class="guide-quote">
+      <div class="guide-quote-label">Tom de feedback recomendado</div>
+      <blockquote style="font-family:'Fraunces',serif;font-size:17px;font-style:italic;line-height:1.5;color:var(--ink);">
+        "${escapeHtml(t1.feedbackTone)}"
+      </blockquote>
+    </div>
+
+    <div class="guide-quote" style="background:#fff7ed;border-color:#fed7aa;">
+      <div class="guide-quote-label" style="color:var(--warning);">Em momentos de conflito</div>
+      <p style="font-size:14px;line-height:1.6;color:var(--ink-soft);">${escapeHtml(t1.inConflict)}</p>
+    </div>
+
+    ${t2 ? `
+    <div class="field-group" style="margin-top:32px;">
+      <h3 class="section-h">Camada secundária · ${T2.label}</h3>
+      <p style="color:var(--ink-soft);font-size:13px;line-height:1.6;margin-bottom:14px;">${escapeHtml(t2.summary)}</p>
+      <div class="guide-grid">
+        <div class="guide-card guide-card-do"><div class="guide-card-h" style="color:var(--positive);">FAÇA TAMBÉM</div>${list(t2.do.slice(0,3), 'var(--positive)', '✓')}</div>
+        <div class="guide-card guide-card-dont"><div class="guide-card-h" style="color:var(--critical);">CUIDADO COM</div>${list(t2.dont.slice(0,3), 'var(--critical)', '✕')}</div>
+      </div>
+    </div>` : ''}
+  `;
+}
+
 function sectionFeedback(m) {
   const obs = state.observations[m.id] || [];
+  const cks = state.checkins[m.id] || [];
+  const okrs = state.okrs[m.id] || [];
   const positive = obs.filter(o => o.data?.type === 'positive').slice(0, 3);
   const warning = obs.filter(o => o.data?.type === 'warning').slice(0, 3);
-  const tone = m.temp1 === 'colerico' ? 'direto e prático'
-    : m.temp1 === 'fleumatico' ? 'calmo e estruturado'
-    : m.temp1 === 'melancolico' ? 'cuidadoso, com dados concretos'
-    : 'leve e energético';
+  const critical = obs.filter(o => o.data?.type === 'critical').slice(0, 2);
+
+  const t1 = TEMP_GUIDE[m.temp1];
+  const T1 = TEMPS[m.temp1];
+  const tone = t1?.feedbackTone || 'direto e estruturado';
+  const inConflict = t1?.inConflict || '';
+
+  // Análise dos check-ins recentes
+  const recent7 = cks.slice(0, 7);
+  const avgMood = recent7.length ? (recent7.reduce((s,c) => s+c.mood, 0) / recent7.length).toFixed(1) : null;
+  const avgEnergy = recent7.length ? (recent7.reduce((s,c) => s+c.energy, 0) / recent7.length).toFixed(1) : null;
+  const avgWork = recent7.length ? (recent7.reduce((s,c) => s+c.workload, 0) / recent7.length).toFixed(1) : null;
+  const blockers = recent7.filter(c => c.blockers).map(c => c.blockers);
+
+  const fname = m.name.split(' ')[0];
+  const opener = m.temp1 === 'colerico'
+    ? `${fname}, vou direto: separei uns pontos pra alinhar agora, em uns 15 minutos a gente fecha.`
+    : m.temp1 === 'fleumatico'
+    ? `${fname}, valeu por separar esse tempo. Não tem nada urgente — só quero entender como você tá e alinhar uns pontos.`
+    : m.temp1 === 'melancolico'
+    ? `${fname}, antes de qualquer coisa: você tá indo bem. Quero conversar sobre alguns pontos com calma, sem pressa.`
+    : `${fname}! Tudo bem? Bora conversar rapidinho, tenho umas coisas legais e um ponto pra ajustar.`;
+
   return `
-    <div class="field-group">
-      <h3 class="section-h">Roteiro de feedback · sexta-feira <button class="btn sm" onclick="window.print()">📄 Imprimir / PDF</button></h3>
-      <div class="feedback-script">
-        <h4>Abertura · tom ${tone}</h4>
-        <p>"${escapeHtml(m.name.split(' ')[0])}, valeu por separar esse tempo. Quero alinhar uns pontos da semana, é rápido."</p>
-        ${positive.length ? `
-          <h4>Reconhecimento</h4>
-          <p>Comece reconhecendo o que foi positivo:</p>
-          <ul>${positive.map(o=>`<li>${escapeHtml(o.data?.text||'')}</li>`).join('')}</ul>
-        ` : ''}
-        ${warning.length ? `
-          <h4>Pontos de atenção</h4>
-          <p>Aborda com curiosidade, não como acusação:</p>
-          <ul>${warning.map(o=>`<li>${escapeHtml(o.data?.text||'')}</li>`).join('')}</ul>
-          <blockquote>"O que você acha que aconteceu? Como podemos resolver juntos?"</blockquote>
-        ` : ''}
-        <h4>Próximos passos</h4>
-        <p>Combine 1 a 3 ações concretas para a próxima semana e marque um check-in.</p>
-        <h4>Fechamento</h4>
-        <p>"Conta comigo. Qualquer coisa, pode bater na minha porta."</p>
+    <div class="fb-hero">
+      <div class="fb-hero-tag">Roteiro de feedback · sexta</div>
+      <div class="fb-hero-title serif">Conversa com ${escapeHtml(fname)}</div>
+      <div class="fb-hero-tone"><b>Tom recomendado:</b> ${escapeHtml(tone)}</div>
+      <div class="fb-actions">
+        <button class="btn sm" onclick="window.print()">📄 Imprimir / PDF</button>
+        ${canWrite()?`<button class="btn sm primary" onclick="openOOModal('${m.id}')">+ Agendar 1-on-1</button>`:''}
       </div>
+    </div>
+
+    ${recent7.length ? `
+    <div class="fb-block fb-pulse">
+      <div class="fb-block-h">📊 Pulso da semana</div>
+      <div class="fb-pulse-grid">
+        <div><div class="fb-pulse-num">${avgMood}</div><div class="fb-pulse-lbl">humor</div></div>
+        <div><div class="fb-pulse-num">${avgEnergy}</div><div class="fb-pulse-lbl">energia</div></div>
+        <div><div class="fb-pulse-num">${avgWork}</div><div class="fb-pulse-lbl">carga</div></div>
+        <div><div class="fb-pulse-num">${recent7.length}</div><div class="fb-pulse-lbl">check-ins</div></div>
+      </div>
+      ${avgMood < 3 ? `<div class="fb-pulse-note">⚠ Humor médio abaixo de 3. Comece perguntando como ele(a) está antes de qualquer cobrança.</div>` : ''}
+      ${avgWork > 4 ? `<div class="fb-pulse-note">⚠ Carga média acima de 4. Pergunte se precisa de redistribuição antes de dar mais.</div>` : ''}
+    </div>` : ''}
+
+    <div class="fb-block">
+      <div class="fb-block-h">1. Abertura</div>
+      <blockquote class="fb-quote">"${escapeHtml(opener)}"</blockquote>
+    </div>
+
+    ${positive.length ? `
+    <div class="fb-block">
+      <div class="fb-block-h" style="color:var(--positive);">2. Reconhecimento <span style="font-weight:400;color:var(--ink-muted);font-size:11px;">· comece sempre por aqui</span></div>
+      <p class="fb-text">Cite especificamente o que foi bem feito esta semana:</p>
+      <ul class="fb-list">${positive.map(o=>`<li>${escapeHtml(o.data?.text||'')}</li>`).join('')}</ul>
+      <blockquote class="fb-quote">"Quero te dizer que vi o que você fez ali, e fez diferença. Continua nesse caminho."</blockquote>
+    </div>` : `
+    <div class="fb-block fb-block-empty">
+      <div class="fb-block-h">2. Reconhecimento</div>
+      <p class="fb-text">Sem observações positivas registradas. Antes da reunião, lembre 1 coisa boa específica que aconteceu na semana e comece por ela. Isso não é opcional — é o que abre a porta para o resto.</p>
+    </div>`}
+
+    ${warning.length || critical.length ? `
+    <div class="fb-block">
+      <div class="fb-block-h" style="color:var(--warning);">3. Pontos de atenção <span style="font-weight:400;color:var(--ink-muted);font-size:11px;">· aborde com curiosidade</span></div>
+      <ul class="fb-list">
+        ${critical.map(o=>`<li><b style="color:var(--critical);">[crítico]</b> ${escapeHtml(o.data?.text||'')}</li>`).join('')}
+        ${warning.map(o=>`<li>${escapeHtml(o.data?.text||'')}</li>`).join('')}
+      </ul>
+      <blockquote class="fb-quote">"Sobre [ponto], queria entender o que aconteceu da sua visão. O que tá te travando? Como a gente resolve juntos?"</blockquote>
+      <p class="fb-text" style="margin-top:10px;font-size:12.5px;color:var(--ink-muted);"><b>Lembre-se:</b> ${escapeHtml(inConflict)}</p>
+    </div>` : ''}
+
+    ${blockers.length ? `
+    <div class="fb-block fb-blockers">
+      <div class="fb-block-h">🚧 Bloqueios reportados nos check-ins</div>
+      <ul class="fb-list">${blockers.slice(0,3).map(b=>`<li>${escapeHtml(b)}</li>`).join('')}</ul>
+      <p class="fb-text">Pergunte se algum desses ainda está ativo e ofereça remover.</p>
+    </div>` : ''}
+
+    ${okrs.length ? `
+    <div class="fb-block">
+      <div class="fb-block-h">4. OKRs em andamento</div>
+      ${okrs.filter(o => o.status === 'em_andamento').slice(0,3).map(o => `
+        <div class="fb-okr">
+          <div style="font-weight:500;">${escapeHtml(o.objective)}</div>
+          <div style="font-size:12px;color:var(--ink-muted);margin-top:2px;">${o.quarter} · ${o.progress}%</div>
+        </div>
+      `).join('')}
+      <blockquote class="fb-quote">"Como você tá se sentindo em relação a esses OKRs? O que precisa pra avançar?"</blockquote>
+    </div>` : ''}
+
+    <div class="fb-block">
+      <div class="fb-block-h">5. Combinados para a semana que vem</div>
+      <p class="fb-text">Defina junto 1 a 3 ações concretas. Anote no Action Items do 1-on-1.</p>
+      <ul class="fb-list" style="color:var(--ink-muted);font-style:italic;">
+        <li>Ação 1: _______________ · até quando</li>
+        <li>Ação 2: _______________ · até quando</li>
+        <li>Ação 3: _______________ · até quando</li>
+      </ul>
+    </div>
+
+    <div class="fb-block fb-close">
+      <div class="fb-block-h">6. Fechamento</div>
+      <blockquote class="fb-quote">"Conta comigo. Se travar em alguma coisa, bate na porta antes de empacar. Bora pra mais uma semana boa."</blockquote>
     </div>
   `;
 }
@@ -2028,39 +2556,203 @@ window.createMember = async function() {
   catch (e) { toast(e.message, true); }
 };
 
-// CALENDAR
+// CALENDAR — month grid + upcoming list
+const BIASI_FOUNDED = new Date('2001-01-01'); // ano de fundação (data exata pode ser ajustada)
+const calState = { year: new Date().getFullYear(), month: new Date().getMonth() };
+
 function renderCalendar() {
-  const events = [];
-  state.members.forEach(m => {
-    if (m.birthday) {
-      const d = new Date(m.birthday);
-      events.push({ type: 'bday', name: m.name, mid: m.id, source: d, label: 'Aniversário', age: calcAge(m.birthday) });
-    }
-    if (m.start_date) {
-      const d = new Date(m.start_date);
-      events.push({ type: 'anniv', name: m.name, mid: m.id, source: d, label: 'Anos de casa' });
-    }
-  });
   const today = new Date(); today.setHours(0,0,0,0);
+  const yyyy = calState.year, mm = calState.month;
+  const monthName = new Date(yyyy, mm, 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+
+  // Coleta de eventos (recorrentes anuais)
+  const events = collectAllEvents(yyyy);
+
+  // Eventos específicos do mês para o grid
+  const eventsByDay = {};
   events.forEach(e => {
-    let next = new Date(today.getFullYear(), e.source.getMonth(), e.source.getDate());
-    if (next < today) next.setFullYear(today.getFullYear()+1);
-    e.next = next;
-    e.daysUntil = Math.round((next - today) / 86400000);
-    if (e.type === 'anniv') e.years = next.getFullYear() - e.source.getFullYear();
+    const d = new Date(e.date);
+    if (d.getFullYear() === yyyy && d.getMonth() === mm) {
+      const day = d.getDate();
+      (eventsByDay[day] = eventsByDay[day] || []).push(e);
+    }
   });
-  events.sort((a,b) => a.daysUntil - b.daysUntil);
-  $('#calendarArea').innerHTML = events.length ? `
-    <div class="calendar">${events.map(e => `
-      <div class="cal-event" onclick="openMemberModal('${e.mid}')" style="cursor:pointer;">
-        <div class="cal-icon ${e.type}">${e.type==='bday'?'🎂':'🎉'}</div>
-        <div class="cal-info">
-          <b>${escapeHtml(e.name)}</b>
-          <span>${e.label}${e.type==='anniv'&&e.years?` (${e.years} ano${e.years>1?'s':''})`:''}${e.type==='bday'&&e.age?` · ${e.age+1} anos`:''}</span>
-          <div class="when">${e.next.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})}${e.daysUntil===0?' · hoje!':e.daysUntil===1?' · amanhã!':e.daysUntil<=7?' · em '+e.daysUntil+' dias':''}</div>
+
+  // Grid (semana começa domingo)
+  const first = new Date(yyyy, mm, 1);
+  const startOffset = first.getDay();
+  const daysInMonth = new Date(yyyy, mm+1, 0).getDate();
+  const totalCells = Math.ceil((startOffset + daysInMonth) / 7) * 7;
+  const cells = [];
+  for (let i = 0; i < totalCells; i++) {
+    const dayNum = i - startOffset + 1;
+    if (dayNum < 1) {
+      const prev = new Date(yyyy, mm, 0).getDate() + dayNum;
+      cells.push({ day: prev, other: true });
+    } else if (dayNum > daysInMonth) {
+      cells.push({ day: dayNum - daysInMonth, other: true });
+    } else {
+      const isToday = today.getFullYear()===yyyy && today.getMonth()===mm && today.getDate()===dayNum;
+      cells.push({ day: dayNum, other: false, today: isToday, events: eventsByDay[dayNum] || [] });
+    }
+  }
+
+  // Próximos 30 dias para a sidebar
+  const upcoming = [];
+  for (let off = 0; off <= 60; off++) {
+    const d = new Date(today); d.setDate(today.getDate()+off);
+    const evs = collectAllEvents(d.getFullYear()).filter(e => sameDay(new Date(e.date), d));
+    evs.forEach(e => upcoming.push({ ...e, daysUntil: off }));
+    if (upcoming.length >= 12) break;
+  }
+
+  $('#calendarArea').innerHTML = `
+    <div class="cal-toolbar">
+      <div class="cal-month-label">${monthName}</div>
+      <div class="cal-nav">
+        <button class="cal-nav-btn" onclick="calPrev()" aria-label="Mês anterior">‹</button>
+        <button class="btn sm" onclick="calToday()">Hoje</button>
+        <button class="cal-nav-btn" onclick="calNext()" aria-label="Próximo mês">›</button>
+      </div>
+    </div>
+    <div class="cal-grid">
+      ${['DOM','SEG','TER','QUA','QUI','SEX','SÁB'].map(d=>`<div class="cal-day-h">${d}</div>`).join('')}
+      ${cells.map(c => `
+        <div class="cal-cell ${c.other?'other-month':''} ${c.today?'today':''}">
+          <div class="cal-day-num">${c.day}</div>
+          ${(c.events||[]).slice(0,3).map(e => `
+            <div class="cal-evt ${e.type}" onclick="${e.mid?`openMemberModal('${e.mid}')`:''}" title="${escapeHtml(e.title)}">
+              <span class="cal-evt-icon">${e.icon}</span>${escapeHtml(e.shortLabel)}
+            </div>
+          `).join('')}
+          ${(c.events||[]).length > 3 ? `<div style="font-size:10px;color:var(--ink-muted);">+${c.events.length-3} mais</div>` : ''}
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="cal-side">
+      <div class="panel">
+        <h3>Próximos eventos</h3>
+        <p class="sub">Aniversários, anos de casa, 1-on-1s e datas Biasi</p>
+        <div class="cal-upcoming-list">
+          ${upcoming.length ? upcoming.map(e => `
+            <div class="cal-upcoming" onclick="${e.mid?`openMemberModal('${e.mid}')`:''}">
+              <div class="cal-upcoming-icon ${e.type}">${e.icon}</div>
+              <div class="cal-upcoming-info">
+                <b>${escapeHtml(e.title)}</b>
+                ${e.subtitle?`<div class="meta">${escapeHtml(e.subtitle)}</div>`:''}
+                <div class="when">${formatUpcoming(e)}</div>
+              </div>
+            </div>
+          `).join('') : `<div style="color:var(--ink-muted);font-size:12px;padding:20px;text-align:center;">Sem eventos próximos.</div>`}
         </div>
       </div>
-    `).join('')}</div>` : `<div class="empty-state"><div class="big">📅</div>Cadastre datas de aniversário e admissão nos perfis para ver o calendário.</div>`;
+      <div class="panel">
+        <h3>Legenda</h3>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;font-size:12px;">
+          <div style="display:flex;align-items:center;gap:8px;"><span class="cal-evt bday" style="display:inline-block;padding:3px 8px;">🎂 Aniv</span> aniversário pessoal</div>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="cal-evt anniv" style="display:inline-block;padding:3px 8px;">🎉 Anos de casa</span> tempo de Biasi</div>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="cal-evt biasi" style="display:inline-block;padding:3px 8px;">⭐ Biasi</span> aniversário da empresa</div>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="cal-evt oo" style="display:inline-block;padding:3px 8px;">🤝 1-on-1</span> reunião agendada</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function sameDay(a, b) { return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+
+function collectAllEvents(yyyy) {
+  const evs = [];
+  // Aniversário Biasi
+  evs.push({
+    type: 'biasi', icon: '⭐',
+    date: new Date(yyyy, BIASI_FOUNDED.getMonth(), BIASI_FOUNDED.getDate()).toISOString(),
+    title: `Biasi · ${yyyy - BIASI_FOUNDED.getFullYear()} anos de fundação`,
+    shortLabel: `Biasi ${yyyy - BIASI_FOUNDED.getFullYear()} anos`,
+    subtitle: 'Aniversário da empresa'
+  });
+
+  // Aniversários e anos de casa
+  state.members.forEach(m => {
+    if (m.birthday) {
+      const b = new Date(m.birthday);
+      const d = new Date(yyyy, b.getMonth(), b.getDate());
+      const age = yyyy - b.getFullYear();
+      evs.push({
+        type: 'bday', icon: '🎂', date: d.toISOString(),
+        title: `Aniversário · ${m.name}`,
+        shortLabel: m.name.split(' ')[0],
+        subtitle: `${age} anos`,
+        mid: m.id
+      });
+    }
+    if (m.start_date) {
+      const s = new Date(m.start_date);
+      const d = new Date(yyyy, s.getMonth(), s.getDate());
+      const years = yyyy - s.getFullYear();
+      if (years >= 1) {
+        evs.push({
+          type: 'anniv', icon: '🎉', date: d.toISOString(),
+          title: `${m.name} · ${years} ano${years>1?'s':''} de Biasi`,
+          shortLabel: `${m.name.split(' ')[0]} ${years}a`,
+          subtitle: `Anos de casa`,
+          mid: m.id
+        });
+      }
+    }
+  });
+
+  // 1-on-1s agendados (de todos os membros)
+  Object.entries(state.oneOnOnes || {}).forEach(([mid, list]) => {
+    (list||[]).forEach(o => {
+      if (o.status !== 'agendado') return;
+      const d = new Date(o.scheduled_at);
+      if (d.getFullYear() !== yyyy) return;
+      const m = state.byId[mid];
+      evs.push({
+        type: 'oo', icon: '🤝', date: d.toISOString(),
+        title: `1-on-1 · ${m?.name||mid}`,
+        shortLabel: `1-on-1 ${m?.name?.split(' ')[0]||''}`,
+        subtitle: d.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}),
+        mid
+      });
+    });
+  });
+
+  return evs.sort((a,b) => new Date(a.date) - new Date(b.date));
+}
+
+function formatUpcoming(e) {
+  const d = new Date(e.date);
+  const dateStr = d.toLocaleDateString('pt-BR', {day:'2-digit', month:'long'});
+  const dayLabel = e.daysUntil === 0 ? 'hoje!' : e.daysUntil === 1 ? 'amanhã' : `em ${e.daysUntil} dias`;
+  return `${dateStr} · ${dayLabel}`;
+}
+
+window.calPrev = function() {
+  if (--calState.month < 0) { calState.month = 11; calState.year--; }
+  renderCalendar();
+};
+window.calNext = function() {
+  if (++calState.month > 11) { calState.month = 0; calState.year++; }
+  renderCalendar();
+};
+window.calToday = function() {
+  calState.year = new Date().getFullYear();
+  calState.month = new Date().getMonth();
+  renderCalendar();
+};
+
+// Pré-carregar 1-on-1s da equipe para o calendário
+async function preloadAllOneOnOnes() {
+  if (!state.members.length) return;
+  await Promise.all(state.members.map(async m => {
+    try {
+      const { one_on_ones } = await api(`/api/one-on-ones?member_id=${m.id}`);
+      state.oneOnOnes[m.id] = one_on_ones;
+    } catch {}
+  }));
 }
 
 // USERS
@@ -2149,7 +2841,7 @@ $$('.tab').forEach(t => t.addEventListener('click', () => {
   $$('.page').forEach(x => x.classList.toggle('active', x.id === `page-${p}`));
   if (p === 'users') loadUsers();
   if (p === 'audit') loadAudit();
-  if (p === 'calendar') renderCalendar();
+  if (p === 'calendar') { preloadAllOneOnOnes().then(renderCalendar); }
   if (p === 'dashboard') loadDashboard();
 }));
 
