@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Equipe Comercial · Biasi Engenharia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fafaf9;
+    --surface: #ffffff;
+    --surface-2: #f8f8f7;
+    --ink: #18181b;
+    --ink-soft: #52525b;
+    --ink-muted: #a1a1aa;
+    --line: #e7e5e4;
+    --line-soft: #f4f4f5;
+
+    --col:  #c2410c;
+    --flem: #15803d;
+    --mel:  #6d28d9;
+    --sang: #b45309;
+
+    --positive: #15803d;
+    --warning:  #b45309;
+    --critical: #b91c1c;
+
+    --radius: 12px;
+    --radius-sm: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 14px; line-height: 1.5;
+    color: var(--ink); background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.005em;
+    overflow-x: hidden;
+  }
+  .serif { font-family: 'Fraunces', serif; letter-spacing: -0.02em; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  input, select, textarea { font-family: inherit; outline: none; }
+  input::placeholder, textarea::placeholder { color: var(--ink-muted); }
+
+  /* ── EDITABLE PRIMITIVES ── */
+  [contenteditable="true"] {
+    outline: none; transition: all .15s; border-radius: 4px;
+    cursor: text;
+  }
+  [contenteditable="true"]:hover { background: var(--line-soft); box-shadow: 0 0 0 4px var(--line-soft); }
+  [contenteditable="true"]:focus { background: #fffbeb; box-shadow: 0 0 0 4px #fffbeb; }
+  [contenteditable="true"]:empty::before { content: attr(data-placeholder); color: var(--ink-muted); }
+
+  .edit-hint {
+    font-size: 10px; color: var(--ink-muted); display: inline-flex; align-items: center; gap: 4px;
+    text-transform: uppercase; letter-spacing: 0.06em; opacity: .6;
+  }
+
+  /* ── HEADER ── */
+  header.top {
+    padding: 20px 40px;
+    background: rgba(255,255,255,0.92); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    position: sticky; top: 0; z-index: 50;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .brand-mark {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: var(--ink); color: var(--surface);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600;
+  }
+  .brand-text h1 { font-size: 13px; font-weight: 500; }
+  .brand-text p  { font-size: 11px; color: var(--ink-muted); }
+
+  .header-search { flex: 1; max-width: 360px; position: relative; }
+  .header-search input {
+    width: 100%; padding: 9px 12px 9px 34px; border-radius: 8px;
+    border: 1px solid var(--line); background: var(--surface-2);
+    font-size: 13px; transition: all .15s;
+  }
+  .header-search input:focus { background: var(--surface); border-color: var(--ink-soft); }
+  .header-search svg {
+    position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    width: 14px; height: 14px; color: var(--ink-muted);
+  }
+
+  .header-actions { display: flex; gap: 8px; align-items: center; }
+  .icon-btn {
+    width: 34px; height: 34px; border-radius: 8px;
+    color: var(--ink-soft); display: flex; align-items: center; justify-content: center;
+    transition: background .15s;
+  }
+  .icon-btn:hover { background: var(--line-soft); color: var(--ink); }
+  .btn-primary {
+    padding: 8px 14px; border-radius: 8px;
+    background: var(--ink); color: var(--surface);
+    font-size: 12px; font-weight: 500; transition: opacity .15s;
+  }
+  .btn-primary:hover { opacity: .85; }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 56px 40px 96px; }
+
+  /* ── HERO ── */
+  .hero { margin-bottom: 48px; }
+  .hero h2 {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: 42px; letter-spacing: -0.025em; line-height: 1.05;
+    margin-bottom: 12px;
+  }
+  .hero p { font-size: 15px; color: var(--ink-soft); max-width: 540px; line-height: 1.65; }
+  .hero p a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+
+  .metrics {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    margin-top: 36px; background: var(--line); border: 1px solid var(--line);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .metric { background: var(--surface); padding: 18px 22px; }
+  .metric-label {
+    font-size: 10px; color: var(--ink-muted);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px;
+  }
+  .metric-value {
+    font-family: 'Fraunces', serif; font-size: 28px; font-weight: 400;
+    line-height: 1; letter-spacing: -0.02em;
+  }
+  .metric-sub { font-size: 11px; color: var(--ink-muted); margin-top: 4px; }
+  .metric-value.alert { color: var(--critical); }
+  .metric-value.warn  { color: var(--warning); }
+
+  /* ── TOOLBAR ── */
+  .toolbar {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    margin-bottom: 24px; flex-wrap: wrap;
+  }
+  .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .chip {
+    padding: 6px 12px; border-radius: 99px; font-size: 12px;
+    border: 1px solid var(--line); background: var(--surface);
+    color: var(--ink-soft); transition: all .15s;
+  }
+  .chip:hover { border-color: var(--ink-soft); color: var(--ink); }
+  .chip.active { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+  .toolbar-info { font-size: 12px; color: var(--ink-muted); }
+
+  /* ── CARDS ── */
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px;
+  }
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 24px;
+    cursor: pointer; transition: all .2s;
+    position: relative; display: flex; flex-direction: column; gap: 18px;
+  }
+  .card:hover { border-color: var(--ink-soft); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(24,24,27,0.04); }
+
+  .priority-bar {
+    position: absolute; top: 0; left: 24px; right: 24px; height: 2px;
+    border-radius: 0 0 99px 99px;
+  }
+  .priority-bar.alta   { background: var(--critical); }
+  .priority-bar.media  { background: var(--warning); }
+  .priority-bar.baixa  { background: var(--positive); }
+
+  .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .card-identity { display: flex; align-items: center; gap: 12px; }
+  .avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 500; color: var(--ink);
+    background: var(--surface-2); border: 1px solid var(--line); flex-shrink: 0;
+  }
+  .name { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 500; letter-spacing: -0.015em; }
+  .role-line { font-size: 12px; color: var(--ink-muted); margin-top: 2px; }
+
+  .temp-tag {
+    font-size: 10.5px; padding: 4px 10px; border-radius: 99px;
+    border: 1px solid; font-weight: 500; white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .tag-col  { color: var(--col);  border-color: #fed7aa; background: #fff7ed; }
+  .tag-flem { color: var(--flem); border-color: #bbf7d0; background: #f0fdf4; }
+  .tag-mel  { color: var(--mel);  border-color: #ddd6fe; background: #faf5ff; }
+  .tag-sang { color: var(--sang); border-color: #fde68a; background: #fffbeb; }
+
+  .card-meta {
+    display: flex; gap: 16px; padding: 14px 0;
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .meta-cell { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .meta-label { font-size: 10px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .meta-val { font-size: 12.5px; color: var(--ink); font-weight: 500; }
+
+  .strengths-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .strength-pill {
+    font-size: 11px; padding: 3px 10px; border-radius: 99px;
+    background: var(--surface-2); color: var(--ink-soft); border: 1px solid var(--line);
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .strength-pill .x {
+    color: var(--ink-muted); cursor: pointer; font-size: 12px;
+    opacity: 0; transition: opacity .15s;
+  }
+  .strength-pill:hover .x { opacity: 1; }
+  .strength-pill.add {
+    background: transparent; border: 1px dashed var(--line); color: var(--ink-muted);
+    cursor: pointer;
+  }
+  .strength-pill.add:hover { color: var(--ink); border-color: var(--ink-soft); }
+
+  .observations-summary {
+    display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+    background: var(--surface-2); border-radius: 8px; font-size: 12px;
+  }
+  .obs-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .obs-dot.empty { background: var(--ink-muted); }
+  .obs-dot.positive { background: var(--positive); }
+  .obs-dot.warning { background: var(--warning); }
+  .obs-dot.critical { background: var(--critical); }
+  .obs-text { color: var(--ink-soft); flex: 1; }
+  .obs-count { color: var(--ink-muted); font-size: 11px; }
+
+  .card-footer { display: flex; align-items: center; justify-content: space-between; }
+  .ver-perfil {
+    font-size: 12px; font-weight: 500; color: var(--ink);
+    display: flex; align-items: center; gap: 4px; transition: gap .15s;
+  }
+  .ver-perfil:hover { gap: 8px; }
+  .priority-label { font-size: 11px; color: var(--ink-muted); display: flex; align-items: center; gap: 6px; }
+  .priority-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .priority-dot.alta   { background: var(--critical); }
+  .priority-dot.media  { background: var(--warning); }
+  .priority-dot.baixa  { background: var(--positive); }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    padding: 64px 32px; text-align: center;
+    background: var(--surface); border: 1px dashed var(--line); border-radius: var(--radius);
+    color: var(--ink-muted);
+  }
+  .empty-state h4 { font-family: 'Fraunces', serif; font-size: 22px; color: var(--ink); margin-bottom: 6px; font-weight: 400; }
+  .empty-state p { font-size: 13px; }
+
+  /* ── DRAWER ── */
+  .drawer-overlay {
+    position: fixed; inset: 0; background: rgba(24,24,27,0.4);
+    opacity: 0; pointer-events: none; transition: opacity .25s;
+    backdrop-filter: blur(4px); z-index: 90;
+  }
+  .drawer-overlay.open { opacity: 1; pointer-events: auto; }
+  .drawer {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: 100%; max-width: 760px; background: var(--bg);
+    transform: translateX(100%); transition: transform .3s cubic-bezier(.2,.8,.2,1);
+    z-index: 100; display: flex; flex-direction: column;
+    box-shadow: -8px 0 32px rgba(0,0,0,0.04);
+  }
+  .drawer.open { transform: translateX(0); }
+
+  .drawer-head {
+    padding: 24px 32px; border-bottom: 1px solid var(--line);
+    background: var(--surface);
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  }
+  .drawer-head-info { display: flex; gap: 16px; align-items: center; flex: 1; min-width: 0; }
+  .drawer-avatar {
+    width: 56px; height: 56px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; font-weight: 500;
+    background: var(--surface-2); border: 1px solid var(--line); flex-shrink: 0;
+  }
+  .drawer-title h2 {
+    font-family: 'Fraunces', serif; font-size: 28px; font-weight: 400;
+    letter-spacing: -0.02em; line-height: 1.1;
+  }
+  .drawer-title p { font-size: 12.5px; color: var(--ink-muted); margin-top: 4px; }
+  .drawer-tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+
+  .drawer-close { width: 32px; height: 32px; border-radius: 6px; color: var(--ink-soft); font-size: 18px; flex-shrink: 0; }
+  .drawer-close:hover { background: var(--line-soft); color: var(--ink); }
+
+  .drawer-nav {
+    display: flex; gap: 0; padding: 0 32px;
+    border-bottom: 1px solid var(--line); background: var(--surface);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .drawer-nav::-webkit-scrollbar { display: none; }
+  .drawer-nav button {
+    padding: 12px 0; margin-right: 24px; font-size: 12.5px;
+    color: var(--ink-muted); border-bottom: 2px solid transparent;
+    margin-bottom: -1px; transition: all .15s; white-space: nowrap;
+  }
+  .drawer-nav button.active { color: var(--ink); border-bottom-color: var(--ink); }
+  .drawer-nav button:hover:not(.active) { color: var(--ink-soft); }
+
+  .drawer-body { flex: 1; overflow-y: auto; padding: 32px; }
+
+  .section {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 24px; margin-bottom: 16px;
+  }
+  .section h3 {
+    font-family: 'Fraunces', serif; font-size: 20px; font-weight: 500;
+    letter-spacing: -0.015em; margin-bottom: 6px;
+  }
+  .section .section-sub { font-size: 12px; color: var(--ink-muted); margin-bottom: 18px; }
+  .section h4 {
+    font-size: 11px; color: var(--ink-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin: 18px 0 10px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .section h4:first-of-type { margin-top: 0; }
+  .section p { font-size: 14px; color: var(--ink-soft); line-height: 1.7; }
+
+  .add-line-btn {
+    font-size: 11px; color: var(--ink-soft); padding: 4px 10px;
+    border: 1px dashed var(--line); border-radius: 99px; transition: all .15s;
+  }
+  .add-line-btn:hover { color: var(--ink); border-color: var(--ink-soft); }
+
+  .editable-list { list-style: none; }
+  .editable-list li {
+    padding: 10px 0; font-size: 13.5px; color: var(--ink-soft); line-height: 1.6;
+    display: flex; gap: 12px; align-items: flex-start;
+    border-bottom: 1px solid var(--line-soft);
+    position: relative;
+  }
+  .editable-list li:last-child { border-bottom: none; }
+  .editable-list .marker {
+    flex-shrink: 0; width: 4px; height: 4px; border-radius: 50%;
+    background: var(--ink-muted); margin-top: 9px;
+  }
+  .editable-list.positive .marker { background: var(--positive); }
+  .editable-list.warning .marker  { background: var(--warning); }
+  .editable-list .text { flex: 1; min-width: 0; }
+  .editable-list .del {
+    color: var(--ink-muted); font-size: 14px; opacity: 0;
+    transition: opacity .15s; flex-shrink: 0; margin-left: auto;
+    padding: 0 6px;
+  }
+  .editable-list li:hover .del { opacity: 1; }
+  .editable-list .del:hover { color: var(--critical); }
+
+  .feedback-script .script-block {
+    padding: 16px 18px; background: var(--surface-2); border-left: 3px solid var(--ink);
+    border-radius: 0 8px 8px 0; margin-bottom: 12px;
+  }
+  .feedback-script .script-block:last-child { margin-bottom: 0; }
+  .feedback-script .script-label {
+    font-size: 11px; color: var(--ink-muted); text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 8px;
+  }
+  .feedback-script .script-text {
+    font-family: 'Fraunces', serif; font-size: 15px; line-height: 1.7;
+    color: var(--ink); font-style: italic; font-weight: 400;
+  }
+  .feedback-script .script-block.positive { border-left-color: var(--positive); }
+  .feedback-script .script-block.warning  { border-left-color: var(--warning); }
+  .feedback-script .script-block.critical { border-left-color: var(--critical); }
+
+  .obs-list { display: flex; flex-direction: column; gap: 10px; }
+  .obs-item {
+    padding: 14px 16px; background: var(--surface-2); border-radius: 8px;
+    border-left: 3px solid var(--ink-muted);
+  }
+  .obs-item.positive { border-left-color: var(--positive); }
+  .obs-item.warning  { border-left-color: var(--warning); }
+  .obs-item.critical { border-left-color: var(--critical); }
+
+  .obs-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+  .obs-title { font-size: 13px; font-weight: 500; color: var(--ink); flex: 1; }
+  .obs-meta { font-size: 11px; color: var(--ink-muted); white-space: nowrap; flex-shrink: 0; }
+  .obs-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.6; margin-bottom: 8px; }
+  .obs-tags { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .obs-cat {
+    font-size: 10.5px; padding: 2px 8px; border-radius: 99px;
+    background: var(--surface); border: 1px solid var(--line); color: var(--ink-soft);
+    text-transform: capitalize;
+  }
+  .obs-status {
+    font-size: 10.5px; padding: 2px 8px; border-radius: 99px;
+    text-transform: capitalize; font-weight: 500;
+  }
+  .obs-status.observado    { background: #f1f5f9; color: #475569; }
+  .obs-status.conversado   { background: #dbeafe; color: #1d4ed8; }
+  .obs-status.resolvido    { background: #dcfce7; color: #166534; }
+  .obs-status.acompanhar   { background: #fef3c7; color: #92400e; }
+  .obs-del {
+    margin-left: auto; color: var(--ink-muted); font-size: 13px;
+    opacity: 0; transition: opacity .15s; cursor: pointer; padding: 0 4px;
+  }
+  .obs-item:hover .obs-del { opacity: 1; }
+
+  .add-obs-btn {
+    width: 100%; padding: 12px; border: 1px dashed var(--line);
+    border-radius: 8px; color: var(--ink-soft); font-size: 13px;
+    margin-top: 12px; transition: all .15s; background: var(--surface);
+  }
+  .add-obs-btn:hover { border-color: var(--ink-soft); color: var(--ink); background: var(--surface-2); }
+
+  .empty-obs {
+    padding: 24px; background: var(--surface-2); border-radius: 8px; text-align: center;
+    font-size: 13px; color: var(--ink-muted); line-height: 1.6;
+  }
+
+  .history-line { border-left: 2px solid var(--line); padding-left: 18px; margin-left: 6px; }
+  .history-item { padding-bottom: 18px; position: relative; }
+  .history-item:last-child { padding-bottom: 0; }
+  .history-item::before {
+    content: ''; position: absolute; left: -25px; top: 4px;
+    width: 10px; height: 10px; border-radius: 50%; background: var(--surface);
+    border: 2px solid var(--ink-muted);
+  }
+  .history-item.positive::before { border-color: var(--positive); }
+  .history-item.warning::before  { border-color: var(--warning); }
+  .history-item.critical::before  { border-color: var(--critical); }
+  .history-date { font-size: 11px; color: var(--ink-muted); margin-bottom: 4px; }
+  .history-text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.6; }
+  .history-del { float: right; color: var(--ink-muted); font-size: 13px; opacity: 0; transition: opacity .15s; cursor: pointer; }
+  .history-item:hover .history-del { opacity: 1; }
+
+  /* big five panel */
+  .b5-list { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+  .b5-item { display: flex; flex-direction: column; gap: 6px; }
+  .b5-head { display: flex; justify-content: space-between; align-items: center; }
+  .b5-name { font-size: 13px; font-weight: 500; }
+  .b5-score { font-family: 'Fraunces', serif; font-size: 16px; color: var(--ink); }
+  .b5-bar { height: 6px; background: var(--line-soft); border-radius: 99px; overflow: hidden; }
+  .b5-fill { height: 100%; background: var(--ink); border-radius: 99px; transition: width .25s; }
+  .b5-desc { font-size: 11.5px; color: var(--ink-muted); line-height: 1.5; }
+  .b5-slider {
+    width: 100%; -webkit-appearance: none; appearance: none; height: 6px;
+    background: transparent; cursor: pointer;
+  }
+  .b5-slider::-webkit-slider-runnable-track { height: 6px; background: var(--line-soft); border-radius: 99px; }
+  .b5-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 14px; height: 14px;
+    border-radius: 50%; background: var(--ink); margin-top: -4px; cursor: pointer;
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(24,24,27,0.4);
+    opacity: 0; pointer-events: none; transition: opacity .2s;
+    z-index: 200; backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: auto; }
+  .modal {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; width: 100%; max-width: 540px;
+    max-height: 88vh; overflow-y: auto; transform: translateY(8px);
+    transition: transform .2s;
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal-head {
+    padding: 24px 28px 16px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .modal-head h3 { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; letter-spacing: -0.02em; }
+  .modal-head p  { font-size: 12px; color: var(--ink-muted); margin-top: 2px; }
+  .modal-body { padding: 0 28px 8px; }
+  .modal-foot {
+    padding: 18px 28px 24px; display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap;
+  }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+  .field label { font-size: 11px; color: var(--ink-soft); }
+  .field input, .field select, .field textarea {
+    padding: 9px 12px; border: 1px solid var(--line); border-radius: 6px;
+    font-size: 13px; background: var(--surface); color: var(--ink);
+    transition: border-color .15s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--ink); }
+  .field textarea { resize: vertical; min-height: 76px; line-height: 1.5; }
+
+  .btn-ghost {
+    padding: 8px 14px; border-radius: 6px; font-size: 12px;
+    color: var(--ink-soft); transition: background .15s;
+  }
+  .btn-ghost:hover { background: var(--line-soft); }
+  .btn-danger { color: var(--critical); }
+  .btn-danger:hover { background: #fef2f2; }
+
+  .toasts { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 8px; z-index: 300; }
+  .toast {
+    padding: 12px 16px; background: var(--ink); color: var(--surface);
+    border-radius: 8px; font-size: 12.5px; max-width: 300px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    animation: toastIn .25s ease;
+  }
+  @keyframes toastIn { from { transform: translateY(8px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--ink-muted); }
+
+  @media (max-width: 880px) {
+    header.top { padding: 16px 20px; flex-wrap: wrap; }
+    .header-search { order: 3; max-width: 100%; flex-basis: 100%; }
+    .container { padding: 32px 20px 64px; }
+    .hero h2 { font-size: 32px; }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .cards-grid { grid-template-columns: 1fr; }
+    .drawer-head, .drawer-nav, .drawer-body { padding-left: 20px; padding-right: 20px; }
+    .drawer-body { padding-top: 20px; padding-bottom: 20px; }
+    .field-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <div class="brand-mark">B</div>
+    <div class="brand-text">
+      <h1>Equipe Comercial · Biasi</h1>
+      <p id="dateNow">—</p>
+    </div>
+  </div>
+  <div class="header-search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input type="text" id="searchInput" placeholder="Buscar pessoa..." oninput="renderCards()" />
+  </div>
+  <div class="header-actions">
+    <button class="icon-btn" title="Resetar dados" onclick="resetData()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+    </button>
+    <button class="icon-btn" title="Exportar JSON" onclick="exportData()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </button>
+    <button class="btn-primary" onclick="openAddMember()">＋ Pessoa</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <section class="hero">
+    <h2 class="serif">Sua equipe,<br/>em uma só visão.</h2>
+    <p>Painel para a gestão semanal do time comercial — temperamentos, observações da semana e roteiro de feedback de sexta-feira. Modelo dos 4 temperamentos clássicos com complemento opcional pelos <a href="https://personality-project.org/" target="_blank" rel="noopener">Big Five (OCEAN)</a>.</p>
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-label">Pessoas</div>
+        <div class="metric-value" id="m_count">0</div>
+        <div class="metric-sub" id="m_count_sub">—</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Tempo médio</div>
+        <div class="metric-value" id="m_time">—</div>
+        <div class="metric-sub">na empresa</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Feedbacks prioritários</div>
+        <div class="metric-value" id="m_priority">0</div>
+        <div class="metric-sub" id="m_priority_sub">para sexta-feira</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Observações da semana</div>
+        <div class="metric-value" id="m_obs">0</div>
+        <div class="metric-sub" id="m_obs_sub">registradas</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <div class="filter-chips" id="filterChips"></div>
+    <div class="toolbar-info" id="resultCount">—</div>
+  </div>
+
+  <div class="cards-grid" id="cardsGrid"></div>
+
+</div>
+
+<!-- DRAWER -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div class="drawer-head-info">
+      <div class="drawer-avatar" id="d_avatar">—</div>
+      <div class="drawer-title">
+        <h2 id="d_name">—</h2>
+        <p id="d_subtitle">—</p>
+        <div class="drawer-tags" id="d_tags"></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:6px">
+      <button class="icon-btn" onclick="openEditMember()" title="Editar dados gerais">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+      </button>
+      <button class="drawer-close" onclick="closeDrawer()">×</button>
+    </div>
+  </div>
+  <nav class="drawer-nav">
+    <button class="active" data-section="resumo" onclick="setSection('resumo',this)">Resumo</button>
+    <button data-section="perfil" onclick="setSection('perfil',this)">Perfil</button>
+    <button data-section="bigfive" onclick="setSection('bigfive',this)">Big Five</button>
+    <button data-section="observacoes" onclick="setSection('observacoes',this)">Observações</button>
+    <button data-section="fortes" onclick="setSection('fortes',this)">Pontos fortes</button>
+    <button data-section="atencao" onclick="setSection('atencao',this)">Atenção</button>
+    <button data-section="trabalhar" onclick="setSection('trabalhar',this)">A trabalhar</button>
+    <button data-section="feedback" onclick="setSection('feedback',this)">Feedback sexta</button>
+    <button data-section="historico" onclick="setSection('historico',this)">Evolução</button>
+  </nav>
+  <div class="drawer-body" id="drawerBody"></div>
+</aside>
+
+<!-- MODAL OBSERVAÇÃO -->
+<div class="modal-overlay" id="obsOverlay" onclick="if(event.target.id==='obsOverlay')closeObs()">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h3>Nova observação</h3>
+        <p id="obs_for">—</p>
+      </div>
+      <button class="drawer-close" onclick="closeObs()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="field"><label>Título</label><input id="obs_title" type="text" placeholder="Ex: Iniciativa em call cliente"/></div>
+      <div class="field"><label>Descrição</label><textarea id="obs_desc" placeholder="Foque no comportamento observável."></textarea></div>
+      <div class="field-row">
+        <div class="field">
+          <label>Categoria</label>
+          <select id="obs_cat">
+            <option value="comportamento">Comportamento</option>
+            <option value="entrega">Entrega</option>
+            <option value="comunicação">Comunicação</option>
+            <option value="relacionamento">Relacionamento</option>
+            <option value="produtividade">Produtividade</option>
+            <option value="liderança">Liderança</option>
+            <option value="organização">Organização</option>
+            <option value="técnico">Técnico</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Tipo</label>
+          <select id="obs_type">
+            <option value="positive">Positivo</option>
+            <option value="warning">Atenção</option>
+            <option value="critical">Crítico</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Data</label><input id="obs_date" type="date"/></div>
+        <div class="field">
+          <label>Status</label>
+          <select id="obs_status">
+            <option value="observado">Observado</option>
+            <option value="conversado">Conversado</option>
+            <option value="resolvido">Resolvido</option>
+            <option value="acompanhar">Acompanhar</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Sugestão de abordagem</label><textarea id="obs_sug" placeholder="Como pretende abordar?"></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-ghost" onclick="closeObs()">Cancelar</button>
+      <button class="btn-primary" onclick="saveObs()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL HISTÓRICO -->
+<div class="modal-overlay" id="histOverlay" onclick="if(event.target.id==='histOverlay')closeHist()">
+  <div class="modal">
+    <div class="modal-head">
+      <div><h3>Novo registro de evolução</h3><p id="hist_for">—</p></div>
+      <button class="drawer-close" onclick="closeHist()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="field-row">
+        <div class="field"><label>Data</label><input id="hist_date" type="date"/></div>
+        <div class="field">
+          <label>Tipo</label>
+          <select id="hist_type">
+            <option value="positive">Avanço</option>
+            <option value="warning">Atenção</option>
+            <option value="critical">Regressão</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Descrição</label><textarea id="hist_text" placeholder="O que mudou? Como percebeu?"></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-ghost" onclick="closeHist()">Cancelar</button>
+      <button class="btn-primary" onclick="saveHist()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL MEMBRO -->
+<div class="modal-overlay" id="memOverlay" onclick="if(event.target.id==='memOverlay')closeMember()">
+  <div class="modal">
+    <div class="modal-head">
+      <div><h3 id="mem_title">Pessoa</h3><p id="mem_sub">—</p></div>
+      <button class="drawer-close" onclick="closeMember()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="field-row">
+        <div class="field"><label>Nome</label><input id="mem_nome" type="text"/></div>
+        <div class="field"><label>Cargo</label><input id="mem_cargo" type="text"/></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Área / Time</label><input id="mem_area" type="text"/></div>
+        <div class="field">
+          <label>Status</label>
+          <select id="mem_status">
+            <option value="ativo">Ativo</option>
+            <option value="ferias">Em férias</option>
+            <option value="atestado">Atestado</option>
+            <option value="atencao">Em atenção</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Idade</label><input id="mem_idade" type="number" min="14" max="99"/></div>
+        <div class="field"><label>Admissão</label><input id="mem_admissao" type="date"/></div>
+      </div>
+      <div class="field"><label>Formação</label><input id="mem_formacao" type="text" placeholder="Curso · Instituição"/></div>
+      <div class="field-row">
+        <div class="field">
+          <label>Temperamento primário</label>
+          <select id="mem_temp1">
+            <option value="colérico">Colérico</option>
+            <option value="fleumático">Fleumático</option>
+            <option value="melancólico">Melancólico</option>
+            <option value="sanguíneo">Sanguíneo</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Temperamento secundário</label>
+          <select id="mem_temp2">
+            <option value="">— nenhum —</option>
+            <option value="colérico">Colérico</option>
+            <option value="fleumático">Fleumático</option>
+            <option value="melancólico">Melancólico</option>
+            <option value="sanguíneo">Sanguíneo</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Prioridade do feedback</label>
+        <select id="mem_priority">
+          <option value="baixa">Baixa</option>
+          <option value="media">Média</option>
+          <option value="alta">Alta</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-ghost btn-danger" id="mem_delete" onclick="deleteMember()" style="margin-right:auto">Remover</button>
+      <button class="btn-ghost" onclick="closeMember()">Cancelar</button>
+      <button class="btn-primary" onclick="saveMember()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script>
+'use strict';
+
+/* ════════════════════════════════════════════════════════════════
+   TEMPERAMENTOS (4 clássicos — combináveis em primário+secundário)
+   ════════════════════════════════════════════════════════════════ */
+const TEMPERAMENTOS = {
+  'colérico': {
+    label: 'Colérico', tag: 'tag-col',
+    pontosFortes: [
+      'Liderança natural — assume frente em situações difíceis',
+      'Decisão rápida sob pressão',
+      'Foco intenso em resultado',
+      'Coragem para resolver problemas espinhosos',
+      'Iniciativa: não espera ser cobrado'
+    ],
+    pontosFracos: [
+      'Impaciência com ritmos diferentes do seu',
+      'Postura pode ser percebida como dura ou autoritária',
+      'Tende a falar mais do que ouvir',
+      'Pressiona demais quando algo não anda'
+    ],
+    sobPressao: 'Acelera decisões, ganha foco e energia, mas pode atropelar pessoas no caminho. Tende a centralizar quando deveria delegar.',
+    comunicacao: 'Direta, objetiva, às vezes seca. Vai ao ponto. Não gosta de rodeios — pode parecer ríspido para perfis mais sensíveis.',
+    recebeFeedback: 'Aceita melhor quando vem direto, com base em fatos. Resiste a críticas vagas ou excessivamente diplomáticas.',
+    trabalhar: [
+      'Escuta ativa — pausar antes de responder',
+      'Empatia com ritmos diferentes do seu',
+      'Delegação efetiva, sem retomar tarefas',
+      'Comunicação menos impositiva'
+    ],
+    bigFive: { ext: 70, agr: 35, con: 75, neu: 50, ope: 60 }
+  },
+  'fleumático': {
+    label: 'Fleumático', tag: 'tag-flem',
+    pontosFortes: [
+      'Estabilidade emocional em qualquer cenário',
+      'Paciência genuína com pessoas e processos',
+      'Escuta de qualidade — deixa o outro falar',
+      'Consistência: faz o que combinou, no prazo combinado',
+      'Pacificador natural em conflitos'
+    ],
+    pontosFracos: [
+      'Passividade em momentos que pediam ação',
+      'Demora para se posicionar em decisões',
+      'Resistência a mudanças bruscas',
+      'Baixa iniciativa quando ninguém puxa'
+    ],
+    sobPressao: 'Mantém a calma — virtude que pode virar lentidão se a pressão pede velocidade. Em geral não trava, mas também não acelera.',
+    comunicacao: 'Calma, ponderada, diplomática. Boa de ouvir, cuidadosa ao falar. Evita conflito direto, às vezes em prejuízo de clareza.',
+    recebeFeedback: 'Recebe bem em tom respeitoso e estruturado. Críticas duras o fecham. Precisa de espaço para refletir antes de responder.',
+    trabalhar: [
+      'Proatividade — assumir antes de ser puxado',
+      'Posicionamento mais firme em decisões críticas',
+      'Senso de urgência quando o contexto pede',
+      'Comunicação assertiva: dizer "não" quando for "não"'
+    ],
+    bigFive: { ext: 35, agr: 75, con: 65, neu: 25, ope: 45 }
+  },
+  'melancólico': {
+    label: 'Melancólico', tag: 'tag-mel',
+    pontosFortes: [
+      'Análise profunda — vê o que ninguém vê',
+      'Atenção aos detalhes que outros ignoram',
+      'Compromisso quase intransferível com qualidade',
+      'Organização e método de trabalho',
+      'Lealdade e responsabilidade altas'
+    ],
+    pontosFracos: [
+      'Perfeccionismo que atrasa entregas',
+      'Autocrítica excessiva — não percebe próprio valor',
+      'Demora para decidir em situações ambíguas',
+      'Resistência a ambientes muito caóticos'
+    ],
+    sobPressao: 'Pode entrar em paralisia analítica. Tende a internalizar excesso de responsabilidade. Precisa de clareza para render bem.',
+    comunicacao: 'Cuidadosa, detalhada, às vezes longa. Pondera antes de falar. Sensível ao tom de voz e às palavras escolhidas.',
+    recebeFeedback: 'Sensível a críticas — precisa de cuidado e contexto. Reconhecimento sincero é combustível raro. Evite generalizações.',
+    trabalhar: [
+      'Flexibilidade — aceitar imperfeições conscientes',
+      '80% pronto e enviado supera 100% atrasado',
+      'Autoconfiança e celebração das próprias conquistas',
+      'Comunicação mais objetiva e direta'
+    ],
+    bigFive: { ext: 30, agr: 60, con: 85, neu: 65, ope: 75 }
+  },
+  'sanguíneo': {
+    label: 'Sanguíneo', tag: 'tag-sang',
+    pontosFortes: [
+      'Comunicação envolvente e energética',
+      'Entusiasmo que contagia o time',
+      'Criatividade na hora de abrir caminhos',
+      'Construção rápida de relacionamento',
+      'Otimismo em cenários adversos'
+    ],
+    pontosFracos: [
+      'Dispersão entre múltiplos focos',
+      'Dificuldade com rotina e processos',
+      'Falta de constância em entregas longas',
+      'Pode soar excessivamente informal'
+    ],
+    sobPressao: 'Aumenta a energia, busca conversar para resolver. Pode perder profundidade ao querer abraçar tudo.',
+    comunicacao: 'Calorosa, expansiva, narrativa. Boa em encantar, às vezes fraca em fechar. Tende a falar mais do que escutar.',
+    recebeFeedback: 'Recebe bem com afeto. Críticas frias travam. Precisa de reconhecimento explícito antes do ponto de melhoria.',
+    trabalhar: [
+      'Disciplina e foco em poucas frentes por vez',
+      'Fechamento: ir até o fim, não só começar',
+      'Atenção aos detalhes e processos',
+      'Formalidade quando o contexto pede'
+    ],
+    bigFive: { ext: 90, agr: 70, con: 35, neu: 30, ope: 70 }
+  }
+};
+
+/* ════════════════════════════════════════════════════════════════
+   BIG FIVE — referência baseada em Soto (2018)
+   ════════════════════════════════════════════════════════════════ */
+const BIG_FIVE = {
+  ext: { nome: 'Extroversão',          desc: 'Engajamento social, assertividade, energia. Alto: gosta de socializar, expressivo. Baixo: reservado, introspectivo.' },
+  agr: { nome: 'Amabilidade',           desc: 'Compaixão, respeito, aceitação. Alto: empático, cooperativo. Baixo: competitivo, cético.' },
+  con: { nome: 'Conscienciosidade',     desc: 'Organização, produtividade, responsabilidade. Alto: estruturado, persistente. Baixo: flexível, espontâneo.' },
+  neu: { nome: 'Neuroticismo',          desc: 'Frequência de emoções negativas. Alto: ansioso, oscila humor. Baixo (Estabilidade): calmo, resiliente.' },
+  ope: { nome: 'Abertura à experiência', desc: 'Curiosidade intelectual, criatividade. Alto: imaginativo, abstrato. Baixo: prático, convencional.' }
+};
+
+/* ════════════════════════════════════════════════════════════════
+   SEED — TIME COMERCIAL BIASI (dados reais do MAPEAMENTO + Sobre a Biasi)
+   ════════════════════════════════════════════════════════════════ */
+const SEED_MEMBERS = [
+  {
+    id: 1,
+    nome: 'Paulo Confar',
+    cargo: 'Gerente Comercial',
+    area: 'Comercial',
+    status: 'ativo',
+    idade: 30,
+    admissao: '2021-03-08',
+    formacao: 'Engenharia Civil — USF · Téc. Edificações — Vasco Antônio Venchiarutti',
+    temp1: 'colérico', temp2: 'melancólico',
+    bigFive: null,
+    resumoPerfil: 'Líder do setor comercial. Gerencia o ciclo completo de orçamento — escopo, EAP em HTML, cotações com fabricantes, montagem de PTC, condições comerciais, planilha orçamentária, Curva ABC e fechamento. Combina ímpeto colérico (decisão, ritmo, cobrança de resultado) com rigor melancólico (detalhe, qualidade, padrão). Cobra alto consigo e com o time.',
+    prioridadeFeedback: 'media',
+    pontosFortes: [
+      'Visão completa do ciclo comercial — do escopo à proposta',
+      'Cobra padrão alto (colérico) sem perder profundidade (melancólico)',
+      'Decide com velocidade, mas com base em análise',
+      'Conduz negociações com fabricantes e cliente final'
+    ],
+    pontosFracos: [
+      'Pode oscilar entre execução acelerada e perfeccionismo paralisante',
+      'Perfeccionismo melancólico pode atrasar fechamentos quando a pressão colérica falha',
+      'Tende a centralizar quando deveria delegar',
+      'Cobrança intensa pode pesar em perfis mais sensíveis (Jenni, Luan)'
+    ],
+    pontosTrabalhar: [
+      'Definir o nível de qualidade necessário para cada entrega (80/20)',
+      'Delegar definitivamente — sem retomar a tarefa do colega',
+      'Calibrar tom de cobrança conforme o perfil do interlocutor',
+      'Reconhecer publicamente os avanços do time'
+    ],
+    tags: ['gerente', 'liderança', 'orçamento', 'PTC', 'estratégia'],
+    observacoesSemana: [],
+    historicoEvolucao: []
+  },
+  {
+    id: 2,
+    nome: 'Guilherme',
+    cargo: 'Auxiliar de TI · Suporte ao Comercial',
+    area: 'TI / Comercial',
+    status: 'ativo',
+    idade: 22,
+    admissao: '2026-01-26',
+    formacao: 'Ciência da Computação (cursando) — UNIP Jundiaí',
+    temp1: 'colérico', temp2: '',
+    bigFive: null,
+    resumoPerfil: 'Auxiliar de TI responsável pelo desenvolvimento e evolução do Biasi Hub — plataforma interna de orçamentos, obras, cotações e rotinas. Cria integrações (Supabase), automações e views analíticas. Apoia o comercial transformando processos manuais em ferramentas digitais. Recém-chegado (jan/2026) com energia colérica para tirar projetos do papel rapidamente.',
+    prioridadeFeedback: 'baixa',
+    pontosFortes: [
+      'Decide e implementa rápido — perfil de execução',
+      'Visão técnica que conecta os setores',
+      'Iniciativa para propor automações sem ser cobrado',
+      'Energia para resolver problemas espinhosos'
+    ],
+    pontosFracos: [
+      'Recém-chegado — ainda em curva de aprendizado da cultura Biasi',
+      'Pode atropelar o entendimento do problema querendo já partir para a solução',
+      'Tendência a centralizar conhecimento técnico'
+    ],
+    pontosTrabalhar: [
+      'Pausar para entender a real necessidade antes de codar',
+      'Documentar o Hub à medida que evolui (para não virar caixa-preta)',
+      'Pedir feedback dos usuários (Ryan, Luan, Jenni) com frequência'
+    ],
+    tags: ['TI', 'Hub', 'Supabase', 'automação', 'recém-chegado'],
+    observacoesSemana: [],
+    historicoEvolucao: []
+  },
+  {
+    id: 3,
+    nome: 'Ryan',
+    cargo: 'Assistente de Engenharia',
+    area: 'Comercial',
+    status: 'ativo',
+    idade: 20,
+    admissao: '2022-09-13',
+    formacao: 'Eng. Elétrica (cursando) — Anhembi Morumbi · Téc. Administração — CEPROVI',
+    temp1: 'fleumático', temp2: 'colérico',
+    bigFive: null,
+    resumoPerfil: 'O mais polivalente do time. Atua em frentes que vão desde levantamento técnico (mão de obra, materiais, projetos) até orçamento, planejamento, cotação, atendimento ao cliente, redação de e-mails, planilhas, HTML, IA e relatórios. Combina paciência fleumática com a execução colérica — diplomata que entrega. Quase 4 anos de casa, perfil de profundidade e amplitude rara para a idade.',
+    prioridadeFeedback: 'baixa',
+    pontosFortes: [
+      'Versatilidade: técnica, comercial, comunicação, IA — tudo',
+      'Mediador natural entre perfis conflitantes do time',
+      'Confiabilidade em projetos longos e curtos',
+      'Postura calibrada conforme o interlocutor (cliente, fornecedor, equipe)'
+    ],
+    pontosFracos: [
+      'Pode hesitar em decisões críticas que exigem posicionamento sozinho',
+      'Tende a esconder opinião própria para manter harmonia',
+      'Aceita demandas sem priorizar quando deveria filtrar'
+    ],
+    pontosTrabalhar: [
+      'Posicionar opinião própria mesmo que conflite com a maioria',
+      'Filtrar demandas: dizer "não" ou "depois" quando fizer sentido',
+      'Em decisões críticas, treinar postura mais incisiva'
+    ],
+    tags: ['polivalente', 'mediador', 'IA', 'orçamento', 'técnico'],
+    observacoesSemana: [],
+    historicoEvolucao: []
+  },
+  {
+    id: 4,
+    nome: 'Luan',
+    cargo: 'Assistente de Engenharia',
+    area: 'Comercial',
+    status: 'ativo',
+    idade: 23,
+    admissao: '2026-03-30',
+    formacao: 'Eng. Elétrica (cursando) — Univ. Anchieta · Téc. Automação Industrial — ETEC Bento Quirino',
+    temp1: 'fleumático', temp2: '',
+    bigFive: null,
+    resumoPerfil: 'Recém-chegado (1 mês de casa). Atua na entrada da oportunidade comercial — verifica e-mail do cliente, organiza pasta da obra, baixa anexos, analisa projetos, registra prints, inicia planilhas de contagem, dispara cotações para fornecedores e classifica em ranking A/B/C. Perfil fleumático: estável, paciente, cuidadoso. Em fase de adaptação à cultura comercial Biasi (evolução constante, teste e execução, 80/20).',
+    prioridadeFeedback: 'media',
+    pontosFortes: [
+      'Estabilidade emocional consistente',
+      'Cuidadoso na organização de arquivos e processos',
+      'Boa escuta — deixa o cliente e fornecedor falar',
+      'Rotina disciplinada na conferência de projetos'
+    ],
+    pontosFracos: [
+      'Em adaptação — cultura "teste e execução" exige mais agilidade do que o ritmo fleumático natural',
+      'Pode hesitar antes de tomar decisão sem aval',
+      'Ainda pouco visível em reuniões de equipe'
+    ],
+    pontosTrabalhar: [
+      'Iniciar pequenos testes sem esperar aprovação (cultura Biasi)',
+      'Trazer pelo menos um insight próprio na reunião semanal',
+      'Comunicar dúvidas cedo — antes de travar'
+    ],
+    tags: ['recém-chegado', 'organizado', 'estável', 'cotações', 'fornecedores'],
+    observacoesSemana: [],
+    historicoEvolucao: []
+  },
+  {
+    id: 5,
+    nome: 'Jennifer',
+    cargo: 'Jovem Aprendiz',
+    area: 'Comercial',
+    status: 'ativo',
+    idade: 17,
+    admissao: '2025-03-26',
+    formacao: 'Ensino Médio + Téc. Administração (cursando)',
+    temp1: 'melancólico', temp2: '',
+    bigFive: null,
+    resumoPerfil: 'Jovem Aprendiz com 1 ano de casa, 17 anos. Atividades em desenvolvimento: pega projetos e documentos da obra e analisa via SophIA (assistente de IA do comercial). Perfil melancólico: detalhista, cuidadosa, profunda. Em fase de formação técnica e profissional. Sensível ao tom da liderança — reconhecimento sincero é fundamental para o desenvolvimento dela.',
+    prioridadeFeedback: 'alta',
+    pontosFortes: [
+      'Atenção aos detalhes — característica melancólica precoce',
+      'Cuidado com a qualidade do que entrega',
+      'Lealdade e responsabilidade com o time',
+      'Curiosidade técnica em fase de formação'
+    ],
+    pontosFracos: [
+      'Sensível ao tom de cobrança — pode travar com pressão direta',
+      'Autocrítica excessiva para a idade',
+      'Pouca exposição em reuniões e conversas com cliente',
+      'Confiança em construção'
+    ],
+    pontosTrabalhar: [
+      'Falar pelo menos uma vez em cada reunião do time',
+      'Pedir ajuda explicitamente em vez de travar',
+      'Explorar mais o uso da SophIA e outras IAs do comercial',
+      'Aceitar entregas 80% prontas no aprendizado'
+    ],
+    tags: ['jovem aprendiz', 'detalhista', 'em formação', 'SophIA', 'sensível'],
+    observacoesSemana: [],
+    historicoEvolucao: []
+  }
+];
+
+/* ════════════════════════════════════════════════════════════════
+   PERSISTÊNCIA
+   ════════════════════════════════════════════════════════════════ */
+const STORAGE_KEY = 'biasi_team_v4';
+
+function loadMembers() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return JSON.parse(JSON.stringify(SEED_MEMBERS));
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed) || !parsed.length) return JSON.parse(JSON.stringify(SEED_MEMBERS));
+    return parsed.map(p => ({
+      id: p.id ?? Date.now() + Math.random(),
+      nome: p.nome ?? 'Sem nome',
+      cargo: p.cargo ?? 'Comercial',
+      area: p.area ?? 'Comercial',
+      status: p.status ?? 'ativo',
+      idade: p.idade ?? null,
+      admissao: p.admissao ?? new Date().toISOString().slice(0,10),
+      formacao: p.formacao ?? '',
+      temp1: p.temp1 ?? p.temperamento ?? 'fleumático',
+      temp2: p.temp2 ?? '',
+      bigFive: p.bigFive ?? null,
+      resumoPerfil: p.resumoPerfil ?? '',
+      prioridadeFeedback: p.prioridadeFeedback ?? 'baixa',
+      pontosFortes: p.pontosFortes ?? [],
+      pontosFracos: p.pontosFracos ?? [],
+      pontosTrabalhar: p.pontosTrabalhar ?? [],
+      tags: p.tags ?? [],
+      observacoesSemana: p.observacoesSemana ?? [],
+      historicoEvolucao: p.historicoEvolucao ?? []
+    }));
+  } catch (e) {
+    console.warn('Falha ao carregar:', e);
+    return JSON.parse(JSON.stringify(SEED_MEMBERS));
+  }
+}
+
+function saveMembers() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.members)); }
+  catch (e) { console.warn('Falha ao salvar:', e); }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   ESTADO
+   ════════════════════════════════════════════════════════════════ */
+const state = {
+  members: loadMembers(),
+  filterTemp: 'todos',
+  filterPriority: 'todos',
+  search: '',
+  selectedId: null,
+  currentSection: 'resumo',
+  editingMemberId: null,
+};
+
+/* ════════════════════════════════════════════════════════════════
+   HELPERS
+   ════════════════════════════════════════════════════════════════ */
+const escapeHtml = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const initials = name => (name ?? '').split(' ').filter(Boolean).map(n => n[0]).slice(0,2).join('').toUpperCase() || '–';
+
+function tempoCasa(adm) {
+  const d = new Date(adm), n = new Date();
+  if (isNaN(d)) return '—';
+  let y = n.getFullYear() - d.getFullYear();
+  let m = n.getMonth() - d.getMonth();
+  let dDay = n.getDate() - d.getDate();
+  if (dDay < 0) m--;
+  if (m < 0) { y--; m += 12; }
+  if (y > 0) return `${y} ano${y>1?'s':''}${m>0?` · ${m} ${m===1?'mês':'meses'}`:''}`;
+  if (m > 0) return `${m} ${m===1?'mês':'meses'}`;
+  return 'Recém-chegado';
+}
+
+function avgYears() {
+  if (!state.members.length) return '—';
+  const total = state.members.reduce((acc, m) => {
+    const d = new Date(m.admissao);
+    return acc + (Date.now() - d.getTime()) / (1000*60*60*24*365.25);
+  }, 0);
+  const avg = total / state.members.length;
+  return avg.toFixed(1).replace('.', ',') + (avg === 1 ? ' ano' : ' anos');
+}
+
+function tempLabel(m) {
+  const t1 = TEMPERAMENTOS[m.temp1]?.label ?? m.temp1;
+  if (!m.temp2) return t1;
+  const t2 = TEMPERAMENTOS[m.temp2]?.label ?? m.temp2;
+  return `${t1} · ${t2}`;
+}
+
+function tempTagClass(m) { return TEMPERAMENTOS[m.temp1]?.tag ?? 'tag-flem'; }
+
+function obsThisWeek(person) {
+  const sevenDaysAgo = Date.now() - 7*24*60*60*1000;
+  return (person.observacoesSemana ?? []).filter(o => new Date(o.data).getTime() >= sevenDaysAgo);
+}
+
+function obsSummaryDot(person) {
+  const obs = person.observacoesSemana ?? [];
+  if (!obs.length) return 'empty';
+  if (obs.some(o => o.tipo === 'critical')) return 'critical';
+  if (obs.some(o => o.tipo === 'warning')) return 'warning';
+  return 'positive';
+}
+
+function priorityFromObs(person) {
+  const obs = person.observacoesSemana ?? [];
+  if (obs.some(o => o.tipo === 'critical' && o.status !== 'resolvido')) return 'alta';
+  const warnCount = obs.filter(o => o.tipo === 'warning' && o.status !== 'resolvido').length;
+  if (warnCount >= 2) return 'alta';
+  if (warnCount >= 1) return 'media';
+  return person.prioridadeFeedback || 'baixa';
+}
+
+function combinedTempData(m) {
+  // mescla os dois temperamentos (primário com peso maior)
+  const t1 = TEMPERAMENTOS[m.temp1];
+  const t2 = m.temp2 ? TEMPERAMENTOS[m.temp2] : null;
+  if (!t2) return t1;
+  return {
+    label: tempLabel(m),
+    sobPressao: t1.sobPressao + ' Mistura com traços do ' + t2.label.toLowerCase() + ': ' + t2.sobPressao.toLowerCase(),
+    comunicacao: t1.comunicacao + ' Modulado pelo lado ' + t2.label.toLowerCase() + '.',
+    recebeFeedback: t1.recebeFeedback,
+    pontosFortes: [...new Set([...t1.pontosFortes, ...t2.pontosFortes])].slice(0, 7),
+    pontosFracos: [...new Set([...t1.pontosFracos, ...t2.pontosFracos])].slice(0, 6),
+    trabalhar: [...new Set([...t1.trabalhar, ...t2.trabalhar])].slice(0, 6)
+  };
+}
+
+function effectiveBigFive(m) {
+  if (m.bigFive) return m.bigFive;
+  const t1 = TEMPERAMENTOS[m.temp1].bigFive;
+  if (!m.temp2) return t1;
+  const t2 = TEMPERAMENTOS[m.temp2].bigFive;
+  return {
+    ext: Math.round((t1.ext * 0.65) + (t2.ext * 0.35)),
+    agr: Math.round((t1.agr * 0.65) + (t2.agr * 0.35)),
+    con: Math.round((t1.con * 0.65) + (t2.con * 0.35)),
+    neu: Math.round((t1.neu * 0.65) + (t2.neu * 0.35)),
+    ope: Math.round((t1.ope * 0.65) + (t2.ope * 0.35)),
+  };
+}
+
+/* ════════════════════════════════════════════════════════════════
+   EDIT INLINE — utilidades
+   ════════════════════════════════════════════════════════════════ */
+function editField(memberId, field, newValue) {
+  const m = state.members.find(x => x.id === memberId);
+  if (!m) return;
+  m[field] = newValue;
+  saveMembers();
+}
+
+function editListItem(memberId, field, idx, newValue) {
+  const m = state.members.find(x => x.id === memberId);
+  if (!m || !Array.isArray(m[field])) return;
+  if (newValue.trim() === '') {
+    m[field].splice(idx, 1);
+  } else {
+    m[field][idx] = newValue;
+  }
+  saveMembers();
+  renderDrawerSection(); renderCards();
+}
+
+function addListItem(memberId, field, defaultValue = '') {
+  const m = state.members.find(x => x.id === memberId);
+  if (!m) return;
+  m[field] = m[field] || [];
+  m[field].push(defaultValue || 'Novo item — clique para editar');
+  saveMembers();
+  renderDrawerSection(); renderCards();
+}
+
+function removeListItem(memberId, field, idx) {
+  const m = state.members.find(x => x.id === memberId);
+  if (!m || !Array.isArray(m[field])) return;
+  m[field].splice(idx, 1);
+  saveMembers();
+  renderDrawerSection(); renderCards();
+}
+
+function editableEl(html, attrs) {
+  return `<span contenteditable="true" ${attrs} onblur="${attrs.onblur || ''}">${html}</span>`;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   RENDER MÉTRICAS / CHIPS
+   ════════════════════════════════════════════════════════════════ */
+function renderMetrics() {
+  const total = state.members.length;
+  document.getElementById('m_count').textContent = total;
+  document.getElementById('m_count_sub').textContent = total === 1 ? 'colaborador' : 'colaboradores';
+  document.getElementById('m_time').textContent = avgYears();
+
+  const priority = state.members.filter(m => priorityFromObs(m) === 'alta').length;
+  const pEl = document.getElementById('m_priority');
+  pEl.textContent = priority;
+  pEl.className = 'metric-value' + (priority > 0 ? ' alert' : '');
+  document.getElementById('m_priority_sub').textContent = priority === 0 ? 'tudo sob controle' : 'requerem atenção';
+
+  const obsCount = state.members.reduce((acc, m) => acc + obsThisWeek(m).length, 0);
+  const oEl = document.getElementById('m_obs');
+  oEl.textContent = obsCount;
+  oEl.className = 'metric-value' + (obsCount === 0 ? ' warn' : '');
+  document.getElementById('m_obs_sub').textContent = obsCount === 0 ? 'nenhuma esta semana' : 'nesta semana';
+}
+
+function renderChips() {
+  const c = document.getElementById('filterChips');
+  const temps = [['todos','Todos'], ['colérico','Colérico'], ['fleumático','Fleumático'], ['melancólico','Melancólico'], ['sanguíneo','Sanguíneo']];
+  const priorities = [['todos','Toda prioridade'], ['alta','Alta'], ['media','Média'], ['baixa','Baixa']];
+  c.innerHTML = `
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      ${temps.map(([v,l]) => `<button class="chip ${state.filterTemp===v?'active':''}" onclick="setFilter('temp','${v}')">${l}</button>`).join('')}
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-left:auto">
+      ${priorities.map(([v,l]) => `<button class="chip ${state.filterPriority===v?'active':''}" onclick="setFilter('priority','${v}')">${l}</button>`).join('')}
+    </div>
+  `;
+}
+
+function setFilter(kind, value) {
+  if (kind === 'temp') state.filterTemp = value;
+  if (kind === 'priority') state.filterPriority = value;
+  renderChips(); renderCards();
+}
+
+/* ════════════════════════════════════════════════════════════════
+   RENDER CARDS
+   ════════════════════════════════════════════════════════════════ */
+function getFilteredMembers() {
+  const search = (document.getElementById('searchInput')?.value ?? '').toLowerCase().trim();
+  return state.members.filter(m => {
+    if (state.filterTemp !== 'todos' && m.temp1 !== state.filterTemp && m.temp2 !== state.filterTemp) return false;
+    if (state.filterPriority !== 'todos' && priorityFromObs(m) !== state.filterPriority) return false;
+    if (search && !`${m.nome} ${m.cargo} ${m.area} ${(m.tags||[]).join(' ')}`.toLowerCase().includes(search)) return false;
+    return true;
+  });
+}
+
+function renderCards() {
+  const grid = document.getElementById('cardsGrid');
+  const list = getFilteredMembers();
+  document.getElementById('resultCount').textContent = `${list.length} ${list.length === 1 ? 'pessoa' : 'pessoas'}`;
+
+  if (!list.length) {
+    grid.innerHTML = `<div class="empty-state"><h4>Nenhuma pessoa encontrada</h4><p>Ajuste os filtros ou adicione um novo membro.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map(m => {
+    const obs = obsThisWeek(m);
+    const dot = obsSummaryDot(m);
+    const prio = priorityFromObs(m);
+    const obsLabel = !obs.length ? 'Nenhuma observação esta semana'
+      : (obs.some(o => o.tipo==='critical') ? 'Ponto crítico esta semana'
+        : obs.some(o => o.tipo==='warning') ? 'Pontos de atenção esta semana'
+        : 'Observações positivas esta semana');
+    const topStrengths = (m.pontosFortes || []).slice(0, 3);
+
+    return `
+      <div class="card" onclick="openDrawer(${m.id})">
+        <div class="priority-bar ${prio}"></div>
+        <div class="card-head">
+          <div class="card-identity">
+            <div class="avatar">${initials(m.nome)}</div>
+            <div>
+              <div class="name">${escapeHtml(m.nome)}</div>
+              <div class="role-line">${escapeHtml(m.cargo)} · ${escapeHtml(m.area)}</div>
+            </div>
+          </div>
+          <span class="temp-tag ${tempTagClass(m)}">${tempLabel(m)}</span>
+        </div>
+
+        <div class="card-meta">
+          <div class="meta-cell">
+            <div class="meta-label">Casa</div>
+            <div class="meta-val">${tempoCasa(m.admissao)}</div>
+          </div>
+          <div class="meta-cell">
+            <div class="meta-label">Idade</div>
+            <div class="meta-val">${m.idade ? m.idade + ' anos' : '—'}</div>
+          </div>
+          <div class="meta-cell">
+            <div class="meta-label">Status</div>
+            <div class="meta-val" style="text-transform:capitalize">${escapeHtml(m.status)}</div>
+          </div>
+        </div>
+
+        ${topStrengths.length ? `
+        <div class="strengths-row">
+          ${topStrengths.map(s => `<span class="strength-pill">${escapeHtml(s.split('—')[0].trim().slice(0,30))}</span>`).join('')}
+        </div>` : ''}
+
+        <div class="observations-summary">
+          <div class="obs-dot ${dot}"></div>
+          <div class="obs-text">${obsLabel}</div>
+          <div class="obs-count">${obs.length} obs</div>
+        </div>
+
+        <div class="card-footer">
+          <button class="ver-perfil" onclick="event.stopPropagation();openDrawer(${m.id})">Ver perfil →</button>
+          <div class="priority-label">
+            <span class="priority-dot ${prio}"></span>
+            Feedback ${prio}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ════════════════════════════════════════════════════════════════
+   DRAWER
+   ════════════════════════════════════════════════════════════════ */
+function openDrawer(id) {
+  const m = state.members.find(x => x.id === id);
+  if (!m) return;
+  state.selectedId = id;
+  state.currentSection = 'resumo';
+
+  document.getElementById('d_avatar').textContent = initials(m.nome);
+  document.getElementById('d_name').textContent = m.nome;
+  document.getElementById('d_subtitle').textContent =
+    `${m.cargo} · ${m.area} · ${tempoCasa(m.admissao)}${m.idade ? ' · ' + m.idade + ' anos' : ''}`;
+  document.getElementById('d_tags').innerHTML = `
+    <span class="temp-tag ${tempTagClass(m)}">${tempLabel(m)}</span>
+    ${(m.tags || []).map(tag => `<span class="strength-pill">${escapeHtml(tag)}</span>`).join('')}
+  `;
+
+  document.querySelectorAll('.drawer-nav button').forEach(b =>
+    b.classList.toggle('active', b.dataset.section === 'resumo'));
+
+  renderDrawerSection();
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  state.selectedId = null;
+}
+
+function setSection(section, btn) {
+  state.currentSection = section;
+  document.querySelectorAll('.drawer-nav button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderDrawerSection();
+  document.getElementById('drawerBody').scrollTop = 0;
+}
+
+function renderDrawerSection() {
+  const m = state.members.find(x => x.id === state.selectedId);
+  if (!m) return;
+  const body = document.getElementById('drawerBody');
+  switch (state.currentSection) {
+    case 'resumo':       body.innerHTML = renderResumo(m); break;
+    case 'perfil':       body.innerHTML = renderPerfil(m); break;
+    case 'bigfive':      body.innerHTML = renderBigFive(m); break;
+    case 'observacoes':  body.innerHTML = renderObservacoes(m); break;
+    case 'fortes':       body.innerHTML = renderEditableList(m, 'pontosFortes', 'Pontos fortes', 'O que esta pessoa faz bem', 'positive'); break;
+    case 'atencao':      body.innerHTML = renderEditableList(m, 'pontosFracos', 'Pontos de atenção', 'Linguagem construtiva — comportamento observável', 'warning'); break;
+    case 'trabalhar':    body.innerHTML = renderEditableList(m, 'pontosTrabalhar', 'O que trabalhar', 'Ações práticas e compromissos', ''); break;
+    case 'feedback':     body.innerHTML = renderFeedback(m); break;
+    case 'historico':    body.innerHTML = renderHistorico(m); break;
+  }
+}
+
+/* ────── seções ────── */
+function renderResumo(m) {
+  const obs = m.observacoesSemana || [];
+  const positivas = obs.filter(o => o.tipo === 'positive').length;
+  const atencao = obs.filter(o => o.tipo === 'warning').length;
+  const criticas = obs.filter(o => o.tipo === 'critical').length;
+  return `
+    <div class="section">
+      <h3>Resumo geral</h3>
+      <div class="section-sub">Quem é dentro da equipe — clique para editar</div>
+      <p contenteditable="true" data-placeholder="Descreva quem é essa pessoa..."
+         onblur="editField(${m.id},'resumoPerfil',this.innerText.trim())">${escapeHtml(m.resumoPerfil)}</p>
+    </div>
+
+    <div class="section">
+      <h3>Identificação</h3>
+      <div class="section-sub">Dados editáveis — clique no campo</div>
+      <h4>Cargo</h4>
+      <p contenteditable="true" onblur="editField(${m.id},'cargo',this.innerText.trim());updateDrawerHead()">${escapeHtml(m.cargo)}</p>
+      <h4>Formação</h4>
+      <p contenteditable="true" data-placeholder="Curso · Instituição"
+         onblur="editField(${m.id},'formacao',this.innerText.trim())">${escapeHtml(m.formacao)}</p>
+    </div>
+
+    <div class="section">
+      <h3>Esta semana</h3>
+      <div class="section-sub">Observações registradas</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        <div style="padding:14px;background:#f0fdf4;border-radius:8px;text-align:center">
+          <div style="font-family:Fraunces,serif;font-size:24px;color:var(--positive)">${positivas}</div>
+          <div style="font-size:11px;color:var(--ink-muted);margin-top:2px">Positivos</div>
+        </div>
+        <div style="padding:14px;background:#fffbeb;border-radius:8px;text-align:center">
+          <div style="font-family:Fraunces,serif;font-size:24px;color:var(--warning)">${atencao}</div>
+          <div style="font-size:11px;color:var(--ink-muted);margin-top:2px">Atenção</div>
+        </div>
+        <div style="padding:14px;background:#fef2f2;border-radius:8px;text-align:center">
+          <div style="font-family:Fraunces,serif;font-size:24px;color:var(--critical)">${criticas}</div>
+          <div style="font-size:11px;color:var(--ink-muted);margin-top:2px">Críticos</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Tags <button class="add-line-btn" onclick="addTag(${m.id})">＋</button></h3>
+      <div class="section-sub">Marcadores rápidos — clique × para remover</div>
+      <div class="strengths-row">
+        ${(m.tags||[]).map((tag, i) => `
+          <span class="strength-pill">
+            <span contenteditable="true" onblur="editListItem(${m.id},'tags',${i},this.innerText.trim())">${escapeHtml(tag)}</span>
+            <span class="x" onclick="removeListItem(${m.id},'tags',${i})">×</span>
+          </span>
+        `).join('')}
+        <span class="strength-pill add" onclick="addTag(${m.id})">＋ tag</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderPerfil(m) {
+  const t = combinedTempData(m);
+  return `
+    <div class="section">
+      <h3>${t.label}</h3>
+      <div class="section-sub">Como costuma se posicionar</div>
+      <h4>Sob pressão</h4>
+      <p>${escapeHtml(t.sobPressao)}</p>
+      <h4>Comunicação</h4>
+      <p>${escapeHtml(t.comunicacao)}</p>
+      <h4>Como recebe feedback</h4>
+      <p>${escapeHtml(t.recebeFeedback)}</p>
+    </div>
+
+    <div class="section">
+      <h3>Forças do temperamento</h3>
+      <div class="section-sub">O que o perfil traz de melhor (referência)</div>
+      <ul class="editable-list positive">
+        ${t.pontosFortes.map(p => `<li><div class="marker"></div><div class="text">${escapeHtml(p)}</div></li>`).join('')}
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>Riscos do temperamento</h3>
+      <div class="section-sub">Pontos cegos típicos do perfil (referência)</div>
+      <ul class="editable-list warning">
+        ${t.pontosFracos.map(p => `<li><div class="marker"></div><div class="text">${escapeHtml(p)}</div></li>`).join('')}
+      </ul>
+    </div>
+  `;
+}
+
+function renderBigFive(m) {
+  const bf = effectiveBigFive(m);
+  const isCustom = !!m.bigFive;
+  return `
+    <div class="section">
+      <h3>Big Five (OCEAN)</h3>
+      <div class="section-sub">Modelo dos cinco grandes traços de personalidade — Soto (2018). Os valores partem do temperamento e podem ser ajustados manualmente abaixo.</div>
+      <div class="b5-list">
+        ${Object.entries(BIG_FIVE).map(([key, info]) => `
+          <div class="b5-item">
+            <div class="b5-head">
+              <span class="b5-name">${info.nome}</span>
+              <span class="b5-score" id="b5_${key}_val">${bf[key]}</span>
+            </div>
+            <input type="range" min="0" max="100" value="${bf[key]}" class="b5-slider"
+                   oninput="updateBigFive(${m.id},'${key}',this.value)" />
+            <div class="b5-desc">${info.desc}</div>
+          </div>
+        `).join('')}
+      </div>
+      ${isCustom ? `
+        <button class="add-line-btn" style="margin-top:18px" onclick="resetBigFive(${m.id})">↺ Voltar ao padrão do temperamento</button>
+      ` : `
+        <p style="font-size:12px;color:var(--ink-muted);margin-top:18px">Valores derivados automaticamente do temperamento. Mexa nos sliders para personalizar.</p>
+      `}
+    </div>
+
+    <div class="section">
+      <h3>Como ler</h3>
+      <p>O modelo Big Five complementa os 4 temperamentos clássicos com cinco dimensões mais amplas. Não substitui a leitura comportamental — funciona como um segundo ângulo. Saiba mais em <a href="https://personality-project.org/" target="_blank" rel="noopener" style="color:var(--ink)">personality-project.org</a>.</p>
+    </div>
+  `;
+}
+
+function renderObservacoes(m) {
+  const obs = (m.observacoesSemana || []).slice().sort((a,b) => new Date(b.data) - new Date(a.data));
+  return `
+    <div class="section">
+      <h3>Observações da semana</h3>
+      <div class="section-sub">Registros para basear o feedback de sexta — todos editáveis</div>
+      ${obs.length ? `
+        <div class="obs-list">
+          ${obs.map(o => `
+            <div class="obs-item ${o.tipo}">
+              <div class="obs-head">
+                <div class="obs-title" contenteditable="true"
+                     onblur="editObsField(${m.id},${o.id},'titulo',this.innerText.trim())">${escapeHtml(o.titulo)}</div>
+                <div class="obs-meta">${new Date(o.data).toLocaleDateString('pt-BR', { day:'2-digit', month:'short' })}</div>
+              </div>
+              <div class="obs-desc" contenteditable="true"
+                   onblur="editObsField(${m.id},${o.id},'descricao',this.innerText.trim())">${escapeHtml(o.descricao)}</div>
+              ${o.sugestao ? `<div class="obs-desc" style="font-style:italic;color:var(--ink-muted)" contenteditable="true"
+                   onblur="editObsField(${m.id},${o.id},'sugestao',this.innerText.trim())">→ ${escapeHtml(o.sugestao)}</div>` : ''}
+              <div class="obs-tags">
+                <span class="obs-cat">${escapeHtml(o.categoria)}</span>
+                <span class="obs-status ${o.status}">${escapeHtml(o.status)}</span>
+                <span class="obs-del" onclick="deleteObs(${o.id})">×</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      ` : `
+        <div class="empty-obs">
+          <strong style="color:var(--ink)">Nenhuma observação esta semana.</strong><br>
+          Adicione observações para preparar o feedback de sexta-feira.
+        </div>`}
+      <button class="add-obs-btn" onclick="openObs()">＋ Adicionar observação</button>
+    </div>
+  `;
+}
+
+function renderEditableList(m, field, title, sub, klass) {
+  const items = m[field] || [];
+  return `
+    <div class="section">
+      <h3>${title} <button class="add-line-btn" onclick="addListItem(${m.id},'${field}')">＋</button></h3>
+      <div class="section-sub">${sub} · clique no item para editar</div>
+      ${items.length ? `
+        <ul class="editable-list ${klass}">
+          ${items.map((p, i) => `
+            <li>
+              <div class="marker"></div>
+              <div class="text" contenteditable="true"
+                   onblur="editListItem(${m.id},'${field}',${i},this.innerText.trim())">${escapeHtml(p)}</div>
+              <span class="del" onclick="removeListItem(${m.id},'${field}',${i})">×</span>
+            </li>
+          `).join('')}
+        </ul>
+      ` : `<p style="color:var(--ink-muted);font-size:13px">Nenhum item ainda. Clique em ＋ para adicionar.</p>`}
+    </div>
+  `;
+}
+
+function renderFeedback(m) {
+  const t = combinedTempData(m);
+  const obs = m.observacoesSemana || [];
+  const positivas = obs.filter(o => o.tipo === 'positive');
+  const atencao = obs.filter(o => o.tipo === 'warning');
+  const criticas = obs.filter(o => o.tipo === 'critical');
+  const primeiro = m.nome.split(' ')[0];
+
+  const abertura = m.temp1 === 'melancólico'
+    ? `${primeiro}, queria começar reconhecendo o cuidado que você teve com a equipe esta semana. Antes de qualquer ponto de melhoria, vamos olhar o que foi bom — porque foi bom de verdade.`
+    : m.temp1 === 'colérico'
+    ? `${primeiro}, vamos direto. Algumas coisas pra reconhecer e algumas pra ajustar. Quero ouvir sua leitura também.`
+    : m.temp1 === 'fleumático'
+    ? `${primeiro}, obrigado por separar esse tempo. Tenho alguns pontos pra dividir com você — uns positivos, outros pra trabalharmos juntos. Sem pressa.`
+    : `${primeiro}, queria conversar sobre a semana — começando pelo que vi de bom, depois pelo que podemos ajustar.`;
+
+  const reconhecimento = positivas.length
+    ? positivas.slice(0,2).map(o => `${o.titulo}: ${o.descricao}`).join(' / ')
+    : `Reconheço ${(m.pontosFortes||[]).slice(0,1).join(', ').toLowerCase() || 'sua dedicação'} — esse é um ativo do time.`;
+
+  const pontoAtencao = (criticas.length || atencao.length)
+    ? [...criticas, ...atencao].slice(0,2).map(o => `${o.titulo}: ${o.descricao}`).join(' / ')
+    : `Não tenho pontos críticos esta semana — sigamos o que estamos fazendo.`;
+
+  const perguntas = [
+    `Como você se sentiu na semana?`,
+    `O que tornou seu trabalho mais difícil?`,
+    m.temp1 === 'melancólico' ? `O que você está achando que não está bom — mesmo que ninguém tenha falado?` : `Tem alguma decisão que você achou que deveria ser sua e acabou não sendo?`,
+  ];
+  const combinados = (m.pontosTrabalhar || []).slice(0, 2);
+
+  return `
+    <div class="section feedback-script">
+      <h3>Roteiro de feedback</h3>
+      <div class="section-sub">Sugestões geradas a partir das observações + temperamento — adapte ao momento</div>
+
+      <h4>1 · Abertura</h4>
+      <div class="script-block"><div class="script-label">Como começar</div><div class="script-text">"${escapeHtml(abertura)}"</div></div>
+
+      <h4>2 · Reconhecimento</h4>
+      <div class="script-block positive"><div class="script-label">Pontos positivos</div><div class="script-text">"Quero reconhecer especificamente: ${escapeHtml(reconhecimento)}"</div></div>
+
+      <h4>3 · Ponto de atenção</h4>
+      <div class="script-block ${criticas.length ? 'critical' : atencao.length ? 'warning' : ''}"><div class="script-label">O que precisamos olhar</div><div class="script-text">"Tem um ponto que vale conversarmos: ${escapeHtml(pontoAtencao)}"</div></div>
+
+      <h4>4 · Perguntas para reflexão</h4>
+      ${perguntas.map((p, i) => `
+        <div class="script-block"><div class="script-label">Pergunta ${i+1}</div><div class="script-text">"${escapeHtml(p)}"</div></div>
+      `).join('')}
+
+      <h4>5 · Combinados para próxima semana</h4>
+      ${combinados.length ? combinados.map(c => `
+        <div class="script-block"><div class="script-label">Compromisso</div><div class="script-text">"Pra semana que vem, combinamos: ${escapeHtml(c)}. Topa?"</div></div>
+      `).join('') : '<p style="color:var(--ink-muted)">Cadastre pontos a trabalhar para gerar combinados.</p>'}
+
+      <h4>Tom recomendado</h4>
+      <p>${escapeHtml(t.recebeFeedback)}</p>
+    </div>
+  `;
+}
+
+function renderHistorico(m) {
+  const hist = (m.historicoEvolucao || []).slice().sort((a,b) => new Date(b.data) - new Date(a.data));
+  return `
+    <div class="section">
+      <h3>Linha do tempo <button class="add-line-btn" onclick="openHist()">＋</button></h3>
+      <div class="section-sub">Evolução percebida ao longo do tempo · clique no texto para editar</div>
+      ${hist.length ? `
+        <div class="history-line">
+          ${hist.map((h, idx) => `
+            <div class="history-item ${h.tipo || ''}">
+              <div class="history-date">${new Date(h.data).toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' })}
+                <span class="history-del" onclick="removeListItem(${m.id},'historicoEvolucao',${idx})">×</span>
+              </div>
+              <div class="history-text" contenteditable="true"
+                   onblur="editHistoryText(${m.id},${idx},this.innerText.trim())">${escapeHtml(h.texto)}</div>
+            </div>
+          `).join('')}
+        </div>
+      ` : `<p style="color:var(--ink-muted);font-size:13px">Sem registros ainda. Clique em ＋ para adicionar.</p>`}
+    </div>
+  `;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   EDIT HANDLERS
+   ════════════════════════════════════════════════════════════════ */
+function updateDrawerHead() {
+  const m = state.members.find(x => x.id === state.selectedId);
+  if (!m) return;
+  document.getElementById('d_name').textContent = m.nome;
+  document.getElementById('d_subtitle').textContent =
+    `${m.cargo} · ${m.area} · ${tempoCasa(m.admissao)}${m.idade ? ' · ' + m.idade + ' anos' : ''}`;
+  renderCards();
+}
+
+function updateBigFive(memberId, key, value) {
+  const m = state.members.find(x => x.id === memberId);
+  if (!m) return;
+  if (!m.bigFive) m.bigFive = { ...effectiveBigFive(m) };
+  m.bigFive[key] = parseInt(value);
+  document.getElementById(`b5_${key}_val`).textContent = value;
+  saveMembers();
+}
+
+function resetBigFive(memberId) {
+  const m = state.members.find(x => x.id === memberId);
+  if (!m) return;
+  m.bigFive = null;
+  saveMembers();
+  renderDrawerSection();
+}
+
+function addTag(memberId) {
+  const tag = prompt('Nova tag:');
+  if (!tag || !tag.trim()) return;
+  const m = state.members.find(x => x.id === memberId);
+  m.tags = m.tags || [];
+  m.tags.push(tag.trim());
+  saveMembers();
+  renderDrawerSection(); renderCards();
+}
+
+function editObsField(memberId, obsId, field, value) {
+  const m = state.members.find(x => x.id === memberId);
+  const o = m?.observacoesSemana?.find(o => o.id === obsId);
+  if (o) { o[field] = value; saveMembers(); }
+}
+
+function editHistoryText(memberId, idx, value) {
+  const m = state.members.find(x => x.id === memberId);
+  if (m && m.historicoEvolucao && m.historicoEvolucao[idx]) {
+    if (!value) { m.historicoEvolucao.splice(idx, 1); renderDrawerSection(); }
+    else m.historicoEvolucao[idx].texto = value;
+    saveMembers();
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   OBSERVAÇÃO CRUD
+   ════════════════════════════════════════════════════════════════ */
+function openObs() {
+  if (!state.selectedId) return;
+  const m = state.members.find(x => x.id === state.selectedId);
+  document.getElementById('obs_for').textContent = `Sobre ${m.nome}`;
+  document.getElementById('obs_title').value = '';
+  document.getElementById('obs_desc').value = '';
+  document.getElementById('obs_cat').value = 'comportamento';
+  document.getElementById('obs_type').value = 'positive';
+  document.getElementById('obs_date').value = new Date().toISOString().slice(0,10);
+  document.getElementById('obs_status').value = 'observado';
+  document.getElementById('obs_sug').value = '';
+  document.getElementById('obsOverlay').classList.add('open');
+}
+function closeObs() { document.getElementById('obsOverlay').classList.remove('open'); }
+function saveObs() {
+  const titulo = document.getElementById('obs_title').value.trim();
+  const desc = document.getElementById('obs_desc').value.trim();
+  if (!titulo || !desc) { toast('Preencha título e descrição'); return; }
+  const m = state.members.find(x => x.id === state.selectedId);
+  m.observacoesSemana = m.observacoesSemana || [];
+  m.observacoesSemana.unshift({
+    id: Date.now(),
+    titulo, descricao: desc,
+    categoria: document.getElementById('obs_cat').value,
+    tipo: document.getElementById('obs_type').value,
+    data: document.getElementById('obs_date').value,
+    status: document.getElementById('obs_status').value,
+    sugestao: document.getElementById('obs_sug').value.trim()
+  });
+  saveMembers(); closeObs();
+  renderMetrics(); renderCards(); renderDrawerSection();
+  toast('Observação registrada.');
+}
+function deleteObs(obsId) {
+  if (!confirm('Remover esta observação?')) return;
+  const m = state.members.find(x => x.id === state.selectedId);
+  m.observacoesSemana = (m.observacoesSemana || []).filter(o => o.id !== obsId);
+  saveMembers();
+  renderMetrics(); renderCards(); renderDrawerSection();
+}
+
+/* HISTÓRICO */
+function openHist() {
+  if (!state.selectedId) return;
+  const m = state.members.find(x => x.id === state.selectedId);
+  document.getElementById('hist_for').textContent = `Sobre ${m.nome}`;
+  document.getElementById('hist_date').value = new Date().toISOString().slice(0,10);
+  document.getElementById('hist_type').value = 'positive';
+  document.getElementById('hist_text').value = '';
+  document.getElementById('histOverlay').classList.add('open');
+}
+function closeHist() { document.getElementById('histOverlay').classList.remove('open'); }
+function saveHist() {
+  const text = document.getElementById('hist_text').value.trim();
+  if (!text) { toast('Descreva o que mudou'); return; }
+  const m = state.members.find(x => x.id === state.selectedId);
+  m.historicoEvolucao = m.historicoEvolucao || [];
+  m.historicoEvolucao.unshift({
+    data: document.getElementById('hist_date').value,
+    tipo: document.getElementById('hist_type').value,
+    texto: text
+  });
+  saveMembers(); closeHist();
+  renderDrawerSection();
+  toast('Registro adicionado.');
+}
+
+/* ════════════════════════════════════════════════════════════════
+   MEMBRO CRUD
+   ════════════════════════════════════════════════════════════════ */
+function openAddMember() {
+  state.editingMemberId = null;
+  document.getElementById('mem_title').textContent = 'Nova pessoa';
+  document.getElementById('mem_sub').textContent = 'Adicione alguém ao time';
+  ['mem_nome','mem_cargo','mem_area','mem_formacao'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('mem_area').value = 'Comercial';
+  document.getElementById('mem_status').value = 'ativo';
+  document.getElementById('mem_idade').value = '';
+  document.getElementById('mem_admissao').value = new Date().toISOString().slice(0,10);
+  document.getElementById('mem_temp1').value = 'fleumático';
+  document.getElementById('mem_temp2').value = '';
+  document.getElementById('mem_priority').value = 'baixa';
+  document.getElementById('mem_delete').style.display = 'none';
+  document.getElementById('memOverlay').classList.add('open');
+}
+
+function openEditMember() {
+  const m = state.members.find(x => x.id === state.selectedId);
+  if (!m) return;
+  state.editingMemberId = m.id;
+  document.getElementById('mem_title').textContent = 'Editar pessoa';
+  document.getElementById('mem_sub').textContent = m.nome;
+  document.getElementById('mem_nome').value = m.nome;
+  document.getElementById('mem_cargo').value = m.cargo;
+  document.getElementById('mem_area').value = m.area;
+  document.getElementById('mem_status').value = m.status;
+  document.getElementById('mem_idade').value = m.idade || '';
+  document.getElementById('mem_admissao').value = m.admissao;
+  document.getElementById('mem_formacao').value = m.formacao || '';
+  document.getElementById('mem_temp1').value = m.temp1;
+  document.getElementById('mem_temp2').value = m.temp2 || '';
+  document.getElementById('mem_priority').value = m.prioridadeFeedback || 'baixa';
+  document.getElementById('mem_delete').style.display = '';
+  document.getElementById('memOverlay').classList.add('open');
+}
+function closeMember() { document.getElementById('memOverlay').classList.remove('open'); }
+
+function saveMember() {
+  const nome = document.getElementById('mem_nome').value.trim();
+  if (!nome) { toast('Informe o nome'); return; }
+  const data = {
+    nome,
+    cargo: document.getElementById('mem_cargo').value.trim() || 'Comercial',
+    area:  document.getElementById('mem_area').value.trim() || 'Comercial',
+    status: document.getElementById('mem_status').value,
+    idade: parseInt(document.getElementById('mem_idade').value) || null,
+    admissao: document.getElementById('mem_admissao').value,
+    formacao: document.getElementById('mem_formacao').value.trim(),
+    temp1: document.getElementById('mem_temp1').value,
+    temp2: document.getElementById('mem_temp2').value,
+    prioridadeFeedback: document.getElementById('mem_priority').value,
+  };
+
+  if (state.editingMemberId) {
+    const m = state.members.find(x => x.id === state.editingMemberId);
+    Object.assign(m, data);
+    if (state.selectedId === m.id) {
+      document.getElementById('d_name').textContent = m.nome;
+      document.getElementById('d_subtitle').textContent =
+        `${m.cargo} · ${m.area} · ${tempoCasa(m.admissao)}${m.idade ? ' · ' + m.idade + ' anos' : ''}`;
+      document.getElementById('d_tags').innerHTML =
+        `<span class="temp-tag ${tempTagClass(m)}">${tempLabel(m)}</span>` +
+        (m.tags||[]).map(tag => `<span class="strength-pill">${escapeHtml(tag)}</span>`).join('');
+      renderDrawerSection();
+    }
+    saveMembers(); toast('Atualizado.');
+  } else {
+    state.members.push({
+      id: Date.now(), ...data,
+      bigFive: null, resumoPerfil: '',
+      pontosFortes: [], pontosFracos: [], pontosTrabalhar: [],
+      tags: [], observacoesSemana: [], historicoEvolucao: []
+    });
+    saveMembers(); toast(`${nome} adicionado.`);
+  }
+  closeMember();
+  renderMetrics(); renderCards();
+}
+
+function deleteMember() {
+  if (!confirm('Remover esta pessoa do time?')) return;
+  state.members = state.members.filter(x => x.id !== state.editingMemberId);
+  saveMembers();
+  closeMember();
+  if (state.selectedId === state.editingMemberId) closeDrawer();
+  renderMetrics(); renderCards();
+  toast('Removido.');
+}
+
+/* ════════════════════════════════════════════════════════════════
+   UTILS
+   ════════════════════════════════════════════════════════════════ */
+function resetData() {
+  if (!confirm('Restaurar dados iniciais? Suas alterações serão perdidas.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state.members = JSON.parse(JSON.stringify(SEED_MEMBERS));
+  renderMetrics(); renderChips(); renderCards();
+  toast('Dados restaurados.');
+}
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(state.members, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `equipe-comercial-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  toast('Exportado.');
+}
+
+function toast(msg) {
+  const c = document.getElementById('toasts');
+  const el = document.createElement('div');
+  el.className = 'toast'; el.textContent = msg;
+  c.appendChild(el);
+  setTimeout(() => el.remove(), 2400);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (document.getElementById('memOverlay').classList.contains('open')) closeMember();
+    else if (document.getElementById('obsOverlay').classList.contains('open')) closeObs();
+    else if (document.getElementById('histOverlay').classList.contains('open')) closeHist();
+    else if (document.getElementById('drawer').classList.contains('open')) closeDrawer();
+  }
+});
+
+/* BOOT */
+document.getElementById('dateNow').textContent =
+  new Date().toLocaleDateString('pt-BR', { day:'numeric', month:'long', year:'numeric' });
+
+renderMetrics();
+renderChips();
+renderCards();
+</script>
+</body>
+</html>
