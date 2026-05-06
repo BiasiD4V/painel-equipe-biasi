@@ -770,7 +770,62 @@ main { padding: 32px 28px 80px; max-width: 1440px; margin: 0 auto; }
 .recog-body:empty::before { content: attr(data-placeholder); color: var(--ink-muted); font-style: italic; font-size: 12px; }
 .recog-body:focus { background: #fffbeb; outline: none; }
 
-/* SKILLS */
+/* SKILLS V2 — self + gestor */
+.skill-summary {
+  background: linear-gradient(135deg, #fffbf5 0%, #fff 100%);
+  border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 16px; margin-bottom: 18px;
+}
+.skill-sum-head { display: flex; align-items: center; gap: 12px; }
+.skill-sum-emoji { font-size: 26px; }
+.skill-sum-head b { display: block; font-size: 13.5px; font-weight: 600; }
+.skill-sum-head span { display: block; }
+
+.skill-list-v2 { display: flex; flex-direction: column; gap: 8px; }
+.skill-card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; padding: 12px 14px;
+  transition: box-shadow .15s;
+}
+.skill-card:hover { box-shadow: var(--shadow-sm); }
+.skill-card-h {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px; gap: 8px; flex-wrap: wrap;
+}
+.skill-name-v2 { font-size: 13.5px; font-weight: 500; }
+
+.sk-gap {
+  font-size: 10px; padding: 2px 8px; border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;
+}
+.sk-gap.ok { background: #dcfce7; color: var(--positive); }
+.sk-gap.mild { background: var(--line-soft); color: var(--ink-soft); }
+.sk-gap.up { background: #dbeafe; color: var(--info); }
+.sk-gap.down { background: #fee2e2; color: var(--critical); }
+
+.skill-row-v2 {
+  display: grid; grid-template-columns: 90px auto 1fr;
+  gap: 10px; align-items: center;
+  padding: 5px 0; font-size: 12px;
+}
+.skill-row-v2.gestor-row {
+  border-top: 1px dashed var(--line-soft);
+  margin-top: 4px; padding-top: 8px;
+}
+.skill-row-label { display: flex; align-items: center; }
+.who-tag {
+  font-size: 10px; padding: 2px 7px; border-radius: 5px;
+  font-weight: 600; letter-spacing: 0.02em;
+}
+.who-tag.self { background: var(--surface-2); color: var(--ink-soft); }
+.who-tag.gestor { background: #fef3c7; color: var(--sang); }
+
+@media (max-width: 600px) {
+  .skill-row-v2 { grid-template-columns: 1fr; gap: 4px; }
+  .skill-row-label { margin-bottom: 2px; }
+}
+
+/* SKILLS V1 — manter pra retrocompat caso alguma view antiga rode */
 .skill-cat { margin-bottom: 22px; }
 .skill-cat-h {
   font-family: 'Fraunces', serif; font-size: 14px; font-weight: 600;
@@ -2769,26 +2824,87 @@ function listEditCareerHTML(m, key) {
   `;
 }
 
+const SKILL_LABELS = { 0: '—', 1: 'iniciante', 2: 'aprendendo', 3: 'autônomo', 4: 'avançado', 5: 'referência' };
+
 function sectionSkills(m) {
-  const r = canWrite();
-  const skills = m.data?.skills || {};
+  const isMgr = ['admin','gestor','viewer'].includes(state.user.role);
+  const isSelf = state.user.role === 'member' && state.user.member_id === m.id;
+  const canEditSelf = isSelf; // colaborador edita o próprio
+  const canEditGestor = canWrite() && isMgr;
+
+  // backwards-compat: skills antigo vira skills_self
+  const selfSk = m.data?.skills_self || m.data?.skills || {};
+  const gestorSk = m.data?.skills_gestor || {};
+
+  // Stats agregados
+  let totalGap = 0, gapCount = 0, both = 0;
+  SKILLS_DEFAULT.forEach(g => g.items.forEach(item => {
+    const k = `${g.cat}|${item}`;
+    const s = selfSk[k] || 0, ge = gestorSk[k] || 0;
+    if (s && ge) { totalGap += (ge - s); gapCount++; both++; }
+  }));
+  const avgGap = gapCount ? (totalGap / gapCount) : null;
+  const summaryMsg = avgGap === null ? 'Sem dados o suficiente para cruzar' :
+    avgGap > 0.5 ? 'Em média, você vê MAIS potencial do que a pessoa — pode estar se subestimando' :
+    avgGap < -0.5 ? 'Em média, você vê MENOS potencial do que a pessoa — pode estar se achando demais' :
+    'Percepções alinhadas em média';
+
   return `
     <div class="field-group">
       <h3 class="section-h">Matriz de competências</h3>
-      <p class="sub-text">Avalie cada habilidade de 1 a 5 — clique para definir. Use isso pra distribuir trabalho, montar pares de mentoria e identificar gaps de formação.</p>
+      <p class="sub-text">A pessoa se autoavalia em cada habilidade. ${isMgr?'Embaixo, você (gestor) marca o que <b>você acha</b> — só você vê suas notas.':'Marque o seu nível em cada item. Use a régua: iniciante → aprendendo → autônomo → avançado → referência.'}</p>
+
+      ${isMgr && both > 0 ? `
+        <div class="skill-summary">
+          <div class="skill-sum-head">
+            <span class="skill-sum-emoji">${avgGap === null ? '📊' : avgGap > 0.5 ? '🌱' : avgGap < -0.5 ? '🪞' : '✓'}</span>
+            <div>
+              <b>${escapeHtml(summaryMsg)}</b>
+              <span style="font-size:11px;color:var(--ink-muted);">comparação em ${both} habilidade${both>1?'s':''} avaliadas pelos dois</span>
+            </div>
+          </div>
+        </div>
+      ` : ''}
+
       ${SKILLS_DEFAULT.map(g => `
         <div class="skill-cat">
           <div class="skill-cat-h">${escapeHtml(g.cat)}</div>
-          <div class="skill-list">
+          <div class="skill-list-v2">
             ${g.items.map(item => {
-              const lvl = skills[`${g.cat}|${item}`] || 0;
+              const k = `${g.cat}|${item}`;
+              const sLvl = selfSk[k] || 0;
+              const gLvl = gestorSk[k] || 0;
+              const delta = (sLvl && gLvl) ? gLvl - sLvl : null;
+              const gapBadge = delta === null ? '' :
+                delta >= 2 ? '<span class="sk-gap up">↑ subestima</span>' :
+                delta <= -2 ? '<span class="sk-gap down">↓ superestima</span>' :
+                Math.abs(delta) === 1 ? '<span class="sk-gap mild">≈ próximo</span>' :
+                '<span class="sk-gap ok">✓ alinhado</span>';
               return `
-                <div class="skill-row">
-                  <div class="skill-name">${escapeHtml(item)}</div>
-                  <div class="skill-rate" data-skill-key="${escapeHtml(g.cat+'|'+item)}">
-                    ${[1,2,3,4,5].map(v => `<button type="button" data-v="${v}" class="${lvl>=v?'on':''}" ${r?'':'disabled'}></button>`).join('')}
+                <div class="skill-card">
+                  <div class="skill-card-h">
+                    <div class="skill-name-v2">${escapeHtml(item)}</div>
+                    ${gapBadge}
                   </div>
-                  <div class="skill-lbl">${SKILL_LABELS[lvl]||'—'}</div>
+                  <div class="skill-row-v2">
+                    <div class="skill-row-label">
+                      <span class="who-tag self">👤 Pessoa</span>
+                    </div>
+                    <div class="skill-rate" data-skill-key="${escapeHtml(k)}" data-skill-which="self">
+                      ${[1,2,3,4,5].map(v => `<button type="button" data-v="${v}" class="${sLvl>=v?'on':''}" ${canEditSelf?'':'disabled'}></button>`).join('')}
+                    </div>
+                    <div class="skill-lbl">${SKILL_LABELS[sLvl]}</div>
+                  </div>
+                  ${isMgr ? `
+                  <div class="skill-row-v2 gestor-row">
+                    <div class="skill-row-label">
+                      <span class="who-tag gestor">🔍 Você</span>
+                    </div>
+                    <div class="skill-rate" data-skill-key="${escapeHtml(k)}" data-skill-which="gestor">
+                      ${[1,2,3,4,5].map(v => `<button type="button" data-v="${v}" class="${gLvl>=v?'on':''}" ${canEditGestor?'':'disabled'}></button>`).join('')}
+                    </div>
+                    <div class="skill-lbl">${SKILL_LABELS[gLvl]}</div>
+                  </div>` : ''}
                 </div>
               `;
             }).join('')}
@@ -2798,7 +2914,6 @@ function sectionSkills(m) {
     </div>
   `;
 }
-const SKILL_LABELS = { 0: '—', 1: 'iniciante', 2: 'aprendendo', 3: 'autônomo', 4: 'avançado', 5: 'referência' };
 
 function sectionGuidance(m) {
   const t1 = TEMP_GUIDE[m.temp1];
@@ -3215,18 +3330,25 @@ function attachSectionHandlers(m) {
       renderMmSection();
     });
   });
-  // Skills
+  // Skills (self ou gestor)
   $$('.skill-rate button').forEach(b => {
     b.addEventListener('click', () => {
       if (b.disabled) return;
       const group = b.parentElement;
       const key = group.dataset.skillKey;
+      const which = group.dataset.skillWhich; // 'self' ou 'gestor'
       const v = parseInt(b.dataset.v, 10);
-      const skills = { ...(m.data?.skills||{}), [key]: v };
-      saveMemberFullData({ ...(m.data||{}), skills });
+      const fieldKey = which === 'gestor' ? 'skills_gestor' : 'skills_self';
+      const updated = { ...(m.data?.[fieldKey] || {}), [key]: v };
+      const newData = { ...(m.data||{}), [fieldKey]: updated };
+      // backwards-compat: limpar skills antigo
+      if (newData.skills) delete newData.skills;
+      saveMemberFullData(newData);
       // visual immediate update
       group.querySelectorAll('button').forEach((btn, idx) => btn.classList.toggle('on', idx < v));
       group.parentElement.querySelector('.skill-lbl').textContent = SKILL_LABELS[v];
+      // re-render apenas após pequeno delay pra atualizar gap badge
+      setTimeout(() => renderMmSection(), 200);
     });
   });
 }

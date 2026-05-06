@@ -1,6 +1,16 @@
 import { sql } from '../lib/db.mjs';
 import { requireAuth, logAudit, CAN_WRITE } from '../lib/auth.mjs';
 
+// Chaves de data que o member NUNCA deve ver/escrever (só admin/gestor/viewer)
+const PROTECTED_DATA_KEYS = ['skills_gestor', 'bigfive'];
+
+function stripProtected(member, viewerRole) {
+  if (viewerRole !== 'member' || !member?.data) return member;
+  const cleaned = { ...member, data: { ...member.data } };
+  PROTECTED_DATA_KEYS.forEach(k => { delete cleaned.data[k]; });
+  return cleaned;
+}
+
 export default async function handler(req, res) {
   const id = req.query.id;
   if (req.method === 'GET') {
@@ -10,7 +20,7 @@ export default async function handler(req, res) {
       if (u.role === 'member' && u.member_id !== id) return res.status(403).json({ error: 'sem permissão' });
       const rows = await sql`SELECT * FROM members WHERE id = ${id} AND active = true`;
       if (!rows.length) return res.status(404).json({ error: 'não encontrado' });
-      return res.status(200).json({ member: rows[0] });
+      return res.status(200).json({ member: stripProtected(rows[0], u.role) });
     }
     let rows;
     if (u.role === 'member') {
@@ -18,7 +28,7 @@ export default async function handler(req, res) {
     } else {
       rows = await sql`SELECT * FROM members WHERE active = true ORDER BY name`;
     }
-    return res.status(200).json({ members: rows });
+    return res.status(200).json({ members: rows.map(r => stripProtected(r, u.role)) });
   }
   if (req.method === 'POST') {
     const u = await requireAuth(req, res, CAN_WRITE);
@@ -35,7 +45,6 @@ export default async function handler(req, res) {
     return res.status(201).json({ ok: true });
   }
   if (req.method === 'PUT') {
-    // member pode editar só o próprio (campos limitados); admin/gestor editam tudo
     const u = await requireAuth(req, res);
     if (!u) return;
     if (!id) return res.status(400).json({ error: 'id ausente' });
@@ -43,10 +52,18 @@ export default async function handler(req, res) {
     const isWriter = ['admin','gestor'].includes(u.role);
     if (!isWriter && !isSelf) return res.status(403).json({ error: 'sem permissão' });
     let m = req.body || {};
-    // membro só pode mexer no .data (manual, career, skills, etc) — não em nome/cargo/datas
+
+    // member: só mexe em data, e dentro de data preservamos chaves protegidas (skills_gestor, bigfive)
     if (!isWriter) {
-      m = { data: m.data };
+      const existing = await sql`SELECT data FROM members WHERE id = ${id}`;
+      const currentData = existing[0]?.data || {};
+      const incoming = m.data || {};
+      PROTECTED_DATA_KEYS.forEach(k => {
+        if (currentData[k] !== undefined) incoming[k] = currentData[k];
+      });
+      m = { data: incoming };
     }
+
     await sql`
       UPDATE members SET
         name = COALESCE(${m.name}, name),
