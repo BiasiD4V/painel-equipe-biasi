@@ -1,5 +1,21 @@
 <!doctype html>
+<html lang="pt-BR">
+<head>
 <meta charset="utf-8">
-<meta http-equiv="refresh" content="0; url=./painel-equipe.html">
-<title>Painel de Equipe — Biasi Engenharia</title>
-<link rel="canonical" href="./painel-equipe.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Comercial · Biasi Engenharia</title>
+</head>
+<body>
+<script>
+(async () => {
+  try {
+    const r = await fetch('/api/auth/me', { credentials: 'include' });
+    if (r.ok) location.replace('/painel-equipe.html');
+    else location.replace('/login.html');
+  } catch {
+    location.replace('/login.html');
+  }
+})();
+</script>
+</body>
+</html>

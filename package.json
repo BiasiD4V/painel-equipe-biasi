@@ -1,0 +1,17 @@
+{
+  "name": "painel-equipe-biasi",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Painel de gestão da equipe Comercial — Biasi Engenharia",
+  "scripts": {
+    "dev": "vercel dev",
+    "migrate": "node scripts/migrate.mjs",
+    "seed": "node scripts/seed.mjs"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^17.4.2",
+    "jose": "^5.9.6"
+  }
+}
