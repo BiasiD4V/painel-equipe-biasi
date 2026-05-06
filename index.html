@@ -9,7 +9,7 @@
 <script>
 (async () => {
   try {
-    const r = await fetch('/api/auth/me', { credentials: 'include' });
+    const r = await fetch('/api/auth?action=me', { credentials: 'include' });
     if (r.ok) location.replace('/painel-equipe.html');
     else location.replace('/login.html');
   } catch {

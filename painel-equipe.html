@@ -910,7 +910,7 @@ function canAdmin() { return state.user?.role === 'admin'; }
 // ── BOOTSTRAP ──
 async function bootstrap() {
   try {
-    const me = await api('/api/auth/me');
+    const me = await api('/api/auth?action=me');
     state.user = me.user;
   } catch { location.replace('/login.html'); return; }
 
@@ -946,7 +946,7 @@ async function loadMembers() {
 
 async function loadAlerts() {
   try {
-    const { alerts } = await api('/api/alerts');
+    const { alerts } = await api('/api/admin?action=alerts');
     state.alerts = alerts;
     renderAlertsBanner();
     const urgent = alerts.filter(a => a.when <= 1).length;
@@ -970,7 +970,7 @@ function renderAlertsBanner() {
 // ── DASHBOARD ──
 async function loadDashboard() {
   try {
-    state.dashData = await api('/api/dashboard');
+    state.dashData = await api('/api/admin?action=dashboard');
     renderDashboard();
   } catch (e) {
     $('#dashboardArea').innerHTML = `<div class="empty-state">${e.message}</div>`;
@@ -2124,7 +2124,7 @@ window.removeUser = async function(id) {
 // AUDIT
 async function loadAudit() {
   try {
-    const { logs } = await api('/api/audit');
+    const { logs } = await api('/api/admin?action=audit');
     $('#auditArea').innerHTML = `
       <div class="table-wrap"><table>
         <thead><tr><th>Data</th><th>Usuário</th><th>Ação</th><th>Recurso</th><th>Detalhes</th></tr></thead>
@@ -2172,7 +2172,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeMembe
 $('#userBtn').addEventListener('click', e => { e.stopPropagation(); $('#userPop').classList.toggle('show'); });
 document.addEventListener('click', () => $('#userPop').classList.remove('show'));
 $('#logoutBtn').addEventListener('click', async () => {
-  await api('/api/auth/logout', { method: 'POST' });
+  await api('/api/auth?action=logout', { method: 'POST' });
   location.replace('/login.html');
 });
 

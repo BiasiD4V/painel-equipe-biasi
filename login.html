@@ -113,7 +113,7 @@ const btn = $('#btn');
 
 (async () => {
   try {
-    const r = await fetch('/api/auth/me', { credentials: 'include' });
+    const r = await fetch('/api/auth?action=me', { credentials: 'include' });
     if (r.ok) location.replace('/painel-equipe.html');
   } catch {}
 })();
@@ -123,7 +123,7 @@ $('#loginForm').addEventListener('submit', async (e) => {
   err.classList.remove('show'); err.textContent = '';
   btn.disabled = true; btn.textContent = 'Entrando…';
   try {
-    const res = await fetch('/api/auth/login', {
+    const res = await fetch('/api/auth?action=login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
