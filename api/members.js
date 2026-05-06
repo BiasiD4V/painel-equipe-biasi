@@ -2,12 +2,15 @@ import { sql } from '../lib/db.mjs';
 import { requireAuth, logAudit, CAN_WRITE } from '../lib/auth.mjs';
 
 // Chaves de data que o member NUNCA deve ver/escrever (só admin/gestor/viewer)
-const PROTECTED_DATA_KEYS = ['skills_gestor', 'bigfive'];
+// Chaves que member não pode escrever via PUT (mas leitura pode ser permitida pra algumas)
+const PROTECTED_DATA_KEYS_WRITE = ['skills_gestor', 'bigfive', 'custom_skills'];
+// Chaves que NÃO retornamos para member (totalmente ocultas)
+const PROTECTED_DATA_KEYS_READ = ['skills_gestor', 'bigfive'];
 
 function stripProtected(member, viewerRole) {
   if (viewerRole !== 'member' || !member?.data) return member;
   const cleaned = { ...member, data: { ...member.data } };
-  PROTECTED_DATA_KEYS.forEach(k => { delete cleaned.data[k]; });
+  PROTECTED_DATA_KEYS_READ.forEach(k => { delete cleaned.data[k]; });
   return cleaned;
 }
 
@@ -58,8 +61,9 @@ export default async function handler(req, res) {
       const existing = await sql`SELECT data FROM members WHERE id = ${id}`;
       const currentData = existing[0]?.data || {};
       const incoming = m.data || {};
-      PROTECTED_DATA_KEYS.forEach(k => {
+      PROTECTED_DATA_KEYS_WRITE.forEach(k => {
         if (currentData[k] !== undefined) incoming[k] = currentData[k];
+        else delete incoming[k];
       });
       m = { data: incoming };
     }

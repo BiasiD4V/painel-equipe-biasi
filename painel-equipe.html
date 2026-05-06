@@ -770,6 +770,52 @@ main { padding: 32px 28px 80px; max-width: 1440px; margin: 0 auto; }
 .recog-body:empty::before { content: attr(data-placeholder); color: var(--ink-muted); font-style: italic; font-size: 12px; }
 .recog-body:focus { background: #fffbeb; outline: none; }
 
+/* SKILL PROPOSALS */
+.prop-pending {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1px solid #fde68a; border-radius: 14px;
+  padding: 14px 16px; margin-bottom: 18px;
+}
+.prop-h { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.prop-h b { display: block; font-size: 13px; font-weight: 600; }
+.prop-h span { display: block; }
+
+.prop-card {
+  background: var(--surface); border-radius: 10px;
+  padding: 12px 14px; margin-bottom: 8px;
+  border: 1px solid var(--line);
+}
+.prop-card:last-child { margin-bottom: 0; }
+.prop-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.prop-cat { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-muted); font-weight: 600; }
+.prop-name { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 500; margin-top: 2px; }
+
+.prop-badge {
+  font-size: 10px; padding: 3px 9px; border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;
+  flex-shrink: 0;
+}
+.prop-badge.pending { background: #fef3c7; color: var(--sang); }
+.prop-badge.approved { background: #dcfce7; color: var(--positive); }
+.prop-badge.rejected { background: #fee2e2; color: var(--critical); }
+
+.prop-justify { background: var(--surface-2); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; }
+.prop-justify-h { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-muted); font-weight: 600; margin-bottom: 4px; }
+.prop-justify-body { font-size: 13px; line-height: 1.5; color: var(--ink-soft); font-style: italic; }
+.prop-actions { display: flex; gap: 6px; justify-content: flex-end; }
+
+.skill-card.custom {
+  background: linear-gradient(180deg, #fffbeb 0%, var(--surface) 100%);
+  border-color: #fde68a;
+}
+.custom-tag {
+  font-size: 9.5px; padding: 2px 6px; border-radius: 4px;
+  background: #fef3c7; color: var(--sang);
+  margin-left: 4px; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  vertical-align: 2px;
+}
+
 /* SKILLS V2 — self + gestor */
 .skill-summary {
   background: linear-gradient(135deg, #fffbf5 0%, #fff 100%);
@@ -2828,13 +2874,18 @@ const SKILL_LABELS = { 0: '—', 1: 'iniciante', 2: 'aprendendo', 3: 'autônomo'
 
 function sectionSkills(m) {
   const isMgr = ['admin','gestor','viewer'].includes(state.user.role);
+  const canApprove = canWrite();
   const isSelf = state.user.role === 'member' && state.user.member_id === m.id;
-  const canEditSelf = isSelf; // colaborador edita o próprio
+  const canEditSelf = isSelf || canWrite(); // pessoa edita o próprio; gestor pode editar tbm pra ajudar
   const canEditGestor = canWrite() && isMgr;
+  const canPropose = isSelf || canWrite();
 
   // backwards-compat: skills antigo vira skills_self
   const selfSk = m.data?.skills_self || m.data?.skills || {};
   const gestorSk = m.data?.skills_gestor || {};
+  const proposals = m.data?.skill_proposals || [];
+  const customSkills = m.data?.custom_skills || [];
+  const pending = proposals.filter(p => p.status === 'pendente');
 
   // Stats agregados
   let totalGap = 0, gapCount = 0, both = 0;
@@ -2849,10 +2900,57 @@ function sectionSkills(m) {
     avgGap < -0.5 ? 'Em média, você vê MENOS potencial do que a pessoa — pode estar se achando demais' :
     'Percepções alinhadas em média';
 
+  // Constrói categorias com defaults + custom_skills aprovadas mescladas
+  const allCats = SKILLS_DEFAULT.map(g => ({
+    cat: g.cat,
+    items: [
+      ...g.items.map(name => ({ name, custom: false })),
+      ...customSkills.filter(c => c.cat === g.cat).map(c => ({ name: c.name, custom: true }))
+    ]
+  }));
+  // categoria 'Outras' se houver
+  const outras = customSkills.filter(c => !SKILLS_DEFAULT.find(g => g.cat === c.cat));
+  if (outras.length) allCats.push({ cat: 'Outras', items: outras.map(c => ({ name: c.name, custom: true })) });
+
   return `
     <div class="field-group">
-      <h3 class="section-h">Matriz de competências</h3>
+      <h3 class="section-h">Matriz de competências
+        ${canPropose?`<button class="btn sm primary" onclick="openProposeSkillModal('${m.id}')">+ Propor habilidade</button>`:''}
+      </h3>
       <p class="sub-text">A pessoa se autoavalia em cada habilidade. ${isMgr?'Embaixo, você (gestor) marca o que <b>você acha</b> — só você vê suas notas.':'Marque o seu nível em cada item. Use a régua: iniciante → aprendendo → autônomo → avançado → referência.'}</p>
+
+      ${pending.length ? `
+        <div class="prop-pending">
+          <div class="prop-h">
+            <span style="font-size:18px;">📋</span>
+            <div>
+              <b>${pending.length} habilidade${pending.length>1?'s':''} aguardando aprovação</b>
+              <span style="font-size:11px;color:var(--ink-muted);">${canApprove?'Sua decisão libera a habilidade pra matriz':'Aguardando o gestor aprovar'}</span>
+            </div>
+          </div>
+          ${pending.map(p => `
+            <div class="prop-card">
+              <div class="prop-card-top">
+                <div>
+                  <div class="prop-cat">${escapeHtml(p.category)}</div>
+                  <div class="prop-name">${escapeHtml(p.name)}</div>
+                </div>
+                <span class="prop-badge pending">⏳ pendente</span>
+              </div>
+              <div class="prop-justify">
+                <div class="prop-justify-h">Justificativa</div>
+                <div class="prop-justify-body">${escapeHtml(p.justification||'(sem justificativa)')}</div>
+              </div>
+              ${canApprove ? `
+                <div class="prop-actions">
+                  <button class="btn sm danger" onclick="rejectProposal('${m.id}', '${p.id}')">✕ Rejeitar</button>
+                  <button class="btn sm primary" onclick="approveProposal('${m.id}', '${p.id}')">✓ Aprovar</button>
+                </div>
+              ` : ''}
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
 
       ${isMgr && both > 0 ? `
         <div class="skill-summary">
@@ -2866,11 +2964,13 @@ function sectionSkills(m) {
         </div>
       ` : ''}
 
-      ${SKILLS_DEFAULT.map(g => `
+      ${allCats.map(g => `
         <div class="skill-cat">
           <div class="skill-cat-h">${escapeHtml(g.cat)}</div>
           <div class="skill-list-v2">
-            ${g.items.map(item => {
+            ${g.items.map(it => {
+              const item = it.name;
+              const isCustom = it.custom;
               const k = `${g.cat}|${item}`;
               const sLvl = selfSk[k] || 0;
               const gLvl = gestorSk[k] || 0;
@@ -2881,10 +2981,13 @@ function sectionSkills(m) {
                 Math.abs(delta) === 1 ? '<span class="sk-gap mild">≈ próximo</span>' :
                 '<span class="sk-gap ok">✓ alinhado</span>';
               return `
-                <div class="skill-card">
+                <div class="skill-card ${isCustom?'custom':''}">
                   <div class="skill-card-h">
-                    <div class="skill-name-v2">${escapeHtml(item)}</div>
-                    ${gapBadge}
+                    <div class="skill-name-v2">${escapeHtml(item)}${isCustom?' <span class="custom-tag">★ proposta da pessoa</span>':''}</div>
+                    <div style="display:flex;gap:6px;align-items:center;">
+                      ${gapBadge}
+                      ${isCustom && canApprove?`<button class="btn sm danger" onclick="removeCustomSkill('${m.id}', '${escapeHtml(g.cat)}', '${escapeHtml(item)}')" title="Remover">×</button>`:''}
+                    </div>
                   </div>
                   <div class="skill-row-v2">
                     <div class="skill-row-label">
@@ -2914,6 +3017,115 @@ function sectionSkills(m) {
     </div>
   `;
 }
+
+// ── PROPOR / APROVAR HABILIDADES ──
+window.openProposeSkillModal = function(memberId) {
+  const cats = [...SKILLS_DEFAULT.map(g => g.cat), 'Outras'];
+  openSm(`
+    <div class="smh"><h3>Propor nova habilidade</h3><p style="font-size:12px;color:var(--ink-muted);margin-top:4px;">${canWrite()?'Você está adicionando direto (já fica aprovada).':'Sua proposta vai pro gestor aprovar.'}</p></div>
+    <div class="smb">
+      <div class="field"><label>Categoria</label>
+        <select id="propCat">${cats.map(c => `<option value="${c}">${c}</option>`).join('')}</select>
+      </div>
+      <div class="field"><label>Nome da habilidade</label>
+        <input id="propName" placeholder="ex: Negociação com cliente B2B"/>
+      </div>
+      <div class="field"><label>Justificativa</label>
+        <textarea id="propJust" placeholder="Por que essa habilidade faz parte do que você faz? Dê exemplo concreto."></textarea>
+      </div>
+    </div>
+    <div class="smf">
+      <button class="btn" onclick="closeSm()">Cancelar</button>
+      <button class="btn primary" onclick="submitProposeSkill('${memberId}')">${canWrite()?'Adicionar à matriz':'Enviar pra aprovação'}</button>
+    </div>
+  `);
+};
+
+window.submitProposeSkill = async function(memberId) {
+  const cat = $('#propCat').value;
+  const name = $('#propName').value.trim();
+  const just = $('#propJust').value.trim();
+  if (!name) return toast('preencha o nome', true);
+  const m = state.byId[memberId]; if (!m) return;
+  const data = { ...(m.data||{}) };
+
+  if (canWrite()) {
+    // Direto: adiciona em custom_skills (aprovada já)
+    const cs = [...(data.custom_skills||[])];
+    if (cs.find(c => c.cat === cat && c.name === name)) return toast('habilidade já existe', true);
+    cs.push({ cat, name });
+    data.custom_skills = cs;
+  } else {
+    // Member: vira proposta pendente
+    const props = [...(data.skill_proposals||[])];
+    props.push({
+      id: uid(), category: cat, name, justification: just,
+      status: 'pendente',
+      proposed_by: state.user.id,
+      proposed_at: new Date().toISOString()
+    });
+    data.skill_proposals = props;
+  }
+
+  try {
+    await api(`/api/members?id=${memberId}`, { method: 'PUT', body: { data } });
+    state.byId[memberId].data = data;
+    closeSm();
+    toast(canWrite()?'Habilidade adicionada':'Proposta enviada — aguarde aprovação');
+    renderMmSection();
+  } catch (e) { toast(e.message, true); }
+};
+
+window.approveProposal = async function(memberId, propId) {
+  const m = state.byId[memberId]; if (!m) return;
+  const props = [...(m.data?.skill_proposals||[])];
+  const i = props.findIndex(p => p.id === propId);
+  if (i < 0) return;
+  const p = props[i];
+  // remove proposta + adiciona em custom_skills
+  props.splice(i, 1);
+  const cs = [...(m.data?.custom_skills||[])];
+  if (!cs.find(c => c.cat === p.category && c.name === p.name)) {
+    cs.push({ cat: p.category, name: p.name });
+  }
+  const data = { ...(m.data||{}), skill_proposals: props, custom_skills: cs };
+  try {
+    await api(`/api/members?id=${memberId}`, { method: 'PUT', body: { data } });
+    state.byId[memberId].data = data;
+    toast('Habilidade aprovada');
+    renderMmSection();
+  } catch (e) { toast(e.message, true); }
+};
+
+window.rejectProposal = async function(memberId, propId) {
+  if (!confirm('Rejeitar essa proposta?')) return;
+  const m = state.byId[memberId]; if (!m) return;
+  const props = (m.data?.skill_proposals||[]).filter(p => p.id !== propId);
+  const data = { ...(m.data||{}), skill_proposals: props };
+  try {
+    await api(`/api/members?id=${memberId}`, { method: 'PUT', body: { data } });
+    state.byId[memberId].data = data;
+    toast('Proposta rejeitada');
+    renderMmSection();
+  } catch (e) { toast(e.message, true); }
+};
+
+window.removeCustomSkill = async function(memberId, cat, name) {
+  if (!confirm(`Remover "${name}" da matriz?`)) return;
+  const m = state.byId[memberId]; if (!m) return;
+  const cs = (m.data?.custom_skills||[]).filter(c => !(c.cat === cat && c.name === name));
+  // remove avaliações também
+  const k = `${cat}|${name}`;
+  const selfSk = { ...(m.data?.skills_self||{}) }; delete selfSk[k];
+  const gestorSk = { ...(m.data?.skills_gestor||{}) }; delete gestorSk[k];
+  const data = { ...(m.data||{}), custom_skills: cs, skills_self: selfSk, skills_gestor: gestorSk };
+  try {
+    await api(`/api/members?id=${memberId}`, { method: 'PUT', body: { data } });
+    state.byId[memberId].data = data;
+    toast('Removida');
+    renderMmSection();
+  } catch (e) { toast(e.message, true); }
+};
 
 function sectionGuidance(m) {
   const t1 = TEMP_GUIDE[m.temp1];
